@@ -1,0 +1,54 @@
+================================================================================
+                    HOW TO RUN THE APPLICATION
+================================================================================
+
+STEP 1: Double-click "run-seminar-app.bat"
+
+STEP 2: Wait for compilation (first time takes 10-20 seconds)
+
+STEP 3: A GUI window will appear with the title "FCI Seminar Management System"
+
+STEP 4: Click "Yes" when asked to load sample data
+
+STEP 5: Log in with one of these accounts:
+
+        COORDINATOR:
+        Username: admin
+        Password: admin123
+        Role: Select "Coordinator" from dropdown
+
+        EVALUATOR:
+        Username: eval1
+        Password: eval123
+        Role: Select "Evaluator" from dropdown
+
+        STUDENT:
+        Username: student1
+        Password: stud123
+        Role: Select "Student" from dropdown
+
+IMPORTANT NOTES:
+- Keep the CMD window open while using the application
+- Make sure you select the correct ROLE from the dropdown
+- Username and password are case-sensitive
+- If login fails, delete "seminar_data.ser" and restart
+
+================================================================================
+                    TROUBLESHOOTING
+================================================================================
+
+PROBLEM: CMD window closes immediately
+SOLUTION: Java might not be installed. Install Java 17 or higher.
+
+PROBLEM: Login fails with correct credentials
+SOLUTION: 
+1. Close the application
+2. Delete the file "seminar_data.ser" 
+3. Run "run-seminar-app.bat" again
+4. Click "Yes" to load sample data
+5. Try logging in again
+
+PROBLEM: No GUI window appears
+SOLUTION: Check the CMD window for error messages
+
+================================================================================
