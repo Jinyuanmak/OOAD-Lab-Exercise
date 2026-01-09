@@ -426,10 +426,14 @@ seminar-management-system/
 
 ## 🔒 Data Persistence
 
-### Storage Format
-- **File:** `seminar_data.ser` (Java serialized object)
-- **Location:** Application root directory
-- **Format:** Binary serialization
+### MySQL Database (Required)
+- **Database:** MySQL 8.x via Laragon
+- **Database Name:** `seminar_db`
+- **Connection:** `localhost:3306`
+- **Credentials:** `root` / (empty password)
+- **Setup Guide:** See [DATABASE_SETUP.md](DATABASE_SETUP.md)
+
+**Important:** MySQL must be running for the application to work. There is no file-based fallback.
 
 ### What's Saved
 - All user accounts (Students, Evaluators, Coordinators)
@@ -439,9 +443,8 @@ seminar-management-system/
 - All awards
 
 ### Auto-Save
-- Data is automatically saved when changes occur
-- Data is saved when application closes
-- Manual save available from File menu
+- Data is automatically saved to database on each operation
+- No manual save required
 
 ---
 
@@ -449,11 +452,12 @@ seminar-management-system/
 
 ### Runtime Dependencies
 - Java Swing (included in JDK)
-- Java Serialization (included in JDK)
+- MySQL Connector/J 8.2.0
+- HikariCP 5.1.0 (Connection Pool)
 
 ### Test Dependencies
 - JUnit 5 (5.10.0)
-- jqwik (1.7.4) - Property-based testing
+- jqwik (1.8.2) - Property-based testing
 
 ### Build Tools
 - Maven 3.9.12 (bundled)

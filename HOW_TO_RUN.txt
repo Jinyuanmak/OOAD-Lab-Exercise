@@ -2,15 +2,38 @@
                     HOW TO RUN THE APPLICATION
 ================================================================================
 
-STEP 1: Double-click "run-seminar-app.bat"
+PREREQUISITES:
+- Java 17 or higher installed
+- Laragon installed with MySQL running (REQUIRED)
 
-STEP 2: Wait for compilation (first time takes 10-20 seconds)
+================================================================================
+                    DATABASE SETUP (First Time Only)
+================================================================================
 
-STEP 3: A GUI window will appear with the title "FCI Seminar Management System"
+1. Open Laragon and click "Start All"
+2. Open phpMyAdmin (Menu → MySQL → phpMyAdmin)
+3. Create database: seminar_db
+4. Import schema: database/schema.sql
 
-STEP 4: Click "Yes" when asked to load sample data
+See DATABASE_SETUP.md for detailed instructions.
 
-STEP 5: Log in with one of these accounts:
+IMPORTANT: MySQL MUST be running. The application will NOT work without it.
+
+================================================================================
+                    RUNNING THE APPLICATION
+================================================================================
+
+STEP 1: Start Laragon and ensure MySQL is running (green indicator)
+
+STEP 2: Double-click "run-seminar-app.bat"
+
+STEP 3: Wait for compilation (first time takes 10-20 seconds)
+
+STEP 4: A GUI window will appear with the title "FCI Seminar Management System"
+
+STEP 5: Click "Yes" when asked to load sample data
+
+STEP 6: Log in with one of these accounts:
 
         COORDINATOR:
         Username: admin
@@ -31,24 +54,32 @@ IMPORTANT NOTES:
 - Keep the CMD window open while using the application
 - Make sure you select the correct ROLE from the dropdown
 - Username and password are case-sensitive
-- If login fails, delete "seminar_data.ser" and restart
+- MySQL MUST be running - no file-based fallback available
 
 ================================================================================
                     TROUBLESHOOTING
 ================================================================================
+
+PROBLEM: "Database connection failed" or "MySQL not available"
+SOLUTION: 
+1. Open Laragon
+2. Click "Start All"
+3. Wait for MySQL indicator to turn green
+4. Restart the application
 
 PROBLEM: CMD window closes immediately
 SOLUTION: Java might not be installed. Install Java 17 or higher.
 
 PROBLEM: Login fails with correct credentials
 SOLUTION: 
-1. Close the application
-2. Delete the file "seminar_data.ser" 
-3. Run "run-seminar-app.bat" again
-4. Click "Yes" to load sample data
-5. Try logging in again
+1. Make sure you selected the correct ROLE from dropdown
+2. Check that MySQL is running in Laragon
+3. Verify database 'seminar_db' exists in phpMyAdmin
 
-PROBLEM: No GUI window appears
-SOLUTION: Check the CMD window for error messages
+PROBLEM: "Unknown database 'seminar_db'"
+SOLUTION:
+1. Open phpMyAdmin
+2. Create database named 'seminar_db'
+3. Import database/schema.sql
 
 ================================================================================

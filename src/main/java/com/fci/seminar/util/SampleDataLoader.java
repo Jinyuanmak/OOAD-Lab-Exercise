@@ -229,7 +229,12 @@ public class SampleDataLoader {
      * @return true if sample data exists, false otherwise
      */
     public static boolean hasSampleData(DataStore dataStore) {
-        // Check if the sample coordinator exists
+        // Check database for existing admin user
+        if (dataStore.getDatabaseManager() != null && dataStore.getDatabaseManager().isConnected()) {
+            return dataStore.getDatabaseManager().hasSampleData();
+        }
+        
+        // Check in-memory data as fallback
         for (com.fci.seminar.model.User user : dataStore.getUsers().values()) {
             if ("admin".equals(user.getUsername())) {
                 return true;

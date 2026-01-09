@@ -6,6 +6,7 @@ com\fci\seminar\ui\StudentRegistrationPanel.class
 com\fci\seminar\util\SampleDataLoader.class
 com\fci\seminar\ui\SeminarApp$2.class
 com\fci\seminar\ui\EvaluationFormPanel$PresenterItem.class
+com\fci\seminar\service\DatabaseManager$1.class
 com\fci\seminar\model\CeremonyAgenda.class
 com\fci\seminar\model\Evaluator.class
 com\fci\seminar\service\SessionService.class
