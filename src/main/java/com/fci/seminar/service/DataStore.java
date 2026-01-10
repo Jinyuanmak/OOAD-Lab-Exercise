@@ -107,6 +107,19 @@ public class DataStore {
     public Map<String, User> getUsers() {
         return new HashMap<>(users);
     }
+    
+    /**
+     * Updates an existing user in both memory and database.
+     * @param user the user to update
+     */
+    public void updateUser(User user) {
+        if (user != null && user.getId() != null) {
+            users.put(user.getId(), user);
+            if (dbManager != null && dbManager.isConnected()) {
+                dbManager.saveUser(user);
+            }
+        }
+    }
 
     // Session operations
     public void addSession(Session session) {

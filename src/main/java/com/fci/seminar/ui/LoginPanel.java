@@ -10,7 +10,6 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -24,7 +23,7 @@ import com.fci.seminar.util.ErrorHandler;
 
 /**
  * Login panel for user authentication.
- * Provides username, password fields and role selection for login.
+ * Provides username and password fields for login with auto role detection.
  * Requirements: 1.1, 1.2, 1.3
  */
 public class LoginPanel extends JPanel {
@@ -35,7 +34,6 @@ public class LoginPanel extends JPanel {
     
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JComboBox<UserRole> roleComboBox;
     private JButton loginButton;
 
     /**
@@ -130,24 +128,12 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 2;
         panel.add(passwordField, gbc);
         
-        // Role label and combo box
-        JLabel roleLabel = new JLabel("Role:");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        panel.add(roleLabel, gbc);
-        
-        roleComboBox = new JComboBox<>(UserRole.values());
-        roleComboBox.setPreferredSize(new Dimension(200, 30));
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        panel.add(roleComboBox, gbc);
-        
         // Login button
         loginButton = new JButton("Login");
         loginButton.setPreferredSize(new Dimension(100, 35));
         loginButton.addActionListener(e -> performLogin());
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
@@ -167,7 +153,6 @@ public class LoginPanel extends JPanel {
     private void performLogin() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword());
-        UserRole selectedRole = (UserRole) roleComboBox.getSelectedItem();
         
         // Validate input
         if (username.isEmpty()) {
@@ -182,11 +167,11 @@ public class LoginPanel extends JPanel {
             return;
         }
         
-        // Authenticate user
-        User authenticatedUser = userService.authenticate(username, password, selectedRole);
+        // Authenticate user (auto-detect role)
+        User authenticatedUser = userService.authenticate(username, password);
         
         if (authenticatedUser == null) {
-            ErrorHandler.showError(this, "Invalid credentials. Please check your username, password, and role.");
+            ErrorHandler.showError(this, "Invalid credentials. Please check your username and password.");
             passwordField.setText("");
             passwordField.requestFocus();
             return;
@@ -229,7 +214,6 @@ public class LoginPanel extends JPanel {
     private void clearFields() {
         usernameField.setText("");
         passwordField.setText("");
-        roleComboBox.setSelectedIndex(0);
     }
     
     /**
@@ -255,14 +239,6 @@ public class LoginPanel extends JPanel {
      */
     public JPasswordField getPasswordField() {
         return passwordField;
-    }
-    
-    /**
-     * Gets the role combo box for testing purposes.
-     * @return the role combo box
-     */
-    public JComboBox<UserRole> getRoleComboBox() {
-        return roleComboBox;
     }
     
     /**

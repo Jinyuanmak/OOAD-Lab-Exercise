@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,11 +20,13 @@ import javax.swing.SwingConstants;
 
 import com.fci.seminar.model.PresentationType;
 import com.fci.seminar.model.Student;
+import com.fci.seminar.model.User;
 import com.fci.seminar.service.UserService;
 import com.fci.seminar.util.ErrorHandler;
 
 /**
- * Panel for student registration.
+ * Panel for student seminar registration.
+ * Uses the currently logged-in student's account - no new username/password needed.
  * Provides form fields for research title, abstract, supervisor name, and presentation type.
  * Requirements: 2.1, 2.2, 2.3, 2.4, 2.5
  */
@@ -35,8 +36,7 @@ public class StudentRegistrationPanel extends JPanel {
     private final SeminarApp app;
     private final UserService userService;
     
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private JLabel welcomeLabel;
     private JTextField titleField;
     private JTextArea abstractArea;
     private JTextField supervisorField;
@@ -79,13 +79,20 @@ public class StudentRegistrationPanel extends JPanel {
      * @return the title panel
      */
     private JPanel createTitlePanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 10, 50));
         
-        JLabel titleLabel = new JLabel("Student Registration");
+        JLabel titleLabel = new JLabel("Seminar Registration");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(titleLabel);
+        panel.add(titleLabel, BorderLayout.NORTH);
+        
+        // Welcome message showing current user
+        welcomeLabel = new JLabel("Registering as: ");
+        welcomeLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        panel.add(welcomeLabel, BorderLayout.CENTER);
         
         return panel;
     }
@@ -103,34 +110,6 @@ public class StudentRegistrationPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         
         int row = 0;
-        
-        // Username field
-        JLabel usernameLabel = new JLabel("Username:");
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        gbc.fill = GridBagConstraints.NONE;
-        panel.add(usernameLabel, gbc);
-        
-        usernameField = new JTextField(30);
-        usernameField.setPreferredSize(new Dimension(300, 28));
-        gbc.gridx = 1;
-        gbc.gridy = row++;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(usernameField, gbc);
-        
-        // Password field
-        JLabel passwordLabel = new JLabel("Password:");
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        gbc.fill = GridBagConstraints.NONE;
-        panel.add(passwordLabel, gbc);
-        
-        passwordField = new JPasswordField(30);
-        passwordField.setPreferredSize(new Dimension(300, 28));
-        gbc.gridx = 1;
-        gbc.gridy = row++;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(passwordField, gbc);
 
         // Research title field
         JLabel titleLabel = new JLabel("Research Title:");
@@ -140,7 +119,7 @@ public class StudentRegistrationPanel extends JPanel {
         panel.add(titleLabel, gbc);
         
         titleField = new JTextField(30);
-        titleField.setPreferredSize(new Dimension(300, 28));
+        titleField.setPreferredSize(new Dimension(350, 28));
         gbc.gridx = 1;
         gbc.gridy = row++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -158,7 +137,7 @@ public class StudentRegistrationPanel extends JPanel {
         abstractArea.setLineWrap(true);
         abstractArea.setWrapStyleWord(true);
         JScrollPane abstractScroll = new JScrollPane(abstractArea);
-        abstractScroll.setPreferredSize(new Dimension(300, 120));
+        abstractScroll.setPreferredSize(new Dimension(350, 120));
         gbc.gridx = 1;
         gbc.gridy = row++;
         gbc.fill = GridBagConstraints.BOTH;
@@ -173,7 +152,7 @@ public class StudentRegistrationPanel extends JPanel {
         panel.add(supervisorLabel, gbc);
         
         supervisorField = new JTextField(30);
-        supervisorField.setPreferredSize(new Dimension(300, 28));
+        supervisorField.setPreferredSize(new Dimension(350, 28));
         gbc.gridx = 1;
         gbc.gridy = row++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -187,7 +166,7 @@ public class StudentRegistrationPanel extends JPanel {
         panel.add(typeLabel, gbc);
         
         presentationTypeCombo = new JComboBox<>(PresentationType.values());
-        presentationTypeCombo.setPreferredSize(new Dimension(300, 28));
+        presentationTypeCombo.setPreferredSize(new Dimension(350, 28));
         gbc.gridx = 1;
         gbc.gridy = row;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -219,39 +198,71 @@ public class StudentRegistrationPanel extends JPanel {
     
     /**
      * Performs the registration action.
-     * Validates input and registers the student.
+     * Updates the currently logged-in student's research details.
      */
     private void performRegistration() {
-        String username = usernameField.getText().trim();
-        String password = new String(passwordField.getPassword());
+        // Get current logged-in user
+        User currentUser = app.getCurrentUser();
+        
+        if (currentUser == null || !(currentUser instanceof Student)) {
+            ErrorHandler.showError(this, "You must be logged in as a student to register.");
+            return;
+        }
+        
+        Student student = (Student) currentUser;
+        
         String title = titleField.getText().trim();
         String abstractText = abstractArea.getText().trim();
         String supervisor = supervisorField.getText().trim();
         PresentationType type = (PresentationType) presentationTypeCombo.getSelectedItem();
         
-        // Create student object
-        Student student = new Student();
-        student.setUsername(username);
-        student.setPassword(password);
+        // Validate required fields
+        if (title.isEmpty()) {
+            ErrorHandler.showError(this, "Research title is required.");
+            titleField.requestFocus();
+            return;
+        }
+        
+        if (abstractText.isEmpty()) {
+            ErrorHandler.showError(this, "Abstract is required.");
+            abstractArea.requestFocus();
+            return;
+        }
+        
+        if (supervisor.isEmpty()) {
+            ErrorHandler.showError(this, "Supervisor name is required.");
+            supervisorField.requestFocus();
+            return;
+        }
+        
+        if (type == null) {
+            ErrorHandler.showError(this, "Presentation type is required.");
+            return;
+        }
+        
+        // Update student's research details
         student.setResearchTitle(title);
         student.setAbstractText(abstractText);
         student.setSupervisorName(supervisor);
         student.setPresentationType(type);
         
         try {
-            userService.registerStudent(student);
+            // Update the student in the system
+            userService.updateStudent(student);
             
             // Auto-save after successful registration
             app.autoSave();
             
             // Show success message
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Registration successful!\nYour Presenter ID: " + student.getPresenterId(),
-                "Success",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            String message = "Registration successful!\n\n" +
+                "Username: " + student.getUsername() + "\n" +
+                "Presenter ID: " + student.getPresenterId() + "\n" +
+                "Presentation Type: " + type;
             
-            // Clear form
-            clearForm();
+            javax.swing.JOptionPane.showMessageDialog(this,
+                message,
+                "Registration Complete",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
             // Navigate back to dashboard
             navigateBack();
@@ -272,8 +283,6 @@ public class StudentRegistrationPanel extends JPanel {
      * Clears all form fields.
      */
     private void clearForm() {
-        usernameField.setText("");
-        passwordField.setText("");
         titleField.setText("");
         abstractArea.setText("");
         supervisorField.setText("");
@@ -281,30 +290,45 @@ public class StudentRegistrationPanel extends JPanel {
     }
     
     /**
+     * Refreshes the panel with current user data.
+     * Call this when navigating to this panel.
+     */
+    public void refresh() {
+        User currentUser = app.getCurrentUser();
+        
+        if (currentUser != null && currentUser instanceof Student) {
+            Student student = (Student) currentUser;
+            welcomeLabel.setText("Registering as: " + student.getUsername());
+            
+            // Pre-fill form if student already has registration data
+            if (student.getResearchTitle() != null && !student.getResearchTitle().isEmpty()) {
+                titleField.setText(student.getResearchTitle());
+            }
+            if (student.getAbstractText() != null && !student.getAbstractText().isEmpty()) {
+                abstractArea.setText(student.getAbstractText());
+            }
+            if (student.getSupervisorName() != null && !student.getSupervisorName().isEmpty()) {
+                supervisorField.setText(student.getSupervisorName());
+            }
+            if (student.getPresentationType() != null) {
+                presentationTypeCombo.setSelectedItem(student.getPresentationType());
+            }
+        } else {
+            welcomeLabel.setText("Please log in as a student first.");
+        }
+        
+        titleField.requestFocus();
+    }
+    
+    /**
      * Resets the panel to initial state.
      */
     public void reset() {
         clearForm();
-        usernameField.requestFocus();
+        refresh();
     }
 
     // Getter methods for testing purposes
-    
-    /**
-     * Gets the username field.
-     * @return the username text field
-     */
-    public JTextField getUsernameField() {
-        return usernameField;
-    }
-    
-    /**
-     * Gets the password field.
-     * @return the password field
-     */
-    public JPasswordField getPasswordField() {
-        return passwordField;
-    }
     
     /**
      * Gets the title field.

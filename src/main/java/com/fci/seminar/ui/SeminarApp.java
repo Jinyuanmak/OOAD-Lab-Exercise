@@ -58,6 +58,9 @@ public class SeminarApp extends JFrame {
     private AwardService awardService;
     private ReportService reportService;
     private LoginPanel loginPanel;
+    private StudentRegistrationPanel studentRegistrationPanel;
+    private StudentDashboard studentDashboard;
+    private EvaluatorDashboard evaluatorDashboard;
 
     /**
      * Creates the main application frame.
@@ -127,11 +130,11 @@ public class SeminarApp extends JFrame {
         addPanel(loginPanel, LOGIN_PANEL);
         
         // Create and register student panels
-        StudentDashboard studentDashboard = new StudentDashboard(this);
+        studentDashboard = new StudentDashboard(this);
         addPanel(studentDashboard, STUDENT_DASHBOARD);
         
-        StudentRegistrationPanel studentRegistration = new StudentRegistrationPanel(this, userService);
-        addPanel(studentRegistration, STUDENT_REGISTRATION);
+        studentRegistrationPanel = new StudentRegistrationPanel(this, userService);
+        addPanel(studentRegistrationPanel, STUDENT_REGISTRATION);
         
         FileUploadPanel fileUpload = new FileUploadPanel(this);
         addPanel(fileUpload, FILE_UPLOAD);
@@ -156,7 +159,7 @@ public class SeminarApp extends JFrame {
         addPanel(reportPanel, REPORT_PANEL);
         
         // Create and register evaluator panels
-        EvaluatorDashboard evaluatorDashboard = new EvaluatorDashboard(this, sessionService, userService);
+        evaluatorDashboard = new EvaluatorDashboard(this, sessionService, userService);
         addPanel(evaluatorDashboard, EVALUATOR_DASHBOARD);
         
         EvaluationFormPanel evaluationForm = new EvaluationFormPanel(this, evaluationService, userService);
@@ -217,9 +220,18 @@ public class SeminarApp extends JFrame {
     
     /**
      * Shows a panel by name using CardLayout.
+     * Calls refresh() on panels that need to update their data.
      * @param panelName the name of the panel to show
      */
     public void showPanel(String panelName) {
+        // Refresh panels that need current user data
+        if (STUDENT_REGISTRATION.equals(panelName) && studentRegistrationPanel != null) {
+            studentRegistrationPanel.refresh();
+        } else if (STUDENT_DASHBOARD.equals(panelName) && studentDashboard != null) {
+            studentDashboard.refresh();
+        } else if (EVALUATOR_DASHBOARD.equals(panelName) && evaluatorDashboard != null) {
+            evaluatorDashboard.refresh();
+        }
         cardLayout.show(mainPanel, panelName);
     }
     
@@ -411,9 +423,7 @@ public class SeminarApp extends JFrame {
             "This will create:\n" +
             "- 1 Coordinator (admin/admin123)\n" +
             "- 2 Evaluators (eval1/eval123, eval2/eval123)\n" +
-            "- 4 Students (student1-4/stud123)\n" +
-            "- 2 Sessions with assignments\n" +
-            "- Sample evaluations",
+            "- 4 Students (student1-4/stud123)",
             "Load Sample Data",
             javax.swing.JOptionPane.YES_NO_OPTION,
             javax.swing.JOptionPane.QUESTION_MESSAGE);

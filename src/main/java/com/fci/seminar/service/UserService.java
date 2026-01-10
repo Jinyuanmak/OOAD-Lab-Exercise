@@ -42,6 +42,26 @@ public class UserService {
         }
         return null;
     }
+    
+    /**
+     * Authenticates a user with the given credentials (auto-detects role).
+     * @param username the username
+     * @param password the password
+     * @return the authenticated User if credentials match, null otherwise
+     */
+    public User authenticate(String username, String password) {
+        if (username == null || password == null) {
+            return null;
+        }
+        
+        for (User user : dataStore.getUsers().values()) {
+            if (user.getUsername().equals(username) 
+                    && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     /**
      * Registers a new student with validation.
@@ -190,14 +210,44 @@ public class UserService {
      * @return the Student if found, null otherwise
      */
     public Student getStudentByPresenterId(String presenterId) {
+        if (presenterId == null) {
+            return null;
+        }
         for (User user : dataStore.getUsers().values()) {
-            if (user instanceof Student) {
-                Student student = (Student) user;
+            if (user instanceof Student student) {
                 if (presenterId.equals(student.getPresenterId())) {
                     return student;
                 }
             }
         }
         return null;
+    }
+    
+    /**
+     * Updates an existing student's information.
+     * Used when a logged-in student updates their registration details.
+     * @param student the student to update
+     * @throws IllegalArgumentException if validation fails
+     */
+    public void updateStudent(Student student) {
+        if (student == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
+        
+        if (student.getId() == null || student.getId().isEmpty()) {
+            throw new IllegalArgumentException("Student ID is required for update");
+        }
+        
+        // Validate research details if provided
+        if (student.getResearchTitle() != null && student.getResearchTitle().length() > 200) {
+            throw new IllegalArgumentException("Research title must not exceed 200 characters");
+        }
+        
+        if (student.getAbstractText() != null && student.getAbstractText().length() > 2000) {
+            throw new IllegalArgumentException("Abstract must not exceed 2000 characters");
+        }
+        
+        // Update the student in the data store
+        dataStore.updateUser(student);
     }
 }

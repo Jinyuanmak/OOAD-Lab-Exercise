@@ -4,48 +4,56 @@ import java.util.UUID;
 
 /**
  * Utility class for generating unique IDs for various entities.
- * Uses UUID-based approach for guaranteed uniqueness.
+ * Uses shortened UUID-based approach for uniqueness with readability.
  */
 public final class IdGenerator {
     
     private IdGenerator() {
         // Prevent instantiation
     }
+    
+    /**
+     * Generates a short unique ID (8 characters from UUID).
+     * @return a short unique ID string
+     */
+    private static String shortId() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
 
     /**
      * Generates a unique presenter ID.
-     * Format: P-{UUID}
+     * Format: P-{8chars}
      * @return a unique presenter ID
      */
     public static String generatePresenterId() {
-        return "P-" + UUID.randomUUID().toString();
+        return "P-" + shortId();
     }
 
     /**
      * Generates a unique session ID.
-     * Format: S-{UUID}
+     * Format: S-{8chars}
      * @return a unique session ID
      */
     public static String generateSessionId() {
-        return "S-" + UUID.randomUUID().toString();
+        return "S-" + shortId();
     }
 
     /**
      * Generates a unique evaluation ID.
-     * Format: E-{UUID}
+     * Format: E-{8chars}
      * @return a unique evaluation ID
      */
     public static String generateEvaluationId() {
-        return "E-" + UUID.randomUUID().toString();
+        return "E-" + shortId();
     }
 
     /**
      * Generates a unique user ID.
-     * Format: U-{UUID}
+     * Format: U-{8chars}
      * @return a unique user ID
      */
     public static String generateUserId() {
-        return "U-" + UUID.randomUUID().toString();
+        return "U-" + shortId();
     }
 
     /**

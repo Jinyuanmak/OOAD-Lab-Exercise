@@ -510,8 +510,8 @@ public class AssignmentPanel extends JPanel {
         
         @Override
         public String toString() {
-            return session.getSessionId() + " - " + session.getDate().format(DATE_FORMAT) 
-                   + " - " + session.getVenue() + " (" + session.getSessionType() + ")";
+            return session.getVenue() + " - " + session.getDate().format(DATE_FORMAT) 
+                   + " (" + session.getSessionType() + ")";
         }
     }
     
@@ -527,7 +527,7 @@ public class AssignmentPanel extends JPanel {
         
         @Override
         public String toString() {
-            return student.getPresenterId() + " - " + student.getUsername();
+            return student.getUsername();
         }
     }
     
@@ -543,7 +543,7 @@ public class AssignmentPanel extends JPanel {
         
         @Override
         public String toString() {
-            return evaluator.getId() + " - " + evaluator.getUsername();
+            return evaluator.getUsername();
         }
     }
 

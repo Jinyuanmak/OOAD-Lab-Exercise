@@ -122,7 +122,7 @@ public class PosterManagementPanel extends JPanel {
         panel.setBorder(BorderFactory.createTitledBorder("Poster Schedule"));
         
         // Create table model
-        String[] columns = {"Board ID", "Presenter ID", "Presenter Name", "Session ID", "Session Date"};
+        String[] columns = {"Board", "Presenter", "Session Venue", "Session Date"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -316,13 +316,13 @@ public class PosterManagementPanel extends JPanel {
             Session session = sessionService.getSessionById(board.getSessionId());
             
             String presenterName = student != null ? student.getUsername() : "Unknown";
+            String sessionVenue = session != null ? session.getVenue() : "Unknown";
             String sessionDate = session != null ? session.getDate().format(DATE_FORMAT) : "Unknown";
             
             Object[] row = {
                 board.getBoardId(),
-                board.getPresenterId(),
                 presenterName,
-                board.getSessionId(),
+                sessionVenue,
                 sessionDate
             };
             tableModel.addRow(row);
@@ -380,7 +380,7 @@ public class PosterManagementPanel extends JPanel {
         
         @Override
         public String toString() {
-            return student.getPresenterId() + " - " + student.getUsername();
+            return student.getUsername();
         }
     }
     
@@ -396,7 +396,7 @@ public class PosterManagementPanel extends JPanel {
         
         @Override
         public String toString() {
-            return session.getSessionId() + " - " + session.getDate().format(DATE_FORMAT);
+            return session.getVenue() + " - " + session.getDate().format(DATE_FORMAT);
         }
     }
 

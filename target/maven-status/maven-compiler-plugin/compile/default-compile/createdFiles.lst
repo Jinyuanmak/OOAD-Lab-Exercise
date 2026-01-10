@@ -31,6 +31,7 @@ com\fci\seminar\model\UserRole.class
 com\fci\seminar\service\PosterBoardService.class
 com\fci\seminar\util\ErrorHandler.class
 com\fci\seminar\ui\FileUploadPanel.class
+com\fci\seminar\service\DatabaseManager.class
 com\fci\seminar\ui\LoginPanel.class
 com\fci\seminar\service\DataStore.class
 com\fci\seminar\ui\LoginPanel$1.class

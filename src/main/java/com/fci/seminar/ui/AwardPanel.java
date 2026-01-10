@@ -121,7 +121,7 @@ public class AwardPanel extends JPanel {
     private JPanel createAwardsPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createTitledBorder("Award Winners"));
-        panel.setPreferredSize(new Dimension(350, 180));
+        panel.setPreferredSize(new Dimension(350, 250));
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
@@ -437,7 +437,7 @@ public class AwardPanel extends JPanel {
         
         @Override
         public String toString() {
-            return student.getPresenterId() + " - " + student.getUsername();
+            return student.getUsername();
         }
     }
 

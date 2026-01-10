@@ -107,7 +107,7 @@ public class EvaluatorDashboard extends JPanel {
         panel.add(subtitleLabel, BorderLayout.NORTH);
         
         // Create table
-        String[] columnNames = {"Session ID", "Date", "Venue", "Type", "Presenter", "Research Title"};
+        String[] columnNames = {"Date", "Venue", "Type", "Presenter", "Research Title"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             private static final long serialVersionUID = 1L;
             
@@ -124,11 +124,10 @@ public class EvaluatorDashboard extends JPanel {
         
         // Set column widths
         assignmentsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-        assignmentsTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-        assignmentsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-        assignmentsTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        assignmentsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
-        assignmentsTable.getColumnModel().getColumn(5).setPreferredWidth(250);
+        assignmentsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+        assignmentsTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+        assignmentsTable.getColumnModel().getColumn(3).setPreferredWidth(150);
+        assignmentsTable.getColumnModel().getColumn(4).setPreferredWidth(300);
         
         JScrollPane scrollPane = new JScrollPane(assignmentsTable);
         scrollPane.setPreferredSize(new Dimension(800, 400));
@@ -180,9 +179,6 @@ public class EvaluatorDashboard extends JPanel {
             return;
         }
         
-        // Get presenter ID from the selected row (stored in column 4)
-        String presenterName = (String) tableModel.getValueAt(selectedRow, 4);
-        
         // Navigate to evaluation form
         app.showPanel(SeminarApp.EVALUATION_FORM);
     }
@@ -231,7 +227,6 @@ public class EvaluatorDashboard extends JPanel {
             if (presenterIds == null || presenterIds.isEmpty()) {
                 // Show session even if no presenters assigned yet
                 Object[] rowData = {
-                    session.getSessionId(),
                     session.getDate().format(dateFormatter),
                     session.getVenue(),
                     session.getSessionType().toString(),
@@ -247,7 +242,6 @@ public class EvaluatorDashboard extends JPanel {
                     String researchTitle = student != null ? student.getResearchTitle() : "";
                     
                     Object[] rowData = {
-                        session.getSessionId(),
                         session.getDate().format(dateFormatter),
                         session.getVenue(),
                         session.getSessionType().toString(),
