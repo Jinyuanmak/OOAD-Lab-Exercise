@@ -339,15 +339,20 @@ public class AssignmentPanel extends JPanel {
         
         if (session == null) return;
         
-        // Populate presenter lists
+        // Populate presenter lists - only show students with matching presentation type
         List<Student> allStudents = userService.getAllStudents();
         for (Student student : allStudents) {
-            if (student.getPresenterId() != null) {
-                PresenterItem item = new PresenterItem(student);
-                if (session.getPresenterIds().contains(student.getPresenterId())) {
-                    assignedPresentersModel.addElement(item);
-                } else {
-                    availablePresentersModel.addElement(item);
+            // Only include students who are registered (have presenter ID)
+            // AND whose presentation type matches the session type
+            if (student.getPresenterId() != null && student.getPresentationType() != null) {
+                // Check if student's presentation type matches session type
+                if (student.getPresentationType() == session.getSessionType()) {
+                    PresenterItem item = new PresenterItem(student);
+                    if (session.getPresenterIds().contains(student.getPresenterId())) {
+                        assignedPresentersModel.addElement(item);
+                    } else {
+                        availablePresentersModel.addElement(item);
+                    }
                 }
             }
         }
@@ -377,6 +382,13 @@ public class AssignmentPanel extends JPanel {
         }
         if (presenterItem == null) {
             ErrorHandler.showError(this, "Please select a presenter to assign");
+            return;
+        }
+        
+        // Validate presentation type matches session type
+        if (presenterItem.student.getPresentationType() != sessionItem.session.getSessionType()) {
+            ErrorHandler.showError(this, "Cannot assign " + presenterItem.student.getPresentationType() + 
+                " presenter to " + sessionItem.session.getSessionType() + " session");
             return;
         }
         

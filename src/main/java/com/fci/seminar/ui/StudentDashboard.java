@@ -138,8 +138,17 @@ public class StudentDashboard extends JPanel {
         if (currentUser instanceof Student student) {
             String name = student.getUsername();
             welcomeLabel.setText("Welcome, " + name + "!");
+            
+            // Update registration button text based on registration status
+            boolean isRegistered = student.getPresenterId() != null && !student.getPresenterId().isEmpty();
+            if (isRegistered) {
+                registrationButton.setText("Update Registration");
+            } else {
+                registrationButton.setText("Register for Seminar");
+            }
         } else {
             welcomeLabel.setText("Welcome, Student!");
+            registrationButton.setText("Register for Seminar");
         }
     }
     

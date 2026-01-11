@@ -38,12 +38,14 @@ public class StudentRegistrationPanel extends JPanel {
     private final UserService userService;
     
     private JLabel welcomeLabel;
+    private JLabel titleLabel;
     private JTextField titleField;
     private JTextArea abstractArea;
     private JComboBox<String> supervisorCombo;
     private JComboBox<PresentationType> presentationTypeCombo;
     private JButton submitButton;
     private JButton backButton;
+    private boolean isAlreadyRegistered = false;
 
     /**
      * Creates a new StudentRegistrationPanel.
@@ -83,7 +85,7 @@ public class StudentRegistrationPanel extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 10, 50));
         
-        JLabel titleLabel = new JLabel("Seminar Registration");
+        titleLabel = new JLabel("Seminar Registration");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
@@ -113,11 +115,11 @@ public class StudentRegistrationPanel extends JPanel {
         int row = 0;
 
         // Research title field
-        JLabel titleLabel = new JLabel("Research Title:");
+        JLabel researchTitleLabel = new JLabel("Research Title:");
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.fill = GridBagConstraints.NONE;
-        panel.add(titleLabel, gbc);
+        panel.add(researchTitleLabel, gbc);
         
         titleField = new JTextField(30);
         titleField.setPreferredSize(new Dimension(350, 28));
@@ -199,7 +201,7 @@ public class StudentRegistrationPanel extends JPanel {
     }
     
     /**
-     * Performs the registration action.
+     * Performs the registration or update action.
      * Updates the currently logged-in student's research details.
      */
     private void performRegistration() {
@@ -255,15 +257,26 @@ public class StudentRegistrationPanel extends JPanel {
             // Auto-save after successful registration
             app.autoSave();
             
-            // Show success message
-            String message = "Registration successful!\n\n" +
-                "Username: " + student.getUsername() + "\n" +
-                "Presenter ID: " + student.getPresenterId() + "\n" +
-                "Presentation Type: " + type;
+            // Show appropriate success message
+            String message;
+            String dialogTitle;
+            if (isAlreadyRegistered) {
+                message = "Registration updated successfully!\n\n" +
+                    "Username: " + student.getUsername() + "\n" +
+                    "Presenter ID: " + student.getPresenterId() + "\n" +
+                    "Presentation Type: " + type;
+                dialogTitle = "Update Complete";
+            } else {
+                message = "Registration successful!\n\n" +
+                    "Username: " + student.getUsername() + "\n" +
+                    "Presenter ID: " + student.getPresenterId() + "\n" +
+                    "Presentation Type: " + type;
+                dialogTitle = "Registration Complete";
+            }
             
             javax.swing.JOptionPane.showMessageDialog(this,
                 message,
-                "Registration Complete",
+                dialogTitle,
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
             // Navigate back to dashboard
@@ -327,9 +340,22 @@ public class StudentRegistrationPanel extends JPanel {
         
         if (currentUser != null && currentUser instanceof Student) {
             Student student = (Student) currentUser;
-            welcomeLabel.setText("Registering as: " + student.getUsername());
             
-            // Pre-fill form only if THIS student has registration data
+            // Check if student is already registered (has presenter_id)
+            isAlreadyRegistered = student.getPresenterId() != null && !student.getPresenterId().isEmpty();
+            
+            // Update UI based on registration status
+            if (isAlreadyRegistered) {
+                titleLabel.setText("Update Seminar Registration");
+                welcomeLabel.setText("Updating registration for: " + student.getUsername() + " (ID: " + student.getPresenterId() + ")");
+                submitButton.setText("Update");
+            } else {
+                titleLabel.setText("Seminar Registration");
+                welcomeLabel.setText("Registering as: " + student.getUsername());
+                submitButton.setText("Register");
+            }
+            
+            // Pre-fill form if student has registration data
             if (student.getResearchTitle() != null && !student.getResearchTitle().isEmpty()) {
                 titleField.setText(student.getResearchTitle());
             }
@@ -345,6 +371,7 @@ public class StudentRegistrationPanel extends JPanel {
             }
         } else {
             welcomeLabel.setText("Please log in as a student first.");
+            isAlreadyRegistered = false;
         }
         
         titleField.requestFocus();
