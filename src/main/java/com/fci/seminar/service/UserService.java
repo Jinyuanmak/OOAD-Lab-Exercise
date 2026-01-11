@@ -238,6 +238,11 @@ public class UserService {
             throw new IllegalArgumentException("Student ID is required for update");
         }
         
+        // Generate presenter ID if not set (needed for seminar registration)
+        if (student.getPresenterId() == null || student.getPresenterId().isEmpty()) {
+            student.setPresenterId(IdGenerator.generatePresenterId());
+        }
+        
         // Validate research details if provided
         if (student.getResearchTitle() != null && student.getResearchTitle().length() > 200) {
             throw new IllegalArgumentException("Research title must not exceed 200 characters");

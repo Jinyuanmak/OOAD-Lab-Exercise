@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS session_evaluators;
 DROP TABLE IF EXISTS session_presenters;
 DROP TABLE IF EXISTS awards;
 DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS venues;
 DROP TABLE IF EXISTS users;
 
 -- Users table (base for all user types)
@@ -28,8 +29,19 @@ CREATE TABLE users (
     presentation_type ENUM('ORAL', 'POSTER'),
     file_path VARCHAR(500),
     presenter_id VARCHAR(50),
+    -- Evaluator-specific fields
+    evaluator_id VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Venues table
+CREATE TABLE venues (
+    venue_id INT AUTO_INCREMENT PRIMARY KEY,
+    venue_name VARCHAR(200) NOT NULL UNIQUE,
+    capacity INT,
+    venue_type ENUM('AUDITORIUM', 'CONFERENCE_ROOM', 'EXHIBITION_HALL', 'LECTURE_HALL', 'MEETING_ROOM') DEFAULT 'CONFERENCE_ROOM',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Sessions table
@@ -105,6 +117,40 @@ INSERT INTO poster_boards (board_id) VALUES
 ('B011'), ('B012'), ('B013'), ('B014'), ('B015'),
 ('B016'), ('B017'), ('B018'), ('B019'), ('B020');
 
+-- Initialize venues
+INSERT INTO venues (venue_name, capacity, venue_type) VALUES 
+('Auditorium A', 500, 'AUDITORIUM'),
+('Auditorium B', 300, 'AUDITORIUM'),
+('Conference Room 1', 50, 'CONFERENCE_ROOM'),
+('Conference Room 2', 50, 'CONFERENCE_ROOM'),
+('Conference Room 3', 30, 'CONFERENCE_ROOM'),
+('Exhibition Hall A', 200, 'EXHIBITION_HALL'),
+('Exhibition Hall B', 150, 'EXHIBITION_HALL'),
+('Lecture Hall 1', 100, 'LECTURE_HALL'),
+('Lecture Hall 2', 100, 'LECTURE_HALL'),
+('Meeting Room A', 20, 'MEETING_ROOM'),
+('Meeting Room B', 20, 'MEETING_ROOM');
+
+-- Initialize sample users
+-- Coordinator (admin)
+INSERT INTO users (id, username, password, role) VALUES 
+('U-admin01', 'admin', 'admin123', 'COORDINATOR');
+
+-- Evaluators/Supervisors (with evaluator_id)
+INSERT INTO users (id, username, password, role, evaluator_id) VALUES 
+('U-eval001', 'Dr. Sarah Johnson', 'eval123', 'EVALUATOR', 'EV-eval001'),
+('U-eval002', 'Prof. Michael Chen', 'eval123', 'EVALUATOR', 'EV-eval002'),
+('U-eval003', 'Dr. Emily Rodriguez', 'eval123', 'EVALUATOR', 'EV-eval003'),
+('U-eval004', 'Prof. David Kumar', 'eval123', 'EVALUATOR', 'EV-eval004'),
+('U-eval005', 'Dr. Lisa Anderson', 'eval123', 'EVALUATOR', 'EV-eval005');
+
+-- Students (no presenter_id initially - added when they register for seminar)
+INSERT INTO users (id, username, password, role) VALUES 
+('U-stud001', 'student1', 'stud123', 'STUDENT'),
+('U-stud002', 'student2', 'stud123', 'STUDENT'),
+('U-stud003', 'student3', 'stud123', 'STUDENT'),
+('U-stud004', 'student4', 'stud123', 'STUDENT');
+
 -- Create indexes for better performance
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_role ON users(role);
@@ -114,3 +160,14 @@ CREATE INDEX idx_evaluations_evaluator ON evaluations(evaluator_id);
 
 -- Show tables created
 SHOW TABLES;
+
+-- Display sample users
+SELECT 'Sample users created successfully!' AS message;
+SELECT username, role, 
+       CASE 
+           WHEN role = 'EVALUATOR' THEN evaluator_id
+           WHEN role = 'STUDENT' THEN COALESCE(presenter_id, 'Not registered yet')
+           ELSE 'N/A'
+       END AS special_id
+FROM users
+ORDER BY role, username;

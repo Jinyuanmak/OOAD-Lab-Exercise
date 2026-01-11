@@ -221,6 +221,9 @@ public class FileUploadPanel extends JPanel {
         // Save file reference to student
         student.setFilePath(selectedFile.getAbsolutePath());
         
+        // Update student in database
+        app.getDataStore().updateUser(student);
+        
         // Show success message
         javax.swing.JOptionPane.showMessageDialog(this,
             "File uploaded successfully!\nFile: " + selectedFile.getName(),

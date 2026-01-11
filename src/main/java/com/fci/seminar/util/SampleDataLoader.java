@@ -40,6 +40,7 @@ public class SampleDataLoader {
         evaluator1.setPassword("eval123");
         evaluator1.setRole(UserRole.EVALUATOR);
         evaluator1.setId(IdGenerator.generateUserId());
+        evaluator1.setEvaluatorId(IdGenerator.generateEvaluatorId());
         dataStore.addUser(evaluator1);
         
         Evaluator evaluator2 = new Evaluator();
@@ -47,6 +48,7 @@ public class SampleDataLoader {
         evaluator2.setPassword("eval123");
         evaluator2.setRole(UserRole.EVALUATOR);
         evaluator2.setId(IdGenerator.generateUserId());
+        evaluator2.setEvaluatorId(IdGenerator.generateEvaluatorId());
         dataStore.addUser(evaluator2);
         
         // Create sample students (username/password only, no research data)

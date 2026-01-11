@@ -28,6 +28,15 @@ public final class IdGenerator {
     public static String generatePresenterId() {
         return "P-" + shortId();
     }
+    
+    /**
+     * Generates a unique evaluator ID.
+     * Format: EV-{8chars}
+     * @return a unique evaluator ID
+     */
+    public static String generateEvaluatorId() {
+        return "EV-" + shortId();
+    }
 
     /**
      * Generates a unique session ID.

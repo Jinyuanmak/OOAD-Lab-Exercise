@@ -7,14 +7,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fci.seminar.model.*;
-import com.fci.seminar.util.IdGenerator;
+import com.fci.seminar.model.Award;
+import com.fci.seminar.model.AwardType;
+import com.fci.seminar.model.Coordinator;
+import com.fci.seminar.model.Evaluation;
+import com.fci.seminar.model.Evaluator;
+import com.fci.seminar.model.PosterBoard;
+import com.fci.seminar.model.PresentationType;
+import com.fci.seminar.model.RubricScores;
+import com.fci.seminar.model.Session;
+import com.fci.seminar.model.Student;
+import com.fci.seminar.model.User;
+import com.fci.seminar.model.UserRole;
 
 /**
  * Database manager for MySQL operations.
@@ -100,8 +109,8 @@ public class DatabaseManager {
     public void saveUser(User user) {
         String sql = """
             INSERT INTO users (id, username, password, role, research_title, abstract_text, 
-                              supervisor_name, presentation_type, file_path, presenter_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                              supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 username = VALUES(username),
                 password = VALUES(password),
@@ -111,7 +120,8 @@ public class DatabaseManager {
                 supervisor_name = VALUES(supervisor_name),
                 presentation_type = VALUES(presentation_type),
                 file_path = VALUES(file_path),
-                presenter_id = VALUES(presenter_id)
+                presenter_id = VALUES(presenter_id),
+                evaluator_id = VALUES(evaluator_id)
             """;
         
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
@@ -128,6 +138,15 @@ public class DatabaseManager {
                     student.getPresentationType().name() : null);
                 stmt.setString(9, student.getFilePath());
                 stmt.setString(10, student.getPresenterId());
+                stmt.setNull(11, java.sql.Types.VARCHAR);
+            } else if (user instanceof Evaluator evaluator) {
+                stmt.setNull(5, java.sql.Types.VARCHAR);
+                stmt.setNull(6, java.sql.Types.VARCHAR);
+                stmt.setNull(7, java.sql.Types.VARCHAR);
+                stmt.setNull(8, java.sql.Types.VARCHAR);
+                stmt.setNull(9, java.sql.Types.VARCHAR);
+                stmt.setNull(10, java.sql.Types.VARCHAR);
+                stmt.setString(11, evaluator.getEvaluatorId());
             } else {
                 stmt.setNull(5, java.sql.Types.VARCHAR);
                 stmt.setNull(6, java.sql.Types.VARCHAR);
@@ -135,6 +154,7 @@ public class DatabaseManager {
                 stmt.setNull(8, java.sql.Types.VARCHAR);
                 stmt.setNull(9, java.sql.Types.VARCHAR);
                 stmt.setNull(10, java.sql.Types.VARCHAR);
+                stmt.setNull(11, java.sql.Types.VARCHAR);
             }
             
             stmt.executeUpdate();
@@ -223,6 +243,7 @@ public class DatabaseManager {
             }
             case EVALUATOR -> {
                 Evaluator evaluator = new Evaluator();
+                evaluator.setEvaluatorId(rs.getString("evaluator_id"));
                 // Load assigned session IDs
                 evaluator.setAssignedSessionIds(getEvaluatorSessionIds(rs.getString("id")));
                 user = evaluator;
@@ -633,6 +654,57 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.err.println("Error clearing awards: " + e.getMessage());
         }
+    }
+    
+    // ==================== VENUE OPERATIONS ====================
+    
+    /**
+     * Gets all venues from the database.
+     * @return list of venue names
+     */
+    public List<String> getAllVenues() {
+        List<String> venues = new ArrayList<>();
+        String sql = "SELECT venue_name FROM venues ORDER BY venue_name";
+        
+        try (Statement stmt = getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                venues.add(rs.getString("venue_name"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting venues: " + e.getMessage());
+            // Return default venues if table doesn't exist
+            venues.add("Auditorium A");
+            venues.add("Auditorium B");
+            venues.add("Conference Room 1");
+            venues.add("Conference Room 2");
+            venues.add("Exhibition Hall A");
+            venues.add("Exhibition Hall B");
+            venues.add("Lecture Hall 1");
+            venues.add("Lecture Hall 2");
+        }
+        return venues;
+    }
+    
+    /**
+     * Checks if venues table exists and has data.
+     * @return true if venues exist
+     */
+    public boolean hasVenues() {
+        String sql = "SELECT COUNT(*) FROM venues";
+        
+        try (Statement stmt = getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            // Table might not exist
+            return false;
+        }
+        return false;
     }
     
     // ==================== UTILITY METHODS ====================

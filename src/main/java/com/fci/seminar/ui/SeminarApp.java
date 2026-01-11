@@ -61,6 +61,7 @@ public class SeminarApp extends JFrame {
     private StudentRegistrationPanel studentRegistrationPanel;
     private StudentDashboard studentDashboard;
     private EvaluatorDashboard evaluatorDashboard;
+    private FileUploadPanel fileUploadPanel;
 
     /**
      * Creates the main application frame.
@@ -73,10 +74,8 @@ public class SeminarApp extends JFrame {
         initializePanels();
         setupWindowListener();
         
-        // Load sample data if this is the first run (after all initialization)
-        if (!com.fci.seminar.util.SampleDataLoader.hasSampleData(dataStore)) {
-            loadSampleDataWithConfirmation();
-        }
+        // Sample data is now loaded via schema.sql
+        // Users should run schema.sql manually in phpMyAdmin/MySQL
     }
     
     /**
@@ -136,8 +135,8 @@ public class SeminarApp extends JFrame {
         studentRegistrationPanel = new StudentRegistrationPanel(this, userService);
         addPanel(studentRegistrationPanel, STUDENT_REGISTRATION);
         
-        FileUploadPanel fileUpload = new FileUploadPanel(this);
-        addPanel(fileUpload, FILE_UPLOAD);
+        fileUploadPanel = new FileUploadPanel(this);
+        addPanel(fileUploadPanel, FILE_UPLOAD);
         
         // Create and register coordinator panels
         CoordinatorDashboard coordinatorDashboard = new CoordinatorDashboard(this);
@@ -231,6 +230,8 @@ public class SeminarApp extends JFrame {
             studentDashboard.refresh();
         } else if (EVALUATOR_DASHBOARD.equals(panelName) && evaluatorDashboard != null) {
             evaluatorDashboard.refresh();
+        } else if (FILE_UPLOAD.equals(panelName) && fileUploadPanel != null) {
+            fileUploadPanel.refresh();
         }
         cardLayout.show(mainPanel, panelName);
     }
@@ -416,31 +417,14 @@ public class SeminarApp extends JFrame {
     
     /**
      * Loads sample data with user confirmation.
+     * @deprecated Sample data is now loaded via schema.sql
+     * Users should run database/schema.sql manually in phpMyAdmin/MySQL
      */
+    @Deprecated
     private void loadSampleDataWithConfirmation() {
-        int response = javax.swing.JOptionPane.showConfirmDialog(this,
-            "Would you like to load sample data for testing?\n\n" +
-            "This will create:\n" +
-            "- 1 Coordinator (admin/admin123)\n" +
-            "- 2 Evaluators (eval1/eval123, eval2/eval123)\n" +
-            "- 4 Students (student1-4/stud123)",
-            "Load Sample Data",
-            javax.swing.JOptionPane.YES_NO_OPTION,
-            javax.swing.JOptionPane.QUESTION_MESSAGE);
-        
-        if (response == javax.swing.JOptionPane.YES_OPTION) {
-            com.fci.seminar.util.SampleDataLoader.loadSampleData(
-                dataStore, userService, sessionService, evaluationService);
-            autoSave();
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Sample data loaded successfully!\n\n" +
-                "You can now log in with:\n" +
-                "- Coordinator: admin/admin123\n" +
-                "- Evaluator: eval1/eval123 or eval2/eval123\n" +
-                "- Student: student1/stud123 (or student2-4)",
-                "Success",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }
+        // This method is no longer used
+        // Sample data is now included in database/schema.sql
+        // Run schema.sql in phpMyAdmin to set up the database with sample users
     }
     
     /**

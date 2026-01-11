@@ -10,6 +10,7 @@ public class Evaluator extends User {
     private static final long serialVersionUID = 1L;
 
     private List<String> assignedSessionIds;
+    private String evaluatorId;
 
     public Evaluator() {
         super();
@@ -38,5 +39,13 @@ public class Evaluator extends User {
 
     public void removeAssignedSession(String sessionId) {
         assignedSessionIds.remove(sessionId);
+    }
+    
+    public String getEvaluatorId() {
+        return evaluatorId;
+    }
+    
+    public void setEvaluatorId(String evaluatorId) {
+        this.evaluatorId = evaluatorId;
     }
 }

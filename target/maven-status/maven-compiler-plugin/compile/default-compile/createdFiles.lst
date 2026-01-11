@@ -26,6 +26,7 @@ com\fci\seminar\ui\AssignmentPanel$EvaluatorItem.class
 com\fci\seminar\model\PresentationType.class
 com\fci\seminar\model\Evaluation.class
 com\fci\seminar\util\IdGenerator.class
+com\fci\seminar\ui\SessionManagementPanel$2.class
 com\fci\seminar\model\Coordinator.class
 com\fci\seminar\model\UserRole.class
 com\fci\seminar\service\PosterBoardService.class

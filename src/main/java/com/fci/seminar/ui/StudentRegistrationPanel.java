@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,7 +40,7 @@ public class StudentRegistrationPanel extends JPanel {
     private JLabel welcomeLabel;
     private JTextField titleField;
     private JTextArea abstractArea;
-    private JTextField supervisorField;
+    private JComboBox<String> supervisorCombo;
     private JComboBox<PresentationType> presentationTypeCombo;
     private JButton submitButton;
     private JButton backButton;
@@ -144,19 +145,20 @@ public class StudentRegistrationPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(abstractScroll, gbc);
         
-        // Supervisor name field
+        // Supervisor name dropdown
         JLabel supervisorLabel = new JLabel("Supervisor Name:");
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.fill = GridBagConstraints.NONE;
         panel.add(supervisorLabel, gbc);
         
-        supervisorField = new JTextField(30);
-        supervisorField.setPreferredSize(new Dimension(350, 28));
+        supervisorCombo = new JComboBox<>();
+        supervisorCombo.setPreferredSize(new Dimension(350, 28));
+        loadSupervisors(); // Load supervisors from database
         gbc.gridx = 1;
         gbc.gridy = row++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(supervisorField, gbc);
+        panel.add(supervisorCombo, gbc);
         
         // Presentation type combo box
         JLabel typeLabel = new JLabel("Presentation Type:");
@@ -213,7 +215,7 @@ public class StudentRegistrationPanel extends JPanel {
         
         String title = titleField.getText().trim();
         String abstractText = abstractArea.getText().trim();
-        String supervisor = supervisorField.getText().trim();
+        String supervisor = (String) supervisorCombo.getSelectedItem();
         PresentationType type = (PresentationType) presentationTypeCombo.getSelectedItem();
         
         // Validate required fields
@@ -229,9 +231,9 @@ public class StudentRegistrationPanel extends JPanel {
             return;
         }
         
-        if (supervisor.isEmpty()) {
+        if (supervisor == null || supervisor.isEmpty()) {
             ErrorHandler.showError(this, "Supervisor name is required.");
-            supervisorField.requestFocus();
+            supervisorCombo.requestFocus();
             return;
         }
         
@@ -285,8 +287,29 @@ public class StudentRegistrationPanel extends JPanel {
     private void clearForm() {
         titleField.setText("");
         abstractArea.setText("");
-        supervisorField.setText("");
+        if (supervisorCombo.getItemCount() > 0) {
+            supervisorCombo.setSelectedIndex(0);
+        }
         presentationTypeCombo.setSelectedIndex(0);
+    }
+    
+    /**
+     * Loads supervisors from database into the dropdown.
+     */
+    private void loadSupervisors() {
+        supervisorCombo.removeAllItems();
+        
+        // Get all evaluators (who are supervisors)
+        List<com.fci.seminar.model.Evaluator> evaluators = userService.getAllEvaluators();
+        
+        for (com.fci.seminar.model.Evaluator evaluator : evaluators) {
+            supervisorCombo.addItem(evaluator.getUsername());
+        }
+        
+        // Set first item as default if available
+        if (supervisorCombo.getItemCount() > 0) {
+            supervisorCombo.setSelectedIndex(0);
+        }
     }
     
     /**
@@ -296,11 +319,17 @@ public class StudentRegistrationPanel extends JPanel {
     public void refresh() {
         User currentUser = app.getCurrentUser();
         
+        // Reload supervisors from database
+        loadSupervisors();
+        
+        // Always clear form first to prevent showing other student's data
+        clearForm();
+        
         if (currentUser != null && currentUser instanceof Student) {
             Student student = (Student) currentUser;
             welcomeLabel.setText("Registering as: " + student.getUsername());
             
-            // Pre-fill form if student already has registration data
+            // Pre-fill form only if THIS student has registration data
             if (student.getResearchTitle() != null && !student.getResearchTitle().isEmpty()) {
                 titleField.setText(student.getResearchTitle());
             }
@@ -308,7 +337,8 @@ public class StudentRegistrationPanel extends JPanel {
                 abstractArea.setText(student.getAbstractText());
             }
             if (student.getSupervisorName() != null && !student.getSupervisorName().isEmpty()) {
-                supervisorField.setText(student.getSupervisorName());
+                // Select the supervisor in dropdown
+                supervisorCombo.setSelectedItem(student.getSupervisorName());
             }
             if (student.getPresentationType() != null) {
                 presentationTypeCombo.setSelectedItem(student.getPresentationType());
@@ -347,11 +377,11 @@ public class StudentRegistrationPanel extends JPanel {
     }
     
     /**
-     * Gets the supervisor field.
-     * @return the supervisor text field
+     * Gets the supervisor combo box.
+     * @return the supervisor combo box
      */
-    public JTextField getSupervisorField() {
-        return supervisorField;
+    public JComboBox<String> getSupervisorCombo() {
+        return supervisorCombo;
     }
     
     /**

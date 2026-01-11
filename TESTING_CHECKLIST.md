@@ -111,7 +111,7 @@ Use this checklist to systematically test all features and validations in the sy
 
 ### Test 2.5: Registration Validation - Empty Supervisor
 - [ ] Research Title: `Valid Title`
-- [ ] Abstract: `Valid abstract text`
+- [ ] Abstract: `wh`
 - [ ] Supervisor Name: (leave empty)
 - [ ] Presentation Type: Select "Oral"
 - [ ] Click "Submit Registration"

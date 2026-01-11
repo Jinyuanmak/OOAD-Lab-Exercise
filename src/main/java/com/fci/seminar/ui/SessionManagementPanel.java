@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -22,6 +21,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.fci.seminar.model.PresentationType;
@@ -44,7 +45,7 @@ public class SessionManagementPanel extends JPanel {
     private JTable sessionTable;
     private DefaultTableModel tableModel;
     private JTextField dateField;
-    private JTextField venueField;
+    private JComboBox<String> venueCombo;
     private JComboBox<PresentationType> sessionTypeCombo;
     private JButton createButton;
     private JButton editButton;
@@ -53,6 +54,7 @@ public class SessionManagementPanel extends JPanel {
     private JButton clearButton;
     
     private Session selectedSession;
+    private boolean isAutoFormatting = false;
 
     /**
      * Creates a new SessionManagementPanel.
@@ -158,24 +160,29 @@ public class SessionManagementPanel extends JPanel {
         
         int row = 0;
         
-        // Date field
-        JLabel dateLabel = new JLabel("Date (yyyy-MM-dd):");
+        // Date field with auto-formatting
+        JLabel dateLabel = new JLabel("Date (YYMMDD):");
         gbc.gridx = 0;
         gbc.gridy = row++;
         panel.add(dateLabel, gbc);
         
         dateField = new JTextField(15);
+        dateField.setPreferredSize(new Dimension(200, 28));
+        dateField.setToolTipText("Enter date as YYMMDD (e.g., 260215 → 2026-02-15)");
+        setupDateAutoFormat();
         gbc.gridy = row++;
         panel.add(dateField, gbc);
         
-        // Venue field
+        // Venue dropdown
         JLabel venueLabel = new JLabel("Venue:");
         gbc.gridy = row++;
         panel.add(venueLabel, gbc);
         
-        venueField = new JTextField(15);
+        venueCombo = new JComboBox<>();
+        loadVenues();
+        venueCombo.setPreferredSize(new Dimension(200, 28));
         gbc.gridy = row++;
-        panel.add(venueField, gbc);
+        panel.add(venueCombo, gbc);
         
         // Session type combo
         JLabel typeLabel = new JLabel("Session Type:");
@@ -216,6 +223,109 @@ public class SessionManagementPanel extends JPanel {
         
         return panel;
     }
+    
+    /**
+     * Sets up auto-formatting for the date field.
+     * Converts YYMMDD to YYYY-MM-DD format automatically.
+     */
+    private void setupDateAutoFormat() {
+        dateField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                autoFormatDate();
+            }
+            
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                // Don't auto-format on removal
+            }
+            
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                autoFormatDate();
+            }
+        });
+    }
+    
+    /**
+     * Auto-formats the date input from YYMMDD to YYYY-MM-DD.
+     */
+    private void autoFormatDate() {
+        if (isAutoFormatting) return;
+        
+        String text = dateField.getText().replaceAll("[^0-9]", "");
+        
+        // Only format when we have exactly 6 digits
+        if (text.length() == 6) {
+            isAutoFormatting = true;
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                try {
+                    String yy = text.substring(0, 2);
+                    String mm = text.substring(2, 4);
+                    String dd = text.substring(4, 6);
+                    
+                    // Validate month (01-12)
+                    int month = Integer.parseInt(mm);
+                    if (month < 1 || month > 12) {
+                        dateField.setText("");
+                        ErrorHandler.showError(dateField, "Invalid month: " + mm + ". Month must be between 01 and 12.");
+                        return;
+                    }
+                    
+                    // Validate day (01-31)
+                    int day = Integer.parseInt(dd);
+                    if (day < 1 || day > 31) {
+                        dateField.setText("");
+                        ErrorHandler.showError(dateField, "Invalid day: " + dd + ". Day must be between 01 and 31.");
+                        return;
+                    }
+                    
+                    // Convert YY to YYYY (assume 20xx for years 00-99)
+                    int year = Integer.parseInt(yy);
+                    String yyyy = (year >= 0 && year <= 99) ? "20" + yy : yy;
+                    
+                    // Validate the complete date
+                    String formatted = yyyy + "-" + mm + "-" + dd;
+                    try {
+                        LocalDate.parse(formatted, DATE_FORMAT);
+                        dateField.setText(formatted);
+                    } catch (Exception e) {
+                        dateField.setText("");
+                        ErrorHandler.showError(dateField, "Invalid date: " + formatted + ". Please check the day is valid for the month.");
+                    }
+                } finally {
+                    isAutoFormatting = false;
+                }
+            });
+        }
+    }
+
+    /**
+     * Loads venues from database into the combo box.
+     */
+    private void loadVenues() {
+        venueCombo.removeAllItems();
+        
+        // Get venues from database
+        if (app.getDataStore().getDatabaseManager() != null) {
+            List<String> venues = app.getDataStore().getDatabaseManager().getAllVenues();
+            for (String venue : venues) {
+                venueCombo.addItem(venue);
+            }
+        }
+        
+        // If no venues loaded, add defaults
+        if (venueCombo.getItemCount() == 0) {
+            venueCombo.addItem("Auditorium A");
+            venueCombo.addItem("Auditorium B");
+            venueCombo.addItem("Conference Room 1");
+            venueCombo.addItem("Conference Room 2");
+            venueCombo.addItem("Exhibition Hall A");
+            venueCombo.addItem("Exhibition Hall B");
+            venueCombo.addItem("Lecture Hall 1");
+            venueCombo.addItem("Lecture Hall 2");
+        }
+    }
 
     /**
      * Creates the button panel with back button.
@@ -248,8 +358,18 @@ public class SessionManagementPanel extends JPanel {
             selectedSession = sessionService.getSessionById(sessionId);
             
             if (selectedSession != null) {
+                // Set date in field
                 dateField.setText(selectedSession.getDate().format(DATE_FORMAT));
-                venueField.setText(selectedSession.getVenue());
+                
+                // Set venue in combo
+                String venue = selectedSession.getVenue();
+                for (int i = 0; i < venueCombo.getItemCount(); i++) {
+                    if (venueCombo.getItemAt(i).equals(venue)) {
+                        venueCombo.setSelectedIndex(i);
+                        break;
+                    }
+                }
+                
                 sessionTypeCombo.setSelectedItem(selectedSession.getSessionType());
                 
                 editButton.setEnabled(true);
@@ -263,13 +383,27 @@ public class SessionManagementPanel extends JPanel {
     }
     
     /**
+     * Gets the date from the text field.
+     * @return the LocalDate parsed from the field
+     */
+    private LocalDate getDateFromField() {
+        String text = dateField.getText().trim();
+        return LocalDate.parse(text, DATE_FORMAT);
+    }
+    
+    /**
      * Creates a new session.
      */
     private void createSession() {
         try {
-            LocalDate date = parseDate(dateField.getText().trim());
-            String venue = venueField.getText().trim();
+            LocalDate date = getDateFromField();
+            String venue = (String) venueCombo.getSelectedItem();
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
+            
+            if (venue == null || venue.isEmpty()) {
+                ErrorHandler.showError(this, "Please select a venue");
+                return;
+            }
             
             sessionService.createSession(date, venue, type);
             
@@ -284,8 +418,8 @@ public class SessionManagementPanel extends JPanel {
             clearForm();
             refresh();
             
-        } catch (IllegalArgumentException e) {
-            ErrorHandler.showError(this, e.getMessage());
+        } catch (Exception e) {
+            ErrorHandler.showError(this, "Invalid date format. Use YYMMDD (e.g., 260215)");
         }
     }
     
@@ -299,9 +433,14 @@ public class SessionManagementPanel extends JPanel {
         }
         
         try {
-            LocalDate date = parseDate(dateField.getText().trim());
-            String venue = venueField.getText().trim();
+            LocalDate date = getDateFromField();
+            String venue = (String) venueCombo.getSelectedItem();
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
+            
+            if (venue == null || venue.isEmpty()) {
+                ErrorHandler.showError(this, "Please select a venue");
+                return;
+            }
             
             selectedSession.setDate(date);
             selectedSession.setVenue(venue);
@@ -320,8 +459,8 @@ public class SessionManagementPanel extends JPanel {
             clearForm();
             refresh();
             
-        } catch (IllegalArgumentException e) {
-            ErrorHandler.showError(this, e.getMessage());
+        } catch (Exception e) {
+            ErrorHandler.showError(this, "Invalid date format. Use YYMMDD (e.g., 260215)");
         }
     }
     
@@ -364,28 +503,13 @@ public class SessionManagementPanel extends JPanel {
     }
     
     /**
-     * Parses a date string.
-     * @param dateStr the date string
-     * @return the parsed LocalDate
-     * @throws IllegalArgumentException if parsing fails
-     */
-    private LocalDate parseDate(String dateStr) {
-        if (dateStr == null || dateStr.isEmpty()) {
-            throw new IllegalArgumentException("Date is required");
-        }
-        try {
-            return LocalDate.parse(dateStr, DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
-        }
-    }
-    
-    /**
      * Clears the form fields.
      */
     private void clearForm() {
         dateField.setText("");
-        venueField.setText("");
+        if (venueCombo.getItemCount() > 0) {
+            venueCombo.setSelectedIndex(0);
+        }
         sessionTypeCombo.setSelectedIndex(0);
         selectedSession = null;
         sessionTable.clearSelection();
@@ -394,9 +518,13 @@ public class SessionManagementPanel extends JPanel {
     }
     
     /**
-     * Refreshes the session table.
+     * Refreshes the session table and venue list.
      */
     public void refresh() {
+        // Reload venues
+        loadVenues();
+        
+        // Reload sessions
         tableModel.setRowCount(0);
         
         List<Session> sessions = sessionService.getAllSessions();
@@ -430,8 +558,8 @@ public class SessionManagementPanel extends JPanel {
         return dateField;
     }
     
-    public JTextField getVenueField() {
-        return venueField;
+    public JComboBox<String> getVenueCombo() {
+        return venueCombo;
     }
     
     public JComboBox<PresentationType> getSessionTypeCombo() {

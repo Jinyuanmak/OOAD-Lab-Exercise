@@ -114,6 +114,7 @@ public class SessionService {
         }
         
         session.addPresenter(presenterId);
+        dataStore.updateSession(session); // Save to database
     }
 
     /**
@@ -139,7 +140,10 @@ public class SessionService {
         User user = dataStore.getUser(evaluatorId);
         if (user instanceof Evaluator) {
             ((Evaluator) user).addAssignedSession(sessionId);
+            dataStore.updateUser(user); // Save evaluator to database
         }
+        
+        dataStore.updateSession(session); // Save session to database
     }
 
 
@@ -195,6 +199,7 @@ public class SessionService {
         Session session = dataStore.getSession(sessionId);
         if (session != null) {
             session.removePresenter(presenterId);
+            dataStore.updateSession(session); // Save to database
         }
     }
 
@@ -212,7 +217,10 @@ public class SessionService {
             User user = dataStore.getUser(evaluatorId);
             if (user instanceof Evaluator) {
                 ((Evaluator) user).removeAssignedSession(sessionId);
+                dataStore.updateUser(user); // Save evaluator to database
             }
+            
+            dataStore.updateSession(session); // Save session to database
         }
     }
 }
