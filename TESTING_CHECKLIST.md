@@ -19,10 +19,10 @@ Use this checklist to systematically test all features and validations in the sy
 
 ### Test 1.2: Valid Login - Evaluator (Auto-detect Role)
 - [ ] Logout first (Navigation → Logout)
-- [ ] Username: `eval1`
+- [ ] Username: `Dr. Sarah Johnson`
 - [ ] Password: `eval123`
 - [ ] Click "Login"
-- [ ] **Expected:** Successfully logged in, Evaluator Dashboard appears with "Welcome, eval1!"
+- [ ] **Expected:** Successfully logged in, Evaluator Dashboard appears with "Welcome, Dr. Sarah Johnson!"
 - [ ] **Result:** ☐ Pass ☐ Fail
 
 ### Test 1.3: Valid Login - Student (Auto-detect Role)
@@ -56,11 +56,11 @@ Use this checklist to systematically test all features and validations in the sy
 - [ ] **Result:** ☐ Pass ☐ Fail
 
 ### Test 1.7: Switch Between Users
-- [ ] Login as `eval1` / `eval123`
-- [ ] Verify welcome message shows "Welcome, eval1!"
+- [ ] Login as `Dr. Sarah Johnson` / `eval123`
+- [ ] Verify welcome message shows "Welcome, Dr. Sarah Johnson!"
 - [ ] Logout
-- [ ] Login as `eval2` / `eval123`
-- [ ] **Expected:** Welcome message immediately shows "Welcome, eval2!" (no refresh needed)
+- [ ] Login as `Prof. Michael Chen` / `eval123`
+- [ ] **Expected:** Welcome message immediately shows "Welcome, Prof. Michael Chen!" (no refresh needed)
 - [ ] **Result:** ☐ Pass ☐ Fail
 
 ---
@@ -270,8 +270,8 @@ Use this checklist to systematically test all features and validations in the sy
 
 ### Test 4.6: Multiple Evaluators Per Session
 - [ ] Select a session
-- [ ] Assign eval1
-- [ ] Assign eval2
+- [ ] Assign Dr. Sarah Johnson
+- [ ] Assign Prof. Michael Chen
 - [ ] **Expected:** Both evaluators assigned successfully
 - [ ] **Result:** ☐ Pass ☐ Fail
 
@@ -326,11 +326,11 @@ Use this checklist to systematically test all features and validations in the sy
 
 ## 🎓 PART 6: EVALUATION MODULE (Evaluator)
 
-**Login as:** eval1 / eval123
+**Login as:** Dr. Sarah Johnson / eval123
 
 ### Test 6.1: View Assigned Sessions
 - [ ] Check Evaluator Dashboard
-- [ ] **Expected:** Welcome message shows "Welcome, eval1!"
+- [ ] **Expected:** Welcome message shows "Welcome, Dr. Sarah Johnson!"
 - [ ] **Expected:** List of assigned sessions and presenters displayed
 - [ ] **Result:** ☐ Pass ☐ Fail
 
@@ -397,8 +397,8 @@ Use this checklist to systematically test all features and validations in the sy
 - [ ] **Result:** ☐ Pass ☐ Fail
 
 ### Test 6.10: Multiple Evaluators - Same Presenter
-- [ ] Login as eval1, submit evaluation for Presenter 1
-- [ ] Logout, login as eval2
+- [ ] Login as Dr. Sarah Johnson, submit evaluation for Presenter 1
+- [ ] Logout, login as Prof. Michael Chen
 - [ ] Submit evaluation for same Presenter 1
 - [ ] **Expected:** Both evaluations recorded separately
 - [ ] **Result:** ☐ Pass ☐ Fail
@@ -638,8 +638,8 @@ Use this checklist to systematically test all features and validations in the sy
 - [ ] Logout, login as student1, register for seminar
 - [ ] Logout, login as student2, register for seminar
 - [ ] Logout, login as coordinator, assign students to session
-- [ ] Logout, login as eval1, submit evaluations
-- [ ] Logout, login as eval2, submit evaluations
+- [ ] Logout, login as Dr. Sarah Johnson, submit evaluations
+- [ ] Logout, login as Prof. Michael Chen, submit evaluations
 - [ ] Logout, login as coordinator, view reports and compute awards
 - [ ] **Expected:** Data persists across different user sessions
 - [ ] **Result:** ☐ Pass ☐ Fail
@@ -736,15 +736,18 @@ _______________________________________________
 
 ## 📌 LOGIN CREDENTIALS
 
-| Role        | Username | Password |
-|-------------|----------|----------|
-| Coordinator | admin    | admin123 |
-| Evaluator   | eval1    | eval123  |
-| Evaluator   | eval2    | eval123  |
-| Student     | student1 | stud123  |
-| Student     | student2 | stud123  |
-| Student     | student3 | stud123  |
-| Student     | student4 | stud123  |
+| Role        | Username              | Password |
+|-------------|-----------------------|----------|
+| Coordinator | admin                 | admin123 |
+| Evaluator   | Dr. Sarah Johnson     | eval123  |
+| Evaluator   | Prof. Michael Chen    | eval123  |
+| Evaluator   | Dr. Emily Rodriguez   | eval123  |
+| Evaluator   | Prof. David Kumar     | eval123  |
+| Evaluator   | Dr. Lisa Anderson     | eval123  |
+| Student     | student1              | stud123  |
+| Student     | student2              | stud123  |
+| Student     | student3              | stud123  |
+| Student     | student4              | stud123  |
 
 **Note:** Login auto-detects user role - no role selection needed.
 
