@@ -5,7 +5,6 @@ com\fci\seminar\model\User.class
 com\fci\seminar\ui\StudentRegistrationPanel.class
 com\fci\seminar\util\SampleDataLoader.class
 com\fci\seminar\ui\SeminarApp$2.class
-com\fci\seminar\ui\EvaluationFormPanel$PresenterItem.class
 com\fci\seminar\service\DatabaseManager$1.class
 com\fci\seminar\model\CeremonyAgenda.class
 com\fci\seminar\model\Evaluator.class
@@ -42,7 +41,6 @@ com\fci\seminar\ui\CoordinatorDashboard.class
 com\fci\seminar\ui\EvaluatorDashboard$1.class
 com\fci\seminar\service\AwardService.class
 com\fci\seminar\model\Session.class
-com\fci\seminar\ui\EvaluationFormPanel$1.class
 com\fci\seminar\ui\ReportPanel.class
 com\fci\seminar\model\Award.class
 com\fci\seminar\ui\SeminarApp$1.class

@@ -112,7 +112,24 @@ public class StudentDashboard extends JPanel {
         gbc.gridy = 2;
         panel.add(uploadButton, gbc);
         
+        // Logout button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(250, 50));
+        logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        logoutButton.addActionListener(e -> logout());
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(logoutButton, gbc);
+        
         return panel;
+    }
+    
+    /**
+     * Logs out the current user and returns to login screen.
+     */
+    private void logout() {
+        app.setCurrentUser(null);
+        app.showPanel(SeminarApp.LOGIN_PANEL);
     }
     
     /**

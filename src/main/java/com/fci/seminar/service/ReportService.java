@@ -49,7 +49,9 @@ public class ReportService {
                 } else {
                     sb.append("\n");
                     for (String presenterId : session.getPresenterIds()) {
-                        sb.append("    - ").append(presenterId).append("\n");
+                        // Get student username by presenter ID
+                        String presenterName = getPresenterName(presenterId);
+                        sb.append("    - ").append(presenterName).append("\n");
                     }
                 }
                 
@@ -59,7 +61,9 @@ public class ReportService {
                 } else {
                     sb.append("\n");
                     for (String evaluatorId : session.getEvaluatorIds()) {
-                        sb.append("    - ").append(evaluatorId).append("\n");
+                        // Get evaluator username by ID
+                        String evaluatorName = getEvaluatorName(evaluatorId);
+                        sb.append("    - ").append(evaluatorName).append("\n");
                     }
                 }
                 sb.append("\n");
@@ -67,6 +71,31 @@ public class ReportService {
         }
         
         return sb.toString();
+    }
+    
+    /**
+     * Gets presenter name by presenter ID.
+     */
+    private String getPresenterName(String presenterId) {
+        for (com.fci.seminar.model.User user : dataStore.getUsers().values()) {
+            if (user instanceof Student student) {
+                if (presenterId.equals(student.getPresenterId())) {
+                    return student.getUsername();
+                }
+            }
+        }
+        return presenterId; // Fallback to ID if not found
+    }
+    
+    /**
+     * Gets evaluator name by user ID.
+     */
+    private String getEvaluatorName(String evaluatorId) {
+        com.fci.seminar.model.User user = dataStore.getUsers().get(evaluatorId);
+        if (user != null) {
+            return user.getUsername();
+        }
+        return evaluatorId; // Fallback to ID if not found
     }
 
 
@@ -87,8 +116,8 @@ public class ReportService {
         } else {
             for (Evaluation eval : evaluations) {
                 sb.append("Evaluation: ").append(eval.getEvaluationId()).append("\n");
-                sb.append("  Presenter: ").append(eval.getPresenterId()).append("\n");
-                sb.append("  Evaluator: ").append(eval.getEvaluatorId()).append("\n");
+                sb.append("  Presenter: ").append(getPresenterName(eval.getPresenterId())).append("\n");
+                sb.append("  Evaluator: ").append(getEvaluatorName(eval.getEvaluatorId())).append("\n");
                 sb.append("  Session: ").append(eval.getSessionId()).append("\n");
                 
                 if (eval.getScores() != null) {

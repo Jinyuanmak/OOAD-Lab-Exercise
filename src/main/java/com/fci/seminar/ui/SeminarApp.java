@@ -2,6 +2,7 @@ package com.fci.seminar.ui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -61,6 +62,7 @@ public class SeminarApp extends JFrame {
     private StudentRegistrationPanel studentRegistrationPanel;
     private StudentDashboard studentDashboard;
     private EvaluatorDashboard evaluatorDashboard;
+    private EvaluationFormPanel evaluationFormPanel;
     private FileUploadPanel fileUploadPanel;
 
     /**
@@ -112,9 +114,7 @@ public class SeminarApp extends JFrame {
         // Add main panel to frame
         add(mainPanel, BorderLayout.CENTER);
         
-        // Create and set up menu bar
-        createMenuBar();
-        setJMenuBar(menuBar);
+        // Don't create menu bar - using logout buttons on dashboards instead
         
         // Initially show login panel
         updateMenuVisibility();
@@ -161,8 +161,8 @@ public class SeminarApp extends JFrame {
         evaluatorDashboard = new EvaluatorDashboard(this, sessionService, userService);
         addPanel(evaluatorDashboard, EVALUATOR_DASHBOARD);
         
-        EvaluationFormPanel evaluationForm = new EvaluationFormPanel(this, evaluationService, userService);
-        addPanel(evaluationForm, EVALUATION_FORM);
+        evaluationFormPanel = new EvaluationFormPanel(this, evaluationService, userService);
+        addPanel(evaluationFormPanel, EVALUATION_FORM);
         
         // Show login panel initially
         showPanel(LOGIN_PANEL);
@@ -176,19 +176,18 @@ public class SeminarApp extends JFrame {
         
         // File menu
         JMenu fileMenu = new JMenu("File");
-        JMenuItem saveItem = new JMenuItem("Save Data");
-        saveItem.addActionListener(e -> saveData());
         JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.setMargin(new Insets(0, 0, 0, 0));
         exitItem.addActionListener(e -> exitApplication());
-        fileMenu.add(saveItem);
-        fileMenu.addSeparator();
         fileMenu.add(exitItem);
         
         // Navigation menu
         JMenu navMenu = new JMenu("Navigation");
         JMenuItem homeItem = new JMenuItem("Home");
+        homeItem.setMargin(new Insets(0, 0, 0, 0));
         homeItem.addActionListener(e -> navigateToHome());
         JMenuItem logoutItem = new JMenuItem("Logout");
+        logoutItem.setMargin(new Insets(0, 0, 0, 0));
         logoutItem.addActionListener(e -> logout());
         navMenu.add(homeItem);
         navMenu.addSeparator();
@@ -197,6 +196,7 @@ public class SeminarApp extends JFrame {
         // Help menu
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.setMargin(new Insets(0, 0, 0, 0));
         aboutItem.addActionListener(e -> showAbout());
         helpMenu.add(aboutItem);
         
@@ -321,6 +321,14 @@ public class SeminarApp extends JFrame {
      */
     public ReportService getReportService() {
         return reportService;
+    }
+    
+    /**
+     * Gets the EvaluationFormPanel instance.
+     * @return the EvaluationFormPanel
+     */
+    public EvaluationFormPanel getEvaluationFormPanel() {
+        return evaluationFormPanel;
     }
     
     /**
@@ -450,9 +458,12 @@ public class SeminarApp extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                // Set system look and feel
+                // Set system look and feel for better UI
                 javax.swing.UIManager.setLookAndFeel(
                     javax.swing.UIManager.getSystemLookAndFeelClassName());
+                // Remove the icon/checkmark space from menu items
+                javax.swing.UIManager.put("MenuItem.checkIcon", null);
+                javax.swing.UIManager.put("CheckBoxMenuItem.checkIcon", null);
             } catch (Exception e) {
                 // Use default look and feel
             }

@@ -48,22 +48,26 @@ public class PosterBoardService {
     }
 
     /**
-     * Checks if a board is already assigned.
+     * Checks if a board is already assigned to a presenter.
      * @param boardId the board ID to check
-     * @return true if the board is assigned, false otherwise
+     * @return true if the board is assigned to a presenter, false otherwise
      */
     public boolean isBoardAssigned(String boardId) {
-        return dataStore.getPosterBoard(boardId) != null;
+        PosterBoard board = dataStore.getPosterBoard(boardId);
+        // Board is assigned only if it exists AND has a presenter assigned
+        return board != null && board.getPresenterId() != null && !board.getPresenterId().isEmpty();
     }
 
     /**
      * Gets a list of available (unassigned) board IDs.
+     * Generates board IDs B001-B100 and returns those not assigned to a presenter.
      * @return list of available board IDs
      */
     public List<String> getAvailableBoards() {
         List<String> available = new ArrayList<>();
         for (int i = 1; i <= MAX_BOARDS; i++) {
             String boardId = String.format("B%03d", i);
+            // Board is available if not assigned to any presenter
             if (!isBoardAssigned(boardId)) {
                 available.add(boardId);
             }

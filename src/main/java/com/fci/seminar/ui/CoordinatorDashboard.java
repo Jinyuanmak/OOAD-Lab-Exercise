@@ -135,7 +135,24 @@ public class CoordinatorDashboard extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(reportsButton, gbc);
         
+        // Logout button
+        JButton logoutButton = createNavButton("Logout");
+        logoutButton.addActionListener(e -> logout());
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(logoutButton, gbc);
+        
         return panel;
+    }
+    
+    /**
+     * Logs out the current user and returns to login screen.
+     */
+    private void logout() {
+        app.setCurrentUser(null);
+        app.showPanel(SeminarApp.LOGIN_PANEL);
     }
     
     /**

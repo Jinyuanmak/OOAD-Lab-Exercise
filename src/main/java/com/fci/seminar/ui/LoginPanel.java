@@ -2,7 +2,6 @@ package com.fci.seminar.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -52,30 +51,11 @@ public class LoginPanel extends JPanel {
      */
     private void initializeUI() {
         setLayout(new BorderLayout());
+        setBackground(new java.awt.Color(245, 245, 250));
         
         // Create center panel with form
         JPanel formPanel = createFormPanel();
         add(formPanel, BorderLayout.CENTER);
-        
-        // Create title panel
-        JPanel titlePanel = createTitlePanel();
-        add(titlePanel, BorderLayout.NORTH);
-    }
-    
-    /**
-     * Creates the title panel with application name.
-     * @return the title panel
-     */
-    private JPanel createTitlePanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panel.setBorder(BorderFactory.createEmptyBorder(40, 0, 20, 0));
-        
-        JLabel titleLabel = new JLabel("FCI Seminar Management System");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(titleLabel);
-        
-        return panel;
     }
     
     /**
@@ -83,66 +63,117 @@ public class LoginPanel extends JPanel {
      * @return the form panel
      */
     private JPanel createFormPanel() {
+        JPanel outerPanel = new JPanel(new GridBagLayout());
+        outerPanel.setBackground(new java.awt.Color(245, 245, 250));
+        
+        // Create inner panel with white background and shadow effect
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 50, 50, 50));
+        panel.setBackground(java.awt.Color.WHITE);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220), 1),
+            BorderFactory.createEmptyBorder(40, 50, 40, 50)
+        ));
+        panel.setPreferredSize(new Dimension(450, 450));
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Login form title
-        JLabel formTitle = new JLabel("Login");
-        formTitle.setFont(new Font("SansSerif", Font.BOLD, 18));
-        formTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        // Application title
+        JLabel titleLabel = new JLabel("FCI Seminar Management");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 26));
+        titleLabel.setForeground(new java.awt.Color(41, 98, 255));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(titleLabel, gbc);
+        
+        // Subtitle
+        JLabel subtitleLabel = new JLabel("Faculty of Computing and Informatics");
+        subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        subtitleLabel.setForeground(new java.awt.Color(100, 100, 100));
+        subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 10, 25, 10);
+        panel.add(subtitleLabel, gbc);
+        
+        // Login form title
+        JLabel formTitle = new JLabel("Sign In");
+        formTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        formTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridy = 2;
+        gbc.insets = new Insets(10, 10, 20, 10);
         panel.add(formTitle, gbc);
         
-        // Reset gridwidth for other components
+        // Reset gridwidth and insets for form fields
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(8, 10, 8, 10);
         
-        // Username label and field
-        JLabel usernameLabel = new JLabel("Username:");
+        // Username label
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
         panel.add(usernameLabel, gbc);
         
+        // Username field
         usernameField = new JTextField(20);
-        usernameField.setPreferredSize(new Dimension(200, 30));
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        usernameField.setPreferredSize(new Dimension(300, 38));
+        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        usernameField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        gbc.gridy = 4;
+        gbc.insets = new Insets(5, 10, 15, 10);
         panel.add(usernameField, gbc);
         
-        // Password label and field
-        JLabel passwordLabel = new JLabel("Password:");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        // Password label
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
+        gbc.gridy = 5;
+        gbc.insets = new Insets(8, 10, 8, 10);
         panel.add(passwordLabel, gbc);
         
+        // Password field
         passwordField = new JPasswordField(20);
-        passwordField.setPreferredSize(new Dimension(200, 30));
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        passwordField.setPreferredSize(new Dimension(300, 38));
+        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        passwordField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        gbc.gridy = 6;
+        gbc.insets = new Insets(5, 10, 25, 10);
         panel.add(passwordField, gbc);
         
         // Login button
         loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(100, 35));
+        loginButton.setPreferredSize(new Dimension(300, 42));
+        loginButton.setFont(new Font("SansSerif", Font.BOLD, 15));
+        loginButton.setBackground(new java.awt.Color(41, 98, 255));
+        loginButton.setForeground(java.awt.Color.WHITE);
+        loginButton.setFocusPainted(false);
+        loginButton.setBorderPainted(false);
+        loginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginButton.addActionListener(e -> performLogin());
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(loginButton, gbc);
         
         // Add Enter key listener to password field
         passwordField.addActionListener(e -> performLogin());
         
-        return panel;
+        // Add the panel to outer panel
+        outerPanel.add(panel);
+        
+        return outerPanel;
     }
 
     

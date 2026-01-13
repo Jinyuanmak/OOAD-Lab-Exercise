@@ -165,7 +165,24 @@ public class EvaluatorDashboard extends JPanel {
         gbc.gridy = 0;
         panel.add(refreshButton, gbc);
         
+        // Logout button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(120, 40));
+        logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        logoutButton.addActionListener(e -> logout());
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        panel.add(logoutButton, gbc);
+        
         return panel;
+    }
+    
+    /**
+     * Logs out the current user and returns to login screen.
+     */
+    private void logout() {
+        app.setCurrentUser(null);
+        app.showPanel(SeminarApp.LOGIN_PANEL);
     }
     
     /**
@@ -179,7 +196,48 @@ public class EvaluatorDashboard extends JPanel {
             return;
         }
         
-        // Navigate to evaluation form
+        // Get presenter name from selected row
+        String presenterName = (String) tableModel.getValueAt(selectedRow, 3);
+        if ("No presenters assigned".equals(presenterName)) {
+            com.fci.seminar.util.ErrorHandler.showWarning(this, 
+                "This session has no presenters assigned yet.");
+            return;
+        }
+        
+        // Find the presenter and session ID
+        Student presenter = null;
+        String sessionId = null;
+        
+        User currentUser = app.getCurrentUser();
+        if (currentUser instanceof Evaluator evaluator) {
+            java.util.List<String> assignedSessionIds = evaluator.getAssignedSessionIds();
+            if (assignedSessionIds != null) {
+                for (String sid : assignedSessionIds) {
+                    Session session = sessionService.getSessionById(sid);
+                    if (session != null && session.getPresenterIds() != null) {
+                        for (String presenterId : session.getPresenterIds()) {
+                            Student student = userService.getStudentByPresenterId(presenterId);
+                            if (student != null && student.getUsername().equals(presenterName)) {
+                                presenter = student;
+                                sessionId = sid;
+                                break;
+                            }
+                        }
+                    }
+                    if (presenter != null) break;
+                }
+            }
+        }
+        
+        if (presenter == null) {
+            com.fci.seminar.util.ErrorHandler.showError(this, 
+                "Could not find presenter information.");
+            return;
+        }
+        
+        // Set the presenter in the evaluation form and navigate
+        EvaluationFormPanel evaluationForm = app.getEvaluationFormPanel();
+        evaluationForm.setPresenter(presenter, sessionId);
         app.showPanel(SeminarApp.EVALUATION_FORM);
     }
     

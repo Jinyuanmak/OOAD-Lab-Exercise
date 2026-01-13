@@ -475,6 +475,11 @@ public class DatabaseManager {
         }
     }
     
+    public void updateEvaluation(Evaluation evaluation) {
+        // Use saveEvaluation since it already handles updates via ON DUPLICATE KEY UPDATE
+        saveEvaluation(evaluation);
+    }
+    
     public Evaluation getEvaluation(String evaluationId) {
         String sql = "SELECT * FROM evaluations WHERE evaluation_id = ?";
         
@@ -543,15 +548,17 @@ public class DatabaseManager {
     
     public void savePosterBoard(PosterBoard board) {
         String sql = """
-            UPDATE poster_boards 
-            SET presenter_id = ?, session_id = ?
-            WHERE board_id = ?
+            INSERT INTO poster_boards (board_id, presenter_id, session_id)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                presenter_id = VALUES(presenter_id),
+                session_id = VALUES(session_id)
             """;
         
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-            stmt.setString(1, board.getPresenterId());
-            stmt.setString(2, board.getSessionId());
-            stmt.setString(3, board.getBoardId());
+            stmt.setString(1, board.getBoardId());
+            stmt.setString(2, board.getPresenterId());
+            stmt.setString(3, board.getSessionId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error saving poster board: " + e.getMessage());
@@ -592,7 +599,7 @@ public class DatabaseManager {
     }
     
     public void clearPosterBoard(String boardId) {
-        String sql = "UPDATE poster_boards SET presenter_id = NULL, session_id = NULL WHERE board_id = ?";
+        String sql = "DELETE FROM poster_boards WHERE board_id = ?";
         
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, boardId);

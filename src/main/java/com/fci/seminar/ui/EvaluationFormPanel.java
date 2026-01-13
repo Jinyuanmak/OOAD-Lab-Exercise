@@ -7,12 +7,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,13 +17,10 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import com.fci.seminar.model.Evaluator;
 import com.fci.seminar.model.Evaluation;
+import com.fci.seminar.model.Evaluator;
 import com.fci.seminar.model.RubricScores;
-import com.fci.seminar.model.Session;
 import com.fci.seminar.model.Student;
 import com.fci.seminar.model.User;
 import com.fci.seminar.service.EvaluationService;
@@ -45,7 +39,8 @@ public class EvaluationFormPanel extends JPanel {
     private final EvaluationService evaluationService;
     private final UserService userService;
     
-    private JComboBox<PresenterItem> presenterComboBox;
+    private JLabel presenterNameLabel;
+    private JLabel presenterTitleLabel;
     private JSpinner problemClaritySpinner;
     private JSpinner methodologySpinner;
     private JSpinner resultsSpinner;
@@ -55,7 +50,8 @@ public class EvaluationFormPanel extends JPanel {
     private JButton submitButton;
     private JButton backButton;
     
-    private List<Student> assignedPresenters;
+    private Student selectedPresenter;
+    private String selectedSessionId;
 
     /**
      * Creates a new EvaluationFormPanel.
@@ -67,9 +63,9 @@ public class EvaluationFormPanel extends JPanel {
         this.app = app;
         this.evaluationService = evaluationService;
         this.userService = userService;
-        this.assignedPresenters = new ArrayList<>();
         initializeUI();
     }
+
     
     /**
      * Initializes the UI components.
@@ -118,29 +114,51 @@ public class EvaluationFormPanel extends JPanel {
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.0;
         
         int row = 0;
         
-        // Presenter selector
-        JLabel presenterLabel = new JLabel("Select Presenter:");
+        // Presenter info (read-only labels)
+        JLabel presenterLabel = new JLabel("Presenter:");
         presenterLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
         panel.add(presenterLabel, gbc);
         
-        presenterComboBox = new JComboBox<>();
-        presenterComboBox.setPreferredSize(new Dimension(400, 30));
+        presenterNameLabel = new JLabel("No presenter selected");
+        presenterNameLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
         gbc.gridx = 1;
         gbc.gridy = row;
-        gbc.gridwidth = 2;
-        panel.add(presenterComboBox, gbc);
+        gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        panel.add(presenterNameLabel, gbc);
+        row++;
+        
+        // Research title
+        JLabel titleLabel = new JLabel("Research Title:");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        panel.add(titleLabel, gbc);
+        
+        presenterTitleLabel = new JLabel("");
+        presenterTitleLabel.setFont(new Font("SansSerif", Font.ITALIC, 12));
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        panel.add(presenterTitleLabel, gbc);
         row++;
         
         // Add spacing
         gbc.gridy = row;
         gbc.gridx = 0;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
+        gbc.weightx = 0.0;
         panel.add(new JLabel(" "), gbc);
         row++;
         
@@ -149,77 +167,96 @@ public class EvaluationFormPanel extends JPanel {
         rubricLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = row;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
+        gbc.weightx = 0.0;
         panel.add(rubricLabel, gbc);
         row++;
         
-        // Problem Clarity
+        // Row 1: Problem Clarity and Methodology (2x2 layout)
         gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.25;
+        
         JLabel problemClarityLabel = new JLabel("Problem Clarity:");
         gbc.gridx = 0;
         gbc.gridy = row;
         panel.add(problemClarityLabel, gbc);
         
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.25;
         problemClaritySpinner = createScoreSpinner();
         gbc.gridx = 1;
         gbc.gridy = row;
         panel.add(problemClaritySpinner, gbc);
-        row++;
         
-        // Methodology
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.25;
         JLabel methodologyLabel = new JLabel("Methodology:");
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = row;
         panel.add(methodologyLabel, gbc);
         
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.25;
         methodologySpinner = createScoreSpinner();
-        gbc.gridx = 1;
+        gbc.gridx = 3;
         gbc.gridy = row;
         panel.add(methodologySpinner, gbc);
         row++;
         
-        // Results
+        // Row 2: Results and Presentation
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.25;
         JLabel resultsLabel = new JLabel("Results:");
         gbc.gridx = 0;
         gbc.gridy = row;
         panel.add(resultsLabel, gbc);
         
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.25;
         resultsSpinner = createScoreSpinner();
         gbc.gridx = 1;
         gbc.gridy = row;
         panel.add(resultsSpinner, gbc);
-        row++;
         
-        // Presentation
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.25;
         JLabel presentationLabel = new JLabel("Presentation:");
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = row;
         panel.add(presentationLabel, gbc);
         
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.25;
         presentationSpinner = createScoreSpinner();
-        gbc.gridx = 1;
+        gbc.gridx = 3;
         gbc.gridy = row;
         panel.add(presentationSpinner, gbc);
         row++;
         
         // Total score display
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.25;
         JLabel totalLabel = new JLabel("Total Score:");
         totalLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = row;
         panel.add(totalLabel, gbc);
         
-        totalScoreLabel = new JLabel("0 / 40");
+        gbc.weightx = 0.75;
+        totalScoreLabel = new JLabel("20 / 40");
         totalScoreLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 1;
         gbc.gridy = row;
+        gbc.gridwidth = 3;
         panel.add(totalScoreLabel, gbc);
         row++;
         
         // Add spacing
         gbc.gridy = row;
         gbc.gridx = 0;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
+        gbc.weightx = 0.0;
         panel.add(new JLabel(" "), gbc);
         row++;
         
@@ -228,24 +265,29 @@ public class EvaluationFormPanel extends JPanel {
         commentsLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = row;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
+        gbc.weightx = 0.0;
         panel.add(commentsLabel, gbc);
         row++;
         
-        commentsArea = new JTextArea(5, 40);
+        commentsArea = new JTextArea(8, 40);
         commentsArea.setLineWrap(true);
         commentsArea.setWrapStyleWord(true);
         commentsArea.setBorder(BorderFactory.createLineBorder(java.awt.Color.GRAY));
         JScrollPane commentsScrollPane = new JScrollPane(commentsArea);
-        commentsScrollPane.setPreferredSize(new Dimension(500, 100));
+        commentsScrollPane.setPreferredSize(new Dimension(500, 150));
+        commentsScrollPane.setMinimumSize(new Dimension(400, 120));
         gbc.gridx = 0;
         gbc.gridy = row;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(commentsScrollPane, gbc);
         
         return panel;
     }
+
     
     /**
      * Creates a spinner for score input (1-10).
@@ -254,15 +296,15 @@ public class EvaluationFormPanel extends JPanel {
     private JSpinner createScoreSpinner() {
         SpinnerNumberModel model = new SpinnerNumberModel(5, 1, 10, 1);
         JSpinner spinner = new JSpinner(model);
-        spinner.setPreferredSize(new Dimension(80, 30));
+        spinner.setPreferredSize(new Dimension(100, 35));
+        spinner.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        
+        // Make the spinner editor larger
+        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
+        editor.getTextField().setFont(new Font("SansSerif", Font.PLAIN, 16));
         
         // Add change listener to update total score
-        spinner.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                updateTotalScore();
-            }
-        });
+        spinner.addChangeListener(e -> updateTotalScore());
         
         return spinner;
     }
@@ -309,13 +351,10 @@ public class EvaluationFormPanel extends JPanel {
     private void submitEvaluation() {
         try {
             // Validate presenter selection
-            if (presenterComboBox.getSelectedItem() == null) {
-                ErrorHandler.showWarning(this, "Please select a presenter to evaluate.");
+            if (selectedPresenter == null) {
+                ErrorHandler.showWarning(this, "No presenter selected. Please go back and select a presenter.");
                 return;
             }
-            
-            PresenterItem selectedItem = (PresenterItem) presenterComboBox.getSelectedItem();
-            Student presenter = selectedItem.getStudent();
             
             // Get current evaluator
             User currentUser = app.getCurrentUser();
@@ -340,26 +379,32 @@ public class EvaluationFormPanel extends JPanel {
             
             // Create evaluation
             Evaluation evaluation = new Evaluation();
-            evaluation.setPresenterId(presenter.getPresenterId());
+            evaluation.setPresenterId(selectedPresenter.getPresenterId());
             evaluation.setEvaluatorId(evaluator.getId());
-            evaluation.setSessionId(selectedItem.getSessionId());
+            evaluation.setSessionId(selectedSessionId);
             evaluation.setScores(scores);
             evaluation.setComments(comments);
             
             // Submit evaluation
+            boolean isUpdate = evaluationService.getEvaluationByEvaluatorAndPresenter(
+                evaluator.getId(), 
+                selectedPresenter.getPresenterId()
+            ) != null;
+            
             evaluationService.submitEvaluation(evaluation);
             
             // Auto-save after submitting evaluation
             app.autoSave();
             
             // Show success message
+            String action = isUpdate ? "updated" : "submitted";
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Evaluation submitted successfully!\nTotal Score: " + scores.getTotalScore() + " / 40",
+                "Evaluation " + action + " successfully!\nTotal Score: " + scores.getTotalScore() + " / 40",
                 "Success",
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
-            // Reset form
-            resetForm();
+            // Navigate back to dashboard
+            navigateBack();
             
         } catch (IllegalArgumentException ex) {
             ErrorHandler.showError(this, "Validation Error: " + ex.getMessage());
@@ -376,51 +421,70 @@ public class EvaluationFormPanel extends JPanel {
     }
     
     /**
-     * Refreshes the form with current evaluator's assigned presenters.
+     * Sets the presenter to evaluate.
+     * Called from EvaluatorDashboard when navigating to this form.
+     * Loads existing evaluation if one exists.
+     * @param presenter the selected presenter
+     * @param sessionId the session ID
      */
-    public void refresh() {
-        User currentUser = app.getCurrentUser();
-        if (!(currentUser instanceof Evaluator)) {
-            return;
-        }
+    public void setPresenter(Student presenter, String sessionId) {
+        this.selectedPresenter = presenter;
+        this.selectedSessionId = sessionId;
         
-        Evaluator evaluator = (Evaluator) currentUser;
-        loadAssignedPresenters(evaluator);
-        resetForm();
+        if (presenter != null) {
+            presenterNameLabel.setText(presenter.getUsername());
+            presenterTitleLabel.setText(presenter.getResearchTitle() != null ? presenter.getResearchTitle() : "");
+            
+            // Check if evaluation already exists for this evaluator-presenter pair
+            User currentUser = app.getCurrentUser();
+            if (currentUser instanceof Evaluator) {
+                Evaluator evaluator = (Evaluator) currentUser;
+                Evaluation existingEvaluation = evaluationService.getEvaluationByEvaluatorAndPresenter(
+                    evaluator.getId(), 
+                    presenter.getPresenterId()
+                );
+                
+                if (existingEvaluation != null) {
+                    // Load existing evaluation data
+                    loadEvaluationData(existingEvaluation);
+                    submitButton.setText("Update Evaluation");
+                } else {
+                    // Reset to default values
+                    resetForm();
+                    submitButton.setText("Submit Evaluation");
+                }
+            }
+        } else {
+            presenterNameLabel.setText("No presenter selected");
+            presenterTitleLabel.setText("");
+            resetForm();
+            submitButton.setText("Submit Evaluation");
+        }
     }
     
     /**
-     * Loads the evaluator's assigned presenters into the combo box.
-     * @param evaluator the current evaluator
+     * Loads existing evaluation data into the form.
+     * @param evaluation the existing evaluation
      */
-    private void loadAssignedPresenters(Evaluator evaluator) {
-        assignedPresenters.clear();
-        presenterComboBox.removeAllItems();
-        
-        List<String> assignedSessionIds = evaluator.getAssignedSessionIds();
-        if (assignedSessionIds == null || assignedSessionIds.isEmpty()) {
-            return;
+    private void loadEvaluationData(Evaluation evaluation) {
+        problemClaritySpinner.setValue(evaluation.getScores().getProblemClarity());
+        methodologySpinner.setValue(evaluation.getScores().getMethodology());
+        resultsSpinner.setValue(evaluation.getScores().getResults());
+        presentationSpinner.setValue(evaluation.getScores().getPresentation());
+        commentsArea.setText(evaluation.getComments() != null ? evaluation.getComments() : "");
+        updateTotalScore();
+    }
+    
+    /**
+     * Refreshes the form - resets to default values.
+     */
+    public void refresh() {
+        // If no presenter is set, clear the display
+        if (selectedPresenter == null) {
+            presenterNameLabel.setText("No presenter selected");
+            presenterTitleLabel.setText("");
         }
-        
-        // For each assigned session, get all presenters
-        for (String sessionId : assignedSessionIds) {
-            Session session = app.getSessionService().getSessionById(sessionId);
-            if (session == null) {
-                continue;
-            }
-            
-            List<String> presenterIds = session.getPresenterIds();
-            if (presenterIds != null) {
-                for (String presenterId : presenterIds) {
-                    Student student = userService.getStudentByPresenterId(presenterId);
-                    if (student != null) {
-                        assignedPresenters.add(student);
-                        PresenterItem item = new PresenterItem(student, sessionId);
-                        presenterComboBox.addItem(item);
-                    }
-                }
-            }
-        }
+        resetForm();
     }
     
     /**
@@ -435,36 +499,10 @@ public class EvaluationFormPanel extends JPanel {
         updateTotalScore();
     }
     
-    /**
-     * Helper class to store presenter information in combo box.
-     */
-    private static class PresenterItem {
-        private final Student student;
-        private final String sessionId;
-        
-        public PresenterItem(Student student, String sessionId) {
-            this.student = student;
-            this.sessionId = sessionId;
-        }
-        
-        public Student getStudent() {
-            return student;
-        }
-        
-        public String getSessionId() {
-            return sessionId;
-        }
-        
-        @Override
-        public String toString() {
-            return student.getUsername() + " - " + student.getResearchTitle();
-        }
-    }
-    
     // Getter methods for testing purposes
     
-    public JComboBox<PresenterItem> getPresenterComboBox() {
-        return presenterComboBox;
+    public JLabel getPresenterNameLabel() {
+        return presenterNameLabel;
     }
     
     public JSpinner getProblemClaritySpinner() {

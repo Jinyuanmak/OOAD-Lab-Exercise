@@ -21,18 +21,47 @@ public class EvaluationService {
 
     /**
      * Submits an evaluation with score validation.
+     * Checks if an evaluation already exists for this evaluator-presenter pair.
+     * If exists, updates it; otherwise creates a new one.
      * @param evaluation the evaluation to submit
      * @throws IllegalArgumentException if validation fails
      */
     public void submitEvaluation(Evaluation evaluation) {
         validateEvaluation(evaluation);
         
-        // Generate evaluation ID if not set
-        if (evaluation.getEvaluationId() == null || evaluation.getEvaluationId().isEmpty()) {
-            evaluation.setEvaluationId(IdGenerator.generateEvaluationId());
-        }
+        // Check if evaluation already exists for this evaluator-presenter pair
+        Evaluation existingEvaluation = getEvaluationByEvaluatorAndPresenter(
+            evaluation.getEvaluatorId(), 
+            evaluation.getPresenterId()
+        );
         
-        dataStore.addEvaluation(evaluation);
+        if (existingEvaluation != null) {
+            // Update existing evaluation
+            evaluation.setEvaluationId(existingEvaluation.getEvaluationId());
+            dataStore.updateEvaluation(evaluation);
+        } else {
+            // Create new evaluation
+            if (evaluation.getEvaluationId() == null || evaluation.getEvaluationId().isEmpty()) {
+                evaluation.setEvaluationId(IdGenerator.generateEvaluationId());
+            }
+            dataStore.addEvaluation(evaluation);
+        }
+    }
+    
+    /**
+     * Gets an evaluation by evaluator and presenter.
+     * @param evaluatorId the evaluator ID
+     * @param presenterId the presenter ID
+     * @return the evaluation if found, null otherwise
+     */
+    public Evaluation getEvaluationByEvaluatorAndPresenter(String evaluatorId, String presenterId) {
+        for (Evaluation evaluation : dataStore.getEvaluations().values()) {
+            if (evaluatorId.equals(evaluation.getEvaluatorId()) && 
+                presenterId.equals(evaluation.getPresenterId())) {
+                return evaluation;
+            }
+        }
+        return null;
     }
 
     /**

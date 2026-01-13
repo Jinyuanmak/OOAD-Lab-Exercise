@@ -167,6 +167,15 @@ public class DataStore {
             }
         }
     }
+    
+    public void updateEvaluation(Evaluation evaluation) {
+        if (evaluation != null && evaluation.getEvaluationId() != null) {
+            evaluations.put(evaluation.getEvaluationId(), evaluation);
+            if (dbManager != null && dbManager.isConnected()) {
+                dbManager.updateEvaluation(evaluation);
+            }
+        }
+    }
 
     public Evaluation getEvaluation(String evaluationId) {
         return evaluations.get(evaluationId);
