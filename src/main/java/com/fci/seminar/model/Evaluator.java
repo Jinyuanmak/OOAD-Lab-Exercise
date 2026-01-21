@@ -14,12 +14,12 @@ public class Evaluator extends User {
 
     public Evaluator() {
         super();
-        setRole(UserRole.EVALUATOR);
+        setRole(UserRole.PANEL_MEMBER);
         this.assignedSessionIds = new ArrayList<>();
     }
 
     public Evaluator(String id, String username, String password) {
-        super(id, username, password, UserRole.EVALUATOR);
+        super(id, username, password, UserRole.PANEL_MEMBER);
         this.assignedSessionIds = new ArrayList<>();
     }
 

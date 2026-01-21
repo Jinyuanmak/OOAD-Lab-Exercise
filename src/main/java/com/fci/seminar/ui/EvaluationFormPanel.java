@@ -41,6 +41,7 @@ public class EvaluationFormPanel extends JPanel {
     
     private JLabel presenterNameLabel;
     private JLabel presenterTitleLabel;
+    private JButton downloadMaterialsButton;
     private JSpinner problemClaritySpinner;
     private JSpinner methodologySpinner;
     private JSpinner resultsSpinner;
@@ -152,6 +153,26 @@ public class EvaluationFormPanel extends JPanel {
         gbc.gridwidth = 3;
         gbc.weightx = 1.0;
         panel.add(presenterTitleLabel, gbc);
+        row++;
+        
+        // Download materials button
+        JLabel materialsLabel = new JLabel("Materials:");
+        materialsLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        panel.add(materialsLabel, gbc);
+        
+        downloadMaterialsButton = new JButton("Download Presentation Materials");
+        downloadMaterialsButton.setPreferredSize(new Dimension(250, 30));
+        downloadMaterialsButton.addActionListener(e -> downloadMaterials());
+        downloadMaterialsButton.setEnabled(false);
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        panel.add(downloadMaterialsButton, gbc);
         row++;
         
         // Add spacing
@@ -414,6 +435,70 @@ public class EvaluationFormPanel extends JPanel {
     }
     
     /**
+     * Downloads the presentation materials for the selected presenter.
+     */
+    private void downloadMaterials() {
+        if (selectedPresenter == null) {
+            ErrorHandler.showError(this, "No presenter selected.");
+            return;
+        }
+        
+        String filePath = selectedPresenter.getFilePath();
+        
+        if (filePath == null || filePath.trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "No materials have been uploaded by this presenter.",
+                "No Materials",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+        
+        java.io.File sourceFile = new java.io.File(filePath);
+        
+        if (!sourceFile.exists()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "The uploaded file could not be found at:\n" + filePath,
+                "File Not Found",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        // Open file chooser to select download location
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Save Presentation Materials");
+        fileChooser.setSelectedFile(new java.io.File(sourceFile.getName()));
+        
+        int result = fileChooser.showSaveDialog(this);
+        
+        if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File destFile = fileChooser.getSelectedFile();
+            
+            try {
+                // Copy file to selected location
+                java.nio.file.Files.copy(
+                    sourceFile.toPath(),
+                    destFile.toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                );
+                
+                javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Materials downloaded successfully to:\n" + destFile.getAbsolutePath(),
+                    "Download Complete",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE
+                );
+                
+            } catch (java.io.IOException e) {
+                ErrorHandler.showError(this, "Failed to download materials: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
      * Navigates back to the evaluator dashboard.
      */
     private void navigateBack() {
@@ -434,6 +519,15 @@ public class EvaluationFormPanel extends JPanel {
         if (presenter != null) {
             presenterNameLabel.setText(presenter.getUsername());
             presenterTitleLabel.setText(presenter.getResearchTitle() != null ? presenter.getResearchTitle() : "");
+            
+            // Enable/disable download button based on whether materials exist
+            if (presenter.getFilePath() != null && !presenter.getFilePath().trim().isEmpty()) {
+                downloadMaterialsButton.setEnabled(true);
+                downloadMaterialsButton.setText("Download Presentation Materials");
+            } else {
+                downloadMaterialsButton.setEnabled(false);
+                downloadMaterialsButton.setText("No Materials Uploaded");
+            }
             
             // Check if evaluation already exists for this evaluator-presenter pair
             User currentUser = app.getCurrentUser();
@@ -457,6 +551,8 @@ public class EvaluationFormPanel extends JPanel {
         } else {
             presenterNameLabel.setText("No presenter selected");
             presenterTitleLabel.setText("");
+            downloadMaterialsButton.setEnabled(false);
+            downloadMaterialsButton.setText("No Materials Uploaded");
             resetForm();
             submitButton.setText("Submit Evaluation");
         }

@@ -45,7 +45,10 @@ public class SessionManagementPanel extends JPanel {
     private JTable sessionTable;
     private DefaultTableModel tableModel;
     private JTextField dateField;
+    private JLabel venueLabel;
     private JComboBox<String> venueCombo;
+    private JLabel customVenueLabel;
+    private JTextField customVenueField;
     private JComboBox<PresentationType> sessionTypeCombo;
     private JButton createButton;
     private JButton editButton;
@@ -137,6 +140,14 @@ public class SessionManagementPanel extends JPanel {
             }
         });
         
+        // Set column widths for better display of IDs
+        sessionTable.getColumnModel().getColumn(0).setPreferredWidth(100); // Session ID
+        sessionTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Date
+        sessionTable.getColumnModel().getColumn(2).setPreferredWidth(150); // Venue
+        sessionTable.getColumnModel().getColumn(3).setPreferredWidth(80);  // Type
+        sessionTable.getColumnModel().getColumn(4).setPreferredWidth(150); // Presenters
+        sessionTable.getColumnModel().getColumn(5).setPreferredWidth(150); // Evaluators
+        
         JScrollPane scrollPane = new JScrollPane(sessionTable);
         scrollPane.setPreferredSize(new Dimension(500, 300));
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -151,7 +162,7 @@ public class SessionManagementPanel extends JPanel {
     private JPanel createFormPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createTitledBorder("Session Details"));
-        panel.setPreferredSize(new Dimension(280, 300));
+        panel.setPreferredSize(new Dimension(280, 350));
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
@@ -173,25 +184,41 @@ public class SessionManagementPanel extends JPanel {
         gbc.gridy = row++;
         panel.add(dateField, gbc);
         
-        // Venue dropdown
-        JLabel venueLabel = new JLabel("Venue:");
+        // Session type combo (moved before venue)
+        JLabel typeLabel = new JLabel("Session Type:");
+        gbc.gridy = row++;
+        panel.add(typeLabel, gbc);
+        
+        sessionTypeCombo = new JComboBox<>(PresentationType.values());
+        sessionTypeCombo.addActionListener(e -> updateVenueVisibility());
+        gbc.gridy = row++;
+        panel.add(sessionTypeCombo, gbc);
+        
+        // Venue dropdown (conditionally visible)
+        venueLabel = new JLabel("Venue:");
         gbc.gridy = row++;
         panel.add(venueLabel, gbc);
         
         venueCombo = new JComboBox<>();
         loadVenues();
         venueCombo.setPreferredSize(new Dimension(200, 28));
+        venueCombo.addActionListener(e -> updateCustomVenueVisibility());
         gbc.gridy = row++;
         panel.add(venueCombo, gbc);
         
-        // Session type combo
-        JLabel typeLabel = new JLabel("Session Type:");
+        // Custom venue text field (only visible when "Others" is selected)
+        customVenueLabel = new JLabel("Custom Venue:");
         gbc.gridy = row++;
-        panel.add(typeLabel, gbc);
+        panel.add(customVenueLabel, gbc);
         
-        sessionTypeCombo = new JComboBox<>(PresentationType.values());
+        customVenueField = new JTextField(15);
+        customVenueField.setPreferredSize(new Dimension(200, 28));
         gbc.gridy = row++;
-        panel.add(sessionTypeCombo, gbc);
+        panel.add(customVenueField, gbc);
+        
+        // Initially hide custom venue field
+        customVenueLabel.setVisible(false);
+        customVenueField.setVisible(false);
         
         // Action buttons
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -200,7 +227,7 @@ public class SessionManagementPanel extends JPanel {
         createButton.addActionListener(e -> createSession());
         actionPanel.add(createButton);
         
-        editButton = new JButton("Update");
+        editButton = new JButton("Edit");
         editButton.setEnabled(false);
         editButton.addActionListener(e -> updateSession());
         actionPanel.add(editButton);
@@ -221,7 +248,46 @@ public class SessionManagementPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(clearButton, gbc);
         
+        // Set initial visibility based on default session type
+        updateVenueVisibility();
+        
         return panel;
+    }
+    
+    /**
+     * Updates venue field visibility based on session type.
+     * ORAL sessions don't need venue, POSTER sessions do.
+     */
+    private void updateVenueVisibility() {
+        PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
+        boolean showVenue = (type == PresentationType.POSTER);
+        
+        venueLabel.setVisible(showVenue);
+        venueCombo.setVisible(showVenue);
+        
+        // Also update custom venue visibility
+        if (showVenue) {
+            updateCustomVenueVisibility();
+        } else {
+            customVenueLabel.setVisible(false);
+            customVenueField.setVisible(false);
+        }
+    }
+    
+    /**
+     * Updates custom venue field visibility based on dropdown selection.
+     * Shows custom field when "Others" is selected.
+     */
+    private void updateCustomVenueVisibility() {
+        String selectedVenue = (String) venueCombo.getSelectedItem();
+        boolean showCustom = "Others".equals(selectedVenue);
+        
+        customVenueLabel.setVisible(showCustom);
+        customVenueField.setVisible(showCustom);
+        
+        if (showCustom) {
+            customVenueField.requestFocus();
+        }
     }
     
     /**
@@ -325,6 +391,9 @@ public class SessionManagementPanel extends JPanel {
             venueCombo.addItem("Lecture Hall 1");
             venueCombo.addItem("Lecture Hall 2");
         }
+        
+        // Always add "Others" option at the end
+        venueCombo.addItem("Others");
     }
 
     /**
@@ -361,16 +430,29 @@ public class SessionManagementPanel extends JPanel {
                 // Set date in field
                 dateField.setText(selectedSession.getDate().format(DATE_FORMAT));
                 
-                // Set venue in combo
-                String venue = selectedSession.getVenue();
-                for (int i = 0; i < venueCombo.getItemCount(); i++) {
-                    if (venueCombo.getItemAt(i).equals(venue)) {
-                        venueCombo.setSelectedIndex(i);
-                        break;
+                // Set session type first (this will update venue visibility)
+                sessionTypeCombo.setSelectedItem(selectedSession.getSessionType());
+                
+                // Set venue in combo if it's a POSTER session
+                if (selectedSession.getSessionType() == PresentationType.POSTER) {
+                    String venue = selectedSession.getVenue();
+                    boolean foundVenue = false;
+                    
+                    // Check if venue exists in dropdown
+                    for (int i = 0; i < venueCombo.getItemCount(); i++) {
+                        if (venueCombo.getItemAt(i).equals(venue)) {
+                            venueCombo.setSelectedIndex(i);
+                            foundVenue = true;
+                            break;
+                        }
+                    }
+                    
+                    // If venue not found in dropdown, it's a custom venue
+                    if (!foundVenue && !venue.equals("ONLINE")) {
+                        venueCombo.setSelectedItem("Others");
+                        customVenueField.setText(venue);
                     }
                 }
-                
-                sessionTypeCombo.setSelectedItem(selectedSession.getSessionType());
                 
                 editButton.setEnabled(true);
                 deleteButton.setEnabled(true);
@@ -397,12 +479,31 @@ public class SessionManagementPanel extends JPanel {
     private void createSession() {
         try {
             LocalDate date = getDateFromField();
-            String venue = (String) venueCombo.getSelectedItem();
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
             
-            if (venue == null || venue.isEmpty()) {
-                ErrorHandler.showError(this, "Please select a venue");
-                return;
+            String venue;
+            if (type == PresentationType.ORAL) {
+                // ORAL sessions are online
+                venue = "ONLINE";
+            } else {
+                // POSTER sessions need venue
+                String selectedVenue = (String) venueCombo.getSelectedItem();
+                
+                if (selectedVenue == null || selectedVenue.isEmpty()) {
+                    ErrorHandler.showError(this, "Please select a venue for POSTER session");
+                    return;
+                }
+                
+                if ("Others".equals(selectedVenue)) {
+                    // Use custom venue
+                    venue = customVenueField.getText().trim();
+                    if (venue.isEmpty()) {
+                        ErrorHandler.showError(this, "Please enter a custom venue name");
+                        return;
+                    }
+                } else {
+                    venue = selectedVenue;
+                }
             }
             
             sessionService.createSession(date, venue, type);
@@ -434,12 +535,31 @@ public class SessionManagementPanel extends JPanel {
         
         try {
             LocalDate date = getDateFromField();
-            String venue = (String) venueCombo.getSelectedItem();
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
             
-            if (venue == null || venue.isEmpty()) {
-                ErrorHandler.showError(this, "Please select a venue");
-                return;
+            String venue;
+            if (type == PresentationType.ORAL) {
+                // ORAL sessions are online
+                venue = "ONLINE";
+            } else {
+                // POSTER sessions need venue
+                String selectedVenue = (String) venueCombo.getSelectedItem();
+                
+                if (selectedVenue == null || selectedVenue.isEmpty()) {
+                    ErrorHandler.showError(this, "Please select a venue for POSTER session");
+                    return;
+                }
+                
+                if ("Others".equals(selectedVenue)) {
+                    // Use custom venue
+                    venue = customVenueField.getText().trim();
+                    if (venue.isEmpty()) {
+                        ErrorHandler.showError(this, "Please enter a custom venue name");
+                        return;
+                    }
+                } else {
+                    venue = selectedVenue;
+                }
             }
             
             selectedSession.setDate(date);
@@ -510,11 +630,15 @@ public class SessionManagementPanel extends JPanel {
         if (venueCombo.getItemCount() > 0) {
             venueCombo.setSelectedIndex(0);
         }
+        customVenueField.setText("");
         sessionTypeCombo.setSelectedIndex(0);
         selectedSession = null;
         sessionTable.clearSelection();
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
+        
+        // Reset visibility
+        updateVenueVisibility();
     }
     
     /**
@@ -529,13 +653,23 @@ public class SessionManagementPanel extends JPanel {
         
         List<Session> sessions = sessionService.getAllSessions();
         for (Session session : sessions) {
+            // Format presenter IDs as comma-separated string or "-" if empty
+            String presenterIds = session.getPresenterIds().isEmpty() 
+                ? "-" 
+                : String.join(", ", session.getPresenterIds());
+            
+            // Format evaluator IDs as comma-separated string or "-" if empty
+            String evaluatorIds = session.getEvaluatorIds().isEmpty() 
+                ? "-" 
+                : String.join(", ", session.getEvaluatorIds());
+            
             Object[] row = {
                 session.getSessionId(),
                 session.getDate().format(DATE_FORMAT),
                 session.getVenue(),
                 session.getSessionType(),
-                session.getPresenterIds().size(),
-                session.getEvaluatorIds().size()
+                presenterIds,
+                evaluatorIds
             };
             tableModel.addRow(row);
         }

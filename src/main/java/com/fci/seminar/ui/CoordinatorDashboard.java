@@ -31,6 +31,7 @@ public class CoordinatorDashboard extends JPanel {
     private JButton postersButton;
     private JButton awardsButton;
     private JButton reportsButton;
+    private JButton userManagementButton;
 
     /**
      * Creates a new CoordinatorDashboard.
@@ -135,11 +136,20 @@ public class CoordinatorDashboard extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(reportsButton, gbc);
         
+        // User Management button
+        userManagementButton = createNavButton("Manage Users");
+        userManagementButton.addActionListener(e -> navigateToUserManagement());
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(userManagementButton, gbc);
+        
         // Logout button
         JButton logoutButton = createNavButton("Logout");
         logoutButton.addActionListener(e -> logout());
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(logoutButton, gbc);
@@ -203,6 +213,13 @@ public class CoordinatorDashboard extends JPanel {
     }
     
     /**
+     * Navigates to the user management panel.
+     */
+    private void navigateToUserManagement() {
+        app.showPanel(SeminarApp.USER_MANAGEMENT);
+    }
+    
+    /**
      * Refreshes the dashboard with current user information.
      */
     public void refresh() {
@@ -238,5 +255,9 @@ public class CoordinatorDashboard extends JPanel {
     
     public JButton getReportsButton() {
         return reportsButton;
+    }
+    
+    public JButton getUserManagementButton() {
+        return userManagementButton;
     }
 }

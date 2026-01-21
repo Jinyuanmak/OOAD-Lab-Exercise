@@ -107,57 +107,92 @@ public class DatabaseManager {
     // ==================== USER OPERATIONS ====================
     
     public void saveUser(User user) {
-        String sql = """
-            INSERT INTO users (id, username, password, role, research_title, abstract_text, 
-                              supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                username = VALUES(username),
-                password = VALUES(password),
-                role = VALUES(role),
-                research_title = VALUES(research_title),
-                abstract_text = VALUES(abstract_text),
-                supervisor_name = VALUES(supervisor_name),
-                presentation_type = VALUES(presentation_type),
-                file_path = VALUES(file_path),
-                presenter_id = VALUES(presenter_id),
-                evaluator_id = VALUES(evaluator_id)
-            """;
+        // Check if this is a new user (no ID) or existing user
+        boolean isNewUser = (user.getId() == null || user.getId().isEmpty());
         
-        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-            stmt.setString(1, user.getId());
-            stmt.setString(2, user.getUsername());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getRole().name());
+        String sql;
+        if (isNewUser) {
+            // INSERT without ID - let database auto-generate
+            sql = """
+                INSERT INTO users (username, password, role, student_id, research_title, abstract_text, 
+                                  supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        } else {
+            // UPDATE existing user
+            sql = """
+                INSERT INTO users (id, username, password, role, student_id, research_title, abstract_text, 
+                                  supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    username = VALUES(username),
+                    password = VALUES(password),
+                    role = VALUES(role),
+                    student_id = VALUES(student_id),
+                    research_title = VALUES(research_title),
+                    abstract_text = VALUES(abstract_text),
+                    supervisor_name = VALUES(supervisor_name),
+                    presentation_type = VALUES(presentation_type),
+                    file_path = VALUES(file_path),
+                    presenter_id = VALUES(presenter_id),
+                    evaluator_id = VALUES(evaluator_id)
+                """;
+        }
+        
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql, 
+                isNewUser ? PreparedStatement.RETURN_GENERATED_KEYS : PreparedStatement.NO_GENERATED_KEYS)) {
+            
+            int paramIndex = 1;
+            
+            // Set ID only for existing users
+            if (!isNewUser) {
+                stmt.setString(paramIndex++, user.getId());
+            }
+            
+            stmt.setString(paramIndex++, user.getUsername());
+            stmt.setString(paramIndex++, user.getPassword());
+            stmt.setString(paramIndex++, user.getRole().name());
             
             if (user instanceof Student student) {
-                stmt.setString(5, student.getResearchTitle());
-                stmt.setString(6, student.getAbstractText());
-                stmt.setString(7, student.getSupervisorName());
-                stmt.setString(8, student.getPresentationType() != null ? 
+                stmt.setString(paramIndex++, student.getStudentId());
+                stmt.setString(paramIndex++, student.getResearchTitle());
+                stmt.setString(paramIndex++, student.getAbstractText());
+                stmt.setString(paramIndex++, student.getSupervisorName());
+                stmt.setString(paramIndex++, student.getPresentationType() != null ? 
                     student.getPresentationType().name() : null);
-                stmt.setString(9, student.getFilePath());
-                stmt.setString(10, student.getPresenterId());
-                stmt.setNull(11, java.sql.Types.VARCHAR);
+                stmt.setString(paramIndex++, student.getFilePath());
+                stmt.setString(paramIndex++, student.getPresenterId());
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
             } else if (user instanceof Evaluator evaluator) {
-                stmt.setNull(5, java.sql.Types.VARCHAR);
-                stmt.setNull(6, java.sql.Types.VARCHAR);
-                stmt.setNull(7, java.sql.Types.VARCHAR);
-                stmt.setNull(8, java.sql.Types.VARCHAR);
-                stmt.setNull(9, java.sql.Types.VARCHAR);
-                stmt.setNull(10, java.sql.Types.VARCHAR);
-                stmt.setString(11, evaluator.getEvaluatorId());
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setString(paramIndex++, evaluator.getEvaluatorId());
             } else {
-                stmt.setNull(5, java.sql.Types.VARCHAR);
-                stmt.setNull(6, java.sql.Types.VARCHAR);
-                stmt.setNull(7, java.sql.Types.VARCHAR);
-                stmt.setNull(8, java.sql.Types.VARCHAR);
-                stmt.setNull(9, java.sql.Types.VARCHAR);
-                stmt.setNull(10, java.sql.Types.VARCHAR);
-                stmt.setNull(11, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
             }
             
             stmt.executeUpdate();
+            
+            // Get the generated ID for new users
+            if (isNewUser) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        user.setId(String.valueOf(generatedKeys.getInt(1)));
+                    }
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error saving user: " + e.getMessage());
         }
@@ -228,8 +263,9 @@ public class DatabaseManager {
         User user;
         
         switch (UserRole.valueOf(role)) {
-            case STUDENT -> {
+            case PRESENTER -> {
                 Student student = new Student();
+                student.setStudentId(rs.getString("student_id"));
                 student.setResearchTitle(rs.getString("research_title"));
                 student.setAbstractText(rs.getString("abstract_text"));
                 student.setSupervisorName(rs.getString("supervisor_name"));
@@ -241,7 +277,7 @@ public class DatabaseManager {
                 student.setPresenterId(rs.getString("presenter_id"));
                 user = student;
             }
-            case EVALUATOR -> {
+            case PANEL_MEMBER -> {
                 Evaluator evaluator = new Evaluator();
                 evaluator.setEvaluatorId(rs.getString("evaluator_id"));
                 // Load assigned session IDs

@@ -239,6 +239,7 @@ public class ReportPanel extends JPanel {
     
     /**
      * Exports the current report to a file.
+     * Allows user to choose format: TXT, PDF, or CSV.
      */
     private void exportReport() {
         if (currentReportContent == null || currentReportContent.isEmpty()) {
@@ -246,33 +247,84 @@ public class ReportPanel extends JPanel {
             return;
         }
         
+        // Ask user to select format
+        String[] options = {"TXT (Text)", "PDF (Document)", "CSV (Spreadsheet)"};
+        int choice = javax.swing.JOptionPane.showOptionDialog(
+            this,
+            "Select export format:",
+            "Export Format",
+            javax.swing.JOptionPane.DEFAULT_OPTION,
+            javax.swing.JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+        
+        if (choice == javax.swing.JOptionPane.CLOSED_OPTION) {
+            return; // User cancelled
+        }
+        
+        String format;
+        String extension;
+        String filterDescription;
+        
+        switch (choice) {
+            case 0: // TXT
+                format = "txt";
+                extension = ".txt";
+                filterDescription = "Text Files (*.txt)";
+                break;
+            case 1: // PDF
+                format = "pdf";
+                extension = ".pdf";
+                filterDescription = "PDF Files (*.pdf)";
+                break;
+            case 2: // CSV
+                format = "csv";
+                extension = ".csv";
+                filterDescription = "CSV Files (*.csv)";
+                break;
+            default:
+                return;
+        }
+        
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Export Report");
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter(filterDescription, format));
         
-        // Suggest filename based on report type
-        String suggestedName = currentReportType + "_report.txt";
+        // Suggest filename based on report type and format
+        String suggestedName = currentReportType + "_report" + extension;
         fileChooser.setSelectedFile(new File(suggestedName));
         
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             
-            // Add .txt extension if not present
+            // Add extension if not present
             String filePath = selectedFile.getAbsolutePath();
-            if (!filePath.toLowerCase().endsWith(".txt")) {
-                filePath += ".txt";
+            if (!filePath.toLowerCase().endsWith(extension)) {
+                filePath += extension;
             }
             
             try {
-                reportService.exportToFile(currentReportContent, filePath);
+                switch (format) {
+                    case "txt":
+                        reportService.exportToFile(currentReportContent, filePath);
+                        break;
+                    case "pdf":
+                        reportService.exportToPDF(currentReportContent, filePath, currentReportType);
+                        break;
+                    case "csv":
+                        reportService.exportToCSV(currentReportContent, filePath, currentReportType);
+                        break;
+                }
                 
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Report exported successfully to:\n" + filePath,
                     "Export Successful",
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 
-                statusLabel.setText("Report exported");
+                statusLabel.setText("Report exported as " + format.toUpperCase());
                 
             } catch (IOException e) {
                 ErrorHandler.showError(this, "Failed to export report: " + e.getMessage());

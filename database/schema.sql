@@ -18,11 +18,12 @@ DROP TABLE IF EXISTS users;
 
 -- Users table (base for all user types)
 CREATE TABLE users (
-    id VARCHAR(50) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
-    role ENUM('STUDENT', 'EVALUATOR', 'COORDINATOR') NOT NULL,
+    role ENUM('PRESENTER', 'PANEL_MEMBER', 'COORDINATOR') NOT NULL,
     -- Student-specific fields
+    student_id VARCHAR(10) UNIQUE,
     research_title VARCHAR(200),
     abstract_text TEXT,
     supervisor_name VARCHAR(100),
@@ -71,7 +72,6 @@ CREATE TABLE session_evaluators (
     evaluator_id VARCHAR(50) NOT NULL,
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE,
-    FOREIGN KEY (evaluator_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY unique_session_evaluator (session_id, evaluator_id)
 );
 
@@ -87,7 +87,6 @@ CREATE TABLE evaluations (
     presentation INT NOT NULL CHECK (presentation BETWEEN 1 AND 10),
     comments TEXT,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (evaluator_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
@@ -124,25 +123,12 @@ INSERT INTO venues (venue_name, capacity, venue_type) VALUES
 ('Meeting Room A', 20, 'MEETING_ROOM'),
 ('Meeting Room B', 20, 'MEETING_ROOM');
 
--- Initialize sample users
+-- Initialize admin user only
 -- Coordinator (admin)
-INSERT INTO users (id, username, password, role) VALUES 
-('U-admin01', 'admin', 'admin123', 'COORDINATOR');
+INSERT INTO users (username, password, role) VALUES 
+('admin', 'admin123', 'COORDINATOR');
 
--- Evaluators/Supervisors (with evaluator_id)
-INSERT INTO users (id, username, password, role, evaluator_id) VALUES 
-('U-eval001', 'Dr. Sarah Johnson', 'eval123', 'EVALUATOR', 'EV-eval001'),
-('U-eval002', 'Prof. Michael Chen', 'eval123', 'EVALUATOR', 'EV-eval002'),
-('U-eval003', 'Dr. Emily Rodriguez', 'eval123', 'EVALUATOR', 'EV-eval003'),
-('U-eval004', 'Prof. David Kumar', 'eval123', 'EVALUATOR', 'EV-eval004'),
-('U-eval005', 'Dr. Lisa Anderson', 'eval123', 'EVALUATOR', 'EV-eval005');
-
--- Students (no presenter_id initially - added when they register for seminar)
-INSERT INTO users (id, username, password, role) VALUES 
-('U-stud001', 'student1', 'stud123', 'STUDENT'),
-('U-stud002', 'student2', 'stud123', 'STUDENT'),
-('U-stud003', 'student3', 'stud123', 'STUDENT'),
-('U-stud004', 'student4', 'stud123', 'STUDENT');
+-- Students and Evaluators will sign up through the application
 
 -- Create indexes for better performance
 CREATE INDEX idx_users_username ON users(username);
@@ -154,13 +140,6 @@ CREATE INDEX idx_evaluations_evaluator ON evaluations(evaluator_id);
 -- Show tables created
 SHOW TABLES;
 
--- Display sample users
-SELECT 'Sample users created successfully!' AS message;
-SELECT username, role, 
-       CASE 
-           WHEN role = 'EVALUATOR' THEN evaluator_id
-           WHEN role = 'STUDENT' THEN COALESCE(presenter_id, 'Not registered yet')
-           ELSE 'N/A'
-       END AS special_id
-FROM users
-ORDER BY role, username;
+-- Display admin user
+SELECT 'Admin user created successfully!' AS message;
+SELECT username, role FROM users WHERE role = 'COORDINATOR';

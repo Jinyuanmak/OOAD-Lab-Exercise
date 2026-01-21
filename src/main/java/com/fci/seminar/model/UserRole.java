@@ -4,7 +4,7 @@ package com.fci.seminar.model;
  * Enum representing the different user roles in the Seminar Management System.
  */
 public enum UserRole {
-    STUDENT,
-    EVALUATOR,
+    PRESENTER,
+    PANEL_MEMBER,
     COORDINATOR
 }

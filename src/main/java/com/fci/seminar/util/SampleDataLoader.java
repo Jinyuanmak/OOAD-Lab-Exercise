@@ -38,7 +38,7 @@ public class SampleDataLoader {
         Evaluator evaluator1 = new Evaluator();
         evaluator1.setUsername("eval1");
         evaluator1.setPassword("eval123");
-        evaluator1.setRole(UserRole.EVALUATOR);
+        evaluator1.setRole(UserRole.PANEL_MEMBER);
         evaluator1.setId(IdGenerator.generateUserId());
         evaluator1.setEvaluatorId(IdGenerator.generateEvaluatorId());
         dataStore.addUser(evaluator1);
@@ -46,7 +46,7 @@ public class SampleDataLoader {
         Evaluator evaluator2 = new Evaluator();
         evaluator2.setUsername("eval2");
         evaluator2.setPassword("eval123");
-        evaluator2.setRole(UserRole.EVALUATOR);
+        evaluator2.setRole(UserRole.PANEL_MEMBER);
         evaluator2.setId(IdGenerator.generateUserId());
         evaluator2.setEvaluatorId(IdGenerator.generateEvaluatorId());
         dataStore.addUser(evaluator2);
@@ -68,7 +68,7 @@ public class SampleDataLoader {
         Student student = new Student();
         student.setUsername(username);
         student.setPassword(password);
-        student.setRole(UserRole.STUDENT);
+        student.setRole(UserRole.PRESENTER);
         student.setId(IdGenerator.generateUserId());
         dataStore.addUser(student);
     }

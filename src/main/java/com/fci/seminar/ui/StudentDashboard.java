@@ -28,7 +28,6 @@ public class StudentDashboard extends JPanel {
     private final SeminarApp app;
     private JLabel welcomeLabel;
     private JButton registrationButton;
-    private JButton uploadButton;
 
     /**
      * Creates a new StudentDashboard.
@@ -103,22 +102,13 @@ public class StudentDashboard extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         panel.add(registrationButton, gbc);
         
-        // Upload button
-        uploadButton = new JButton("Upload Presentation Materials");
-        uploadButton.setPreferredSize(new Dimension(250, 50));
-        uploadButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        uploadButton.addActionListener(e -> navigateToUpload());
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        panel.add(uploadButton, gbc);
-        
         // Logout button
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(250, 50));
         logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         logoutButton.addActionListener(e -> logout());
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         panel.add(logoutButton, gbc);
         
         return panel;
@@ -137,13 +127,6 @@ public class StudentDashboard extends JPanel {
      */
     private void navigateToRegistration() {
         app.showPanel(SeminarApp.STUDENT_REGISTRATION);
-    }
-    
-    /**
-     * Navigates to the file upload panel.
-     */
-    private void navigateToUpload() {
-        app.showPanel(SeminarApp.FILE_UPLOAD);
     }
     
     /**
@@ -183,13 +166,5 @@ public class StudentDashboard extends JPanel {
      */
     public JButton getRegistrationButton() {
         return registrationButton;
-    }
-    
-    /**
-     * Gets the upload button for testing purposes.
-     * @return the upload button
-     */
-    public JButton getUploadButton() {
-        return uploadButton;
     }
 }

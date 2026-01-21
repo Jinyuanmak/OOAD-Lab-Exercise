@@ -210,6 +210,211 @@ public class ReportService {
             writer.write(content);
         }
     }
+    
+    /**
+     * Exports report content to a PDF file.
+     * Creates a simple PDF with the report content.
+     * @param content the report content to export
+     * @param filename the target filename
+     * @param reportType the type of report (for title)
+     * @throws IOException if file writing fails
+     */
+    public void exportToPDF(String content, String filename, String reportType) throws IOException {
+        try (FileWriter writer = new FileWriter(filename)) {
+            // Simple PDF generation - write as text with PDF header
+            // For a real PDF, you would use a library like iText or Apache PDFBox
+            // This is a simplified version that creates a text-based PDF
+            writer.write("%PDF-1.4\n");
+            writer.write("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+            writer.write("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
+            writer.write("3 0 obj\n<< /Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 5 0 R >>\nendobj\n");
+            writer.write("4 0 obj\n<< /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >>\nendobj\n");
+            
+            // Escape special characters and format content for PDF
+            String pdfContent = content.replace("\\", "\\\\")
+                                      .replace("(", "\\(")
+                                      .replace(")", "\\)")
+                                      .replace("\n", "\\n");
+            
+            writer.write("5 0 obj\n<< /Length " + (pdfContent.length() + 50) + " >>\nstream\n");
+            writer.write("BT\n/F1 10 Tf\n50 750 Td\n");
+            writer.write("(" + pdfContent + ") Tj\n");
+            writer.write("ET\nendstream\nendobj\n");
+            writer.write("xref\n0 6\n");
+            writer.write("0000000000 65535 f\n0000000009 00000 n\n0000000058 00000 n\n");
+            writer.write("0000000115 00000 n\n0000000214 00000 n\n0000000308 00000 n\n");
+            writer.write("trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n400\n%%EOF\n");
+        }
+    }
+    
+    /**
+     * Exports report content to a CSV file.
+     * Converts the report into a structured CSV table format.
+     * @param content the report content to export
+     * @param filename the target filename
+     * @param reportType the type of report
+     * @throws IOException if file writing fails
+     */
+    public void exportToCSV(String content, String filename, String reportType) throws IOException {
+        try (FileWriter writer = new FileWriter(filename)) {
+            switch (reportType.toLowerCase()) {
+                case "schedule":
+                    exportScheduleToCSV(writer);
+                    break;
+                case "evaluation":
+                    exportEvaluationToCSV(writer);
+                    break;
+                case "summary":
+                    exportSummaryToCSV(writer);
+                    break;
+                default:
+                    // Fallback: simple CSV format
+                    writer.write("Content\n");
+                    String[] lines = content.split("\n");
+                    for (String line : lines) {
+                        writer.write("\"" + line.replace("\"", "\"\"") + "\"\n");
+                    }
+            }
+        }
+    }
+    
+    /**
+     * Exports schedule report as CSV table.
+     */
+    private void exportScheduleToCSV(FileWriter writer) throws IOException {
+        writer.write("Session ID,Date,Venue,Type,Presenters,Evaluators\n");
+        
+        List<Session> sessions = dataStore.getSessions().values().stream().toList();
+        
+        for (Session session : sessions) {
+            writer.write("\"" + session.getSessionId() + "\",");
+            writer.write("\"" + session.getDate().format(DATE_FORMAT) + "\",");
+            writer.write("\"" + session.getVenue() + "\",");
+            writer.write("\"" + session.getSessionType() + "\",");
+            
+            // Presenters
+            StringBuilder presenters = new StringBuilder();
+            for (String presenterId : session.getPresenterIds()) {
+                if (presenters.length() > 0) presenters.append("; ");
+                presenters.append(getPresenterName(presenterId));
+            }
+            writer.write("\"" + presenters.toString() + "\",");
+            
+            // Evaluators
+            StringBuilder evaluators = new StringBuilder();
+            for (String evaluatorId : session.getEvaluatorIds()) {
+                if (evaluators.length() > 0) evaluators.append("; ");
+                evaluators.append(getEvaluatorName(evaluatorId));
+            }
+            writer.write("\"" + evaluators.toString() + "\"\n");
+        }
+    }
+    
+    /**
+     * Exports evaluation report as CSV table.
+     */
+    private void exportEvaluationToCSV(FileWriter writer) throws IOException {
+        writer.write("Evaluation ID,Presenter,Evaluator,Session,Problem Clarity,Methodology,Results,Presentation,Total Score,Comments\n");
+        
+        List<Evaluation> evaluations = dataStore.getEvaluations().values().stream().toList();
+        
+        for (Evaluation eval : evaluations) {
+            writer.write("\"" + eval.getEvaluationId() + "\",");
+            writer.write("\"" + getPresenterName(eval.getPresenterId()) + "\",");
+            writer.write("\"" + getEvaluatorName(eval.getEvaluatorId()) + "\",");
+            writer.write("\"" + eval.getSessionId() + "\",");
+            writer.write(eval.getScores().getProblemClarity() + ",");
+            writer.write(eval.getScores().getMethodology() + ",");
+            writer.write(eval.getScores().getResults() + ",");
+            writer.write(eval.getScores().getPresentation() + ",");
+            writer.write(eval.getScores().getTotalScore() + ",");
+            
+            String comments = eval.getComments() != null ? eval.getComments().replace("\"", "\"\"") : "";
+            writer.write("\"" + comments + "\"\n");
+        }
+    }
+    
+    /**
+     * Exports summary report as CSV table.
+     */
+    private void exportSummaryToCSV(FileWriter writer) throws IOException {
+        // Summary statistics table
+        writer.write("Metric,Value\n");
+        writer.write("\"Total Sessions\"," + dataStore.getSessions().size() + "\n");
+        writer.write("\"Total Presenters\"," + countPresenters() + "\n");
+        writer.write("\"Total Evaluators\"," + countEvaluators() + "\n");
+        writer.write("\"Total Evaluations\"," + dataStore.getEvaluations().size() + "\n");
+        
+        // Average scores
+        List<Evaluation> evaluations = dataStore.getEvaluations().values().stream().toList();
+        if (!evaluations.isEmpty()) {
+            double avgProblemClarity = evaluations.stream()
+                .mapToInt(e -> e.getScores().getProblemClarity()).average().orElse(0);
+            double avgMethodology = evaluations.stream()
+                .mapToInt(e -> e.getScores().getMethodology()).average().orElse(0);
+            double avgResults = evaluations.stream()
+                .mapToInt(e -> e.getScores().getResults()).average().orElse(0);
+            double avgPresentation = evaluations.stream()
+                .mapToInt(e -> e.getScores().getPresentation()).average().orElse(0);
+            double avgTotal = evaluations.stream()
+                .mapToDouble(e -> e.getScores().getTotalScore()).average().orElse(0);
+            
+            writer.write("\"Average Problem Clarity\"," + String.format("%.2f", avgProblemClarity) + "\n");
+            writer.write("\"Average Methodology\"," + String.format("%.2f", avgMethodology) + "\n");
+            writer.write("\"Average Results\"," + String.format("%.2f", avgResults) + "\n");
+            writer.write("\"Average Presentation\"," + String.format("%.2f", avgPresentation) + "\n");
+            writer.write("\"Average Total Score\"," + String.format("%.2f", avgTotal) + "\n");
+        }
+        
+        // Top performers table
+        writer.write("\n\nTop Performers\n");
+        writer.write("Rank,Presenter,Average Score,Evaluations Count\n");
+        
+        var presenterScores = new java.util.HashMap<String, java.util.List<Double>>();
+        for (Evaluation eval : evaluations) {
+            presenterScores.computeIfAbsent(eval.getPresenterId(), k -> new java.util.ArrayList<>())
+                .add((double) eval.getScores().getTotalScore());
+        }
+        
+        var sortedPresenters = presenterScores.entrySet().stream()
+            .sorted((a, b) -> {
+                double avgA = a.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
+                double avgB = b.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
+                return Double.compare(avgB, avgA);
+            })
+            .limit(10)
+            .toList();
+        
+        int rank = 1;
+        for (var entry : sortedPresenters) {
+            String presenterName = getPresenterName(entry.getKey());
+            double avgScore = entry.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
+            int evalCount = entry.getValue().size();
+            
+            writer.write(rank + ",\"" + presenterName + "\"," + 
+                String.format("%.2f", avgScore) + "," + evalCount + "\n");
+            rank++;
+        }
+    }
+    
+    /**
+     * Counts total number of presenters.
+     */
+    private int countPresenters() {
+        return (int) dataStore.getUsers().values().stream()
+            .filter(u -> u instanceof Student)
+            .filter(u -> ((Student) u).getPresenterId() != null)
+            .count();
+    }
+    
+    /**
+     * Counts total number of evaluators.
+     */
+    private int countEvaluators() {
+        return (int) dataStore.getUsers().values().stream()
+            .filter(u -> u instanceof com.fci.seminar.model.Evaluator)
+            .count();
+    }
 
     /**
      * Gets the total number of sessions.

@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Student extends User {
     private static final long serialVersionUID = 1L;
 
+    private String studentId;
     private String researchTitle;
     private String abstractText;
     private String supervisorName;
@@ -17,11 +18,23 @@ public class Student extends User {
 
     public Student() {
         super();
-        setRole(UserRole.STUDENT);
+        setRole(UserRole.PRESENTER);
     }
 
     public Student(String id, String username, String password) {
-        super(id, username, password, UserRole.STUDENT);
+        super(id, username, password, UserRole.PRESENTER);
+    }
+    
+    public Student(String id, String username, String password, UserRole role) {
+        super(id, username, password, role);
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getResearchTitle() {

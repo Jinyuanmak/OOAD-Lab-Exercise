@@ -35,15 +35,16 @@ public class SeminarApp extends JFrame {
     
     // Panel names for CardLayout
     public static final String LOGIN_PANEL = "login";
+    public static final String SIGN_UP_PANEL = "signUp";
     public static final String STUDENT_DASHBOARD = "studentDashboard";
     public static final String STUDENT_REGISTRATION = "studentRegistration";
-    public static final String FILE_UPLOAD = "fileUpload";
     public static final String COORDINATOR_DASHBOARD = "coordinatorDashboard";
     public static final String SESSION_MANAGEMENT = "sessionManagement";
     public static final String ASSIGNMENT_PANEL = "assignmentPanel";
     public static final String POSTER_MANAGEMENT = "posterManagement";
     public static final String AWARD_PANEL = "awardPanel";
     public static final String REPORT_PANEL = "reportPanel";
+    public static final String USER_MANAGEMENT = "userManagement";
     public static final String EVALUATOR_DASHBOARD = "evaluatorDashboard";
     public static final String EVALUATION_FORM = "evaluationForm";
     
@@ -63,7 +64,6 @@ public class SeminarApp extends JFrame {
     private StudentDashboard studentDashboard;
     private EvaluatorDashboard evaluatorDashboard;
     private EvaluationFormPanel evaluationFormPanel;
-    private FileUploadPanel fileUploadPanel;
 
     /**
      * Creates the main application frame.
@@ -128,15 +128,16 @@ public class SeminarApp extends JFrame {
         loginPanel = new LoginPanel(this, userService);
         addPanel(loginPanel, LOGIN_PANEL);
         
+        // Create and register sign up panel
+        SignUpPanel signUpPanel = new SignUpPanel(this, userService);
+        addPanel(signUpPanel, SIGN_UP_PANEL);
+        
         // Create and register student panels
         studentDashboard = new StudentDashboard(this);
         addPanel(studentDashboard, STUDENT_DASHBOARD);
         
         studentRegistrationPanel = new StudentRegistrationPanel(this, userService);
         addPanel(studentRegistrationPanel, STUDENT_REGISTRATION);
-        
-        fileUploadPanel = new FileUploadPanel(this);
-        addPanel(fileUploadPanel, FILE_UPLOAD);
         
         // Create and register coordinator panels
         CoordinatorDashboard coordinatorDashboard = new CoordinatorDashboard(this);
@@ -156,6 +157,9 @@ public class SeminarApp extends JFrame {
         
         ReportPanel reportPanel = new ReportPanel(this, reportService);
         addPanel(reportPanel, REPORT_PANEL);
+        
+        UserManagementPanel userManagementPanel = new UserManagementPanel(this, userService);
+        addPanel(userManagementPanel, USER_MANAGEMENT);
         
         // Create and register evaluator panels
         evaluatorDashboard = new EvaluatorDashboard(this, sessionService, userService);
@@ -230,8 +234,6 @@ public class SeminarApp extends JFrame {
             studentDashboard.refresh();
         } else if (EVALUATOR_DASHBOARD.equals(panelName) && evaluatorDashboard != null) {
             evaluatorDashboard.refresh();
-        } else if (FILE_UPLOAD.equals(panelName) && fileUploadPanel != null) {
-            fileUploadPanel.refresh();
         }
         cardLayout.show(mainPanel, panelName);
     }
@@ -352,10 +354,10 @@ public class SeminarApp extends JFrame {
         }
         
         switch (currentUser.getRole()) {
-            case STUDENT:
+            case PRESENTER:
                 showPanel(STUDENT_DASHBOARD);
                 break;
-            case EVALUATOR:
+            case PANEL_MEMBER:
                 showPanel(EVALUATOR_DASHBOARD);
                 break;
             case COORDINATOR:

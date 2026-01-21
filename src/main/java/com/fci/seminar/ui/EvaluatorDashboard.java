@@ -122,6 +122,16 @@ public class EvaluatorDashboard extends JPanel {
         assignmentsTable.setRowHeight(25);
         assignmentsTable.getTableHeader().setReorderingAllowed(false);
         
+        // Add double-click listener to navigate to evaluation form
+        assignmentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) { // Double-click
+                    navigateToEvaluationForm();
+                }
+            }
+        });
+        
         // Set column widths
         assignmentsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         assignmentsTable.getColumnModel().getColumn(1).setPreferredWidth(150);

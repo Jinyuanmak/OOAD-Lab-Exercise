@@ -86,9 +86,10 @@ public class SessionService {
         
         // Remove evaluator assignments
         for (String evaluatorId : session.getEvaluatorIds()) {
-            User user = dataStore.getUser(evaluatorId);
-            if (user instanceof Evaluator) {
-                ((Evaluator) user).removeAssignedSession(sessionId);
+            Evaluator evaluator = findEvaluatorByEvaluatorId(evaluatorId);
+            if (evaluator != null) {
+                evaluator.removeAssignedSession(sessionId);
+                dataStore.updateUser(evaluator);
             }
         }
         
@@ -120,13 +121,19 @@ public class SessionService {
     /**
      * Assigns an evaluator to a session.
      * @param sessionId the session ID
-     * @param evaluatorId the evaluator ID
+     * @param evaluatorId the evaluator ID (e.g., "EV-3c0c4fbd")
      * @throws IllegalArgumentException if session doesn't exist or conflict detected
      */
     public void assignEvaluator(String sessionId, String evaluatorId) {
         Session session = dataStore.getSession(sessionId);
         if (session == null) {
             throw new IllegalArgumentException("Session does not exist");
+        }
+        
+        // Find evaluator by evaluator ID
+        Evaluator evaluator = findEvaluatorByEvaluatorId(evaluatorId);
+        if (evaluator == null) {
+            throw new IllegalArgumentException("Evaluator not found");
         }
         
         // Check for conflicts
@@ -137,13 +144,27 @@ public class SessionService {
         session.addEvaluator(evaluatorId);
         
         // Update evaluator's assigned sessions
-        User user = dataStore.getUser(evaluatorId);
-        if (user instanceof Evaluator) {
-            ((Evaluator) user).addAssignedSession(sessionId);
-            dataStore.updateUser(user); // Save evaluator to database
-        }
+        evaluator.addAssignedSession(sessionId);
+        dataStore.updateUser(evaluator); // Save evaluator to database
         
         dataStore.updateSession(session); // Save session to database
+    }
+    
+    /**
+     * Finds an evaluator by their evaluator ID.
+     * @param evaluatorId the evaluator ID (e.g., "EV-3c0c4fbd")
+     * @return the evaluator if found, null otherwise
+     */
+    private Evaluator findEvaluatorByEvaluatorId(String evaluatorId) {
+        for (User user : dataStore.getUsers().values()) {
+            if (user instanceof Evaluator) {
+                Evaluator evaluator = (Evaluator) user;
+                if (evaluatorId.equals(evaluator.getEvaluatorId())) {
+                    return evaluator;
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -206,18 +227,18 @@ public class SessionService {
     /**
      * Removes an evaluator from a session.
      * @param sessionId the session ID
-     * @param evaluatorId the evaluator ID to remove
+     * @param evaluatorId the evaluator ID (e.g., "EV-3c0c4fbd")
      */
     public void removeEvaluator(String sessionId, String evaluatorId) {
         Session session = dataStore.getSession(sessionId);
         if (session != null) {
             session.removeEvaluator(evaluatorId);
             
-            // Update evaluator's assigned sessions
-            User user = dataStore.getUser(evaluatorId);
-            if (user instanceof Evaluator) {
-                ((Evaluator) user).removeAssignedSession(sessionId);
-                dataStore.updateUser(user); // Save evaluator to database
+            // Find evaluator by evaluator ID and update their assigned sessions
+            Evaluator evaluator = findEvaluatorByEvaluatorId(evaluatorId);
+            if (evaluator != null) {
+                evaluator.removeAssignedSession(sessionId);
+                dataStore.updateUser(evaluator); // Save evaluator to database
             }
             
             dataStore.updateSession(session); // Save session to database

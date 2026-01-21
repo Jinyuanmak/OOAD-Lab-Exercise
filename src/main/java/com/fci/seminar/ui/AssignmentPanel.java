@@ -361,7 +361,7 @@ public class AssignmentPanel extends JPanel {
         List<Evaluator> allEvaluators = userService.getAllEvaluators();
         for (Evaluator evaluator : allEvaluators) {
             EvaluatorItem item = new EvaluatorItem(evaluator);
-            if (session.getEvaluatorIds().contains(evaluator.getId())) {
+            if (session.getEvaluatorIds().contains(evaluator.getEvaluatorId())) {
                 assignedEvaluatorsModel.addElement(item);
             } else {
                 availableEvaluatorsModel.addElement(item);
@@ -382,6 +382,12 @@ public class AssignmentPanel extends JPanel {
         }
         if (presenterItem == null) {
             ErrorHandler.showError(this, "Please select a presenter to assign");
+            return;
+        }
+        
+        // Check if session already has a presenter assigned
+        if (!sessionItem.session.getPresenterIds().isEmpty()) {
+            ErrorHandler.showError(this, "This session already has a presenter assigned. Please unassign the current presenter first.");
             return;
         }
         
@@ -440,9 +446,15 @@ public class AssignmentPanel extends JPanel {
             return;
         }
         
+        // Check if session already has an evaluator assigned
+        if (!sessionItem.session.getEvaluatorIds().isEmpty()) {
+            ErrorHandler.showError(this, "This session already has an evaluator assigned. Please unassign the current evaluator first.");
+            return;
+        }
+        
         try {
             sessionService.assignEvaluator(sessionItem.session.getSessionId(), 
-                                          evaluatorItem.evaluator.getId());
+                                          evaluatorItem.evaluator.getEvaluatorId());
             app.autoSave();
             updateAssignmentLists(sessionItem.session);
         } catch (IllegalArgumentException e) {
@@ -467,7 +479,7 @@ public class AssignmentPanel extends JPanel {
         }
         
         sessionService.removeEvaluator(sessionItem.session.getSessionId(), 
-                                       evaluatorItem.evaluator.getId());
+                                       evaluatorItem.evaluator.getEvaluatorId());
         app.autoSave();
         updateAssignmentLists(sessionItem.session);
     }

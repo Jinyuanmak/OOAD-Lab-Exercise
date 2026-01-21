@@ -113,7 +113,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(8, 10, 8, 10);
         
         // Username label
-        JLabel usernameLabel = new JLabel("Username");
+        JLabel usernameLabel = new JLabel("Username or Student ID");
         usernameLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -164,8 +164,22 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 5, 10);
         panel.add(loginButton, gbc);
+        
+        // Sign up button
+        JButton signUpButton = new JButton("Create Account");
+        signUpButton.setPreferredSize(new Dimension(300, 38));
+        signUpButton.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        signUpButton.setBackground(java.awt.Color.WHITE);
+        signUpButton.setForeground(new java.awt.Color(41, 98, 255));
+        signUpButton.setFocusPainted(false);
+        signUpButton.setBorder(BorderFactory.createLineBorder(new java.awt.Color(41, 98, 255), 1));
+        signUpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        signUpButton.addActionListener(e -> navigateToSignUp());
+        gbc.gridy = 8;
+        gbc.insets = new Insets(5, 10, 10, 10);
+        panel.add(signUpButton, gbc);
         
         // Add Enter key listener to password field
         passwordField.addActionListener(e -> performLogin());
@@ -174,6 +188,13 @@ public class LoginPanel extends JPanel {
         outerPanel.add(panel);
         
         return outerPanel;
+    }
+    
+    /**
+     * Navigates to the sign up panel.
+     */
+    private void navigateToSignUp() {
+        app.showPanel(SeminarApp.SIGN_UP_PANEL);
     }
 
     
@@ -224,10 +245,10 @@ public class LoginPanel extends JPanel {
      */
     private void navigateToDashboard(UserRole role) {
         switch (role) {
-            case STUDENT:
+            case PRESENTER:
                 app.showPanel(SeminarApp.STUDENT_DASHBOARD);
                 break;
-            case EVALUATOR:
+            case PANEL_MEMBER:
                 app.showPanel(SeminarApp.EVALUATOR_DASHBOARD);
                 break;
             case COORDINATOR:

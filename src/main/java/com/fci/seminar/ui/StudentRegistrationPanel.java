@@ -7,17 +7,20 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fci.seminar.model.PresentationType;
 import com.fci.seminar.model.Student;
@@ -43,9 +46,13 @@ public class StudentRegistrationPanel extends JPanel {
     private JTextArea abstractArea;
     private JComboBox<String> supervisorCombo;
     private JComboBox<PresentationType> presentationTypeCombo;
+    private JTextField filePathField;
+    private JLabel currentFileLabel;
+    private JButton browseButton;
     private JButton submitButton;
     private JButton backButton;
     private boolean isAlreadyRegistered = false;
+    private File selectedFile;
 
     /**
      * Creates a new StudentRegistrationPanel.
@@ -172,11 +179,81 @@ public class StudentRegistrationPanel extends JPanel {
         presentationTypeCombo = new JComboBox<>(PresentationType.values());
         presentationTypeCombo.setPreferredSize(new Dimension(350, 28));
         gbc.gridx = 1;
-        gbc.gridy = row;
+        gbc.gridy = row++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(presentationTypeCombo, gbc);
         
+        // Current file label
+        JLabel currentLabel = new JLabel("Current File:");
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.fill = GridBagConstraints.NONE;
+        panel.add(currentLabel, gbc);
+        
+        currentFileLabel = new JLabel("No file uploaded");
+        currentFileLabel.setFont(new Font("SansSerif", Font.ITALIC, 12));
+        gbc.gridx = 1;
+        gbc.gridy = row++;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(currentFileLabel, gbc);
+        
+        // File upload field
+        JLabel fileLabel = new JLabel("Upload Materials:");
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.fill = GridBagConstraints.NONE;
+        panel.add(fileLabel, gbc);
+        
+        // Create a sub-panel for file path field and browse button
+        JPanel filePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        filePathField = new JTextField(22);
+        filePathField.setPreferredSize(new Dimension(240, 28));
+        filePathField.setEditable(false);
+        filePanel.add(filePathField);
+        
+        browseButton = new JButton("Browse...");
+        browseButton.setPreferredSize(new Dimension(100, 28));
+        browseButton.addActionListener(e -> browseFile());
+        filePanel.add(browseButton);
+        
+        gbc.gridx = 1;
+        gbc.gridy = row++;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(filePanel, gbc);
+        
+        // File format instructions
+        JLabel instructionsLabel = new JLabel("<html><i>Supported: PDF, PPT, PPTX, PNG, JPG</i></html>");
+        instructionsLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        panel.add(instructionsLabel, gbc);
+        
         return panel;
+    }
+    
+    /**
+     * Opens file chooser dialog for file selection.
+     */
+    private void browseFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select Presentation File");
+        
+        // Set file filters
+        FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter("PDF Files (*.pdf)", "pdf");
+        FileNameExtensionFilter pptFilter = new FileNameExtensionFilter("PowerPoint Files (*.ppt, *.pptx)", "ppt", "pptx");
+        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image Files (*.png, *.jpg)", "png", "jpg", "jpeg");
+        
+        fileChooser.addChoosableFileFilter(pdfFilter);
+        fileChooser.addChoosableFileFilter(pptFilter);
+        fileChooser.addChoosableFileFilter(imageFilter);
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+            filePathField.setText(selectedFile.getName()); // Show only filename, not full path
+        }
     }
 
     /**
@@ -250,6 +327,11 @@ public class StudentRegistrationPanel extends JPanel {
         student.setSupervisorName(supervisor);
         student.setPresentationType(type);
         
+        // Save file path if a file was selected
+        if (selectedFile != null && selectedFile.exists()) {
+            student.setFilePath(selectedFile.getAbsolutePath());
+        }
+        
         try {
             // Update the student in the system
             userService.updateStudent(student);
@@ -304,6 +386,9 @@ public class StudentRegistrationPanel extends JPanel {
             supervisorCombo.setSelectedIndex(0);
         }
         presentationTypeCombo.setSelectedIndex(0);
+        filePathField.setText("");
+        currentFileLabel.setText("No file uploaded");
+        selectedFile = null;
     }
     
     /**
@@ -368,6 +453,14 @@ public class StudentRegistrationPanel extends JPanel {
             }
             if (student.getPresentationType() != null) {
                 presentationTypeCombo.setSelectedItem(student.getPresentationType());
+            }
+            if (student.getFilePath() != null && !student.getFilePath().isEmpty()) {
+                File existingFile = new File(student.getFilePath());
+                if (existingFile.exists()) {
+                    currentFileLabel.setText(existingFile.getName());
+                } else {
+                    currentFileLabel.setText(student.getFilePath() + " (file not found)");
+                }
             }
         } else {
             welcomeLabel.setText("Please log in as a student first.");

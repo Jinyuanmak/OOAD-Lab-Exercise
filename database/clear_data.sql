@@ -33,24 +33,11 @@ INSERT INTO venues (venue_name, capacity, venue_type) VALUES
 ('Meeting Room A', 20, 'MEETING_ROOM'),
 ('Meeting Room B', 20, 'MEETING_ROOM');
 
--- Re-initialize sample users
+-- Re-initialize admin user only
 -- Coordinator (admin)
-INSERT INTO users (id, username, password, role) VALUES 
-('U-admin01', 'admin', 'admin123', 'COORDINATOR');
+INSERT INTO users (username, password, role) VALUES 
+('admin', 'admin123', 'COORDINATOR');
 
--- Evaluators/Supervisors (with evaluator_id)
-INSERT INTO users (id, username, password, role, evaluator_id) VALUES 
-('U-eval001', 'Dr. Sarah Johnson', 'eval123', 'EVALUATOR', 'EV-eval001'),
-('U-eval002', 'Prof. Michael Chen', 'eval123', 'EVALUATOR', 'EV-eval002'),
-('U-eval003', 'Dr. Emily Rodriguez', 'eval123', 'EVALUATOR', 'EV-eval003'),
-('U-eval004', 'Prof. David Kumar', 'eval123', 'EVALUATOR', 'EV-eval004'),
-('U-eval005', 'Dr. Lisa Anderson', 'eval123', 'EVALUATOR', 'EV-eval005');
+-- Students and Evaluators will sign up through the application
 
--- Students (no presenter_id initially - added when they register for seminar)
-INSERT INTO users (id, username, password, role) VALUES 
-('U-stud001', 'student1', 'stud123', 'STUDENT'),
-('U-stud002', 'student2', 'stud123', 'STUDENT'),
-('U-stud003', 'student3', 'stud123', 'STUDENT'),
-('U-stud004', 'student4', 'stud123', 'STUDENT');
-
-SELECT 'Database cleared and sample data reloaded successfully!' AS message;
+SELECT 'Database cleared and admin user reloaded successfully!' AS message;

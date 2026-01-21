@@ -85,10 +85,14 @@ public class DataStore {
 
     // User operations
     public void addUser(User user) {
-        if (user != null && user.getId() != null) {
-            users.put(user.getId(), user);
+        if (user != null) {
+            // Save to database first (will set auto-generated ID)
             if (dbManager != null && dbManager.isConnected()) {
                 dbManager.saveUser(user);
+            }
+            // Now add to in-memory map with the generated ID
+            if (user.getId() != null) {
+                users.put(user.getId(), user);
             }
         }
     }
