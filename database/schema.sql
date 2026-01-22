@@ -90,7 +90,7 @@ CREATE TABLE evaluations (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id) ON DELETE CASCADE
 );
 
--- Poster boards table
+-- Poster boards table 
 CREATE TABLE poster_boards (
     board_id VARCHAR(20) PRIMARY KEY,
     presenter_id VARCHAR(50),

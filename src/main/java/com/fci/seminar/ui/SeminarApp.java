@@ -64,6 +64,9 @@ public class SeminarApp extends JFrame {
     private StudentDashboard studentDashboard;
     private EvaluatorDashboard evaluatorDashboard;
     private EvaluationFormPanel evaluationFormPanel;
+    private AssignmentPanel assignmentPanel;
+    private SessionManagementPanel sessionManagementPanel;
+    private PosterManagementPanel posterManagementPanel;
 
     /**
      * Creates the main application frame.
@@ -143,14 +146,14 @@ public class SeminarApp extends JFrame {
         CoordinatorDashboard coordinatorDashboard = new CoordinatorDashboard(this);
         addPanel(coordinatorDashboard, COORDINATOR_DASHBOARD);
         
-        SessionManagementPanel sessionManagement = new SessionManagementPanel(this, sessionService);
-        addPanel(sessionManagement, SESSION_MANAGEMENT);
+        sessionManagementPanel = new SessionManagementPanel(this, sessionService);
+        addPanel(sessionManagementPanel, SESSION_MANAGEMENT);
         
-        AssignmentPanel assignmentPanel = new AssignmentPanel(this, sessionService, userService);
+        assignmentPanel = new AssignmentPanel(this, sessionService, userService);
         addPanel(assignmentPanel, ASSIGNMENT_PANEL);
         
-        PosterManagementPanel posterManagement = new PosterManagementPanel(this, posterBoardService, sessionService, userService);
-        addPanel(posterManagement, POSTER_MANAGEMENT);
+        posterManagementPanel = new PosterManagementPanel(this, posterBoardService, sessionService, userService);
+        addPanel(posterManagementPanel, POSTER_MANAGEMENT);
         
         AwardPanel awardPanel = new AwardPanel(this, awardService, userService);
         addPanel(awardPanel, AWARD_PANEL);
@@ -234,6 +237,12 @@ public class SeminarApp extends JFrame {
             studentDashboard.refresh();
         } else if (EVALUATOR_DASHBOARD.equals(panelName) && evaluatorDashboard != null) {
             evaluatorDashboard.refresh();
+        } else if (ASSIGNMENT_PANEL.equals(panelName) && assignmentPanel != null) {
+            assignmentPanel.refresh();
+        } else if (SESSION_MANAGEMENT.equals(panelName) && sessionManagementPanel != null) {
+            sessionManagementPanel.refresh();
+        } else if (POSTER_MANAGEMENT.equals(panelName) && posterManagementPanel != null) {
+            posterManagementPanel.refresh();
         }
         cardLayout.show(mainPanel, panelName);
     }

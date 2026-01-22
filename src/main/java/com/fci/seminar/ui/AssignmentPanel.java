@@ -130,10 +130,6 @@ public class AssignmentPanel extends JPanel {
         sessionCombo.addActionListener(e -> onSessionSelected());
         panel.add(sessionCombo);
         
-        JButton refreshButton = new JButton("Refresh");
-        refreshButton.addActionListener(e -> refresh());
-        panel.add(refreshButton);
-        
         return panel;
     }
     

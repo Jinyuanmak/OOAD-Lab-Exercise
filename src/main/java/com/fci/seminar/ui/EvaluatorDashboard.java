@@ -41,7 +41,6 @@ public class EvaluatorDashboard extends JPanel {
     private JLabel welcomeLabel;
     private JTable assignmentsTable;
     private DefaultTableModel tableModel;
-    private JButton evaluateButton;
     private JButton refreshButton;
 
     /**
@@ -100,11 +99,19 @@ public class EvaluatorDashboard extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
-        // Add subtitle
+        // Add subtitle with instruction
+        JPanel headerPanel = new JPanel(new BorderLayout());
         JLabel subtitleLabel = new JLabel("Your Assigned Sessions and Presenters");
         subtitleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        subtitleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        panel.add(subtitleLabel, BorderLayout.NORTH);
+        headerPanel.add(subtitleLabel, BorderLayout.NORTH);
+        
+        JLabel instructionLabel = new JLabel("Double-click a row to evaluate the presenter");
+        instructionLabel.setFont(new Font("SansSerif", Font.ITALIC, 12));
+        instructionLabel.setForeground(java.awt.Color.GRAY);
+        instructionLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+        headerPanel.add(instructionLabel, BorderLayout.SOUTH);
+        
+        panel.add(headerPanel, BorderLayout.NORTH);
         
         // Create table
         String[] columnNames = {"Date", "Venue", "Type", "Presenter", "Research Title"};
@@ -157,21 +164,12 @@ public class EvaluatorDashboard extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         
-        // Evaluate button
-        evaluateButton = new JButton("Evaluate Selected Presenter");
-        evaluateButton.setPreferredSize(new Dimension(220, 40));
-        evaluateButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        evaluateButton.addActionListener(e -> navigateToEvaluationForm());
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(evaluateButton, gbc);
-        
         // Refresh button
         refreshButton = new JButton("Refresh");
         refreshButton.setPreferredSize(new Dimension(120, 40));
         refreshButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         refreshButton.addActionListener(e -> refresh());
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(refreshButton, gbc);
         
@@ -180,7 +178,7 @@ public class EvaluatorDashboard extends JPanel {
         logoutButton.setPreferredSize(new Dimension(120, 40));
         logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         logoutButton.addActionListener(e -> logout());
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 0;
         panel.add(logoutButton, gbc);
         
@@ -336,14 +334,6 @@ public class EvaluatorDashboard extends JPanel {
      */
     public JTable getAssignmentsTable() {
         return assignmentsTable;
-    }
-    
-    /**
-     * Gets the evaluate button for testing purposes.
-     * @return the evaluate button
-     */
-    public JButton getEvaluateButton() {
-        return evaluateButton;
     }
     
     /**
