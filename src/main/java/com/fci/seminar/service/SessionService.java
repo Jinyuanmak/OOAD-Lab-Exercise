@@ -41,6 +41,22 @@ public class SessionService {
     }
 
     /**
+     * Creates a new session from a Session object.
+     * @param session the session to create
+     * @return the created session
+     * @throws IllegalArgumentException if validation fails
+     */
+    public Session createSession(Session session) {
+        if (session == null) {
+            throw new IllegalArgumentException("Session cannot be null");
+        }
+        validateSessionData(session.getDate(), session.getVenue(), session.getSessionType());
+        
+        dataStore.addSession(session);
+        return session;
+    }
+
+    /**
      * Validates session data.
      */
     private void validateSessionData(LocalDate date, String venue, PresentationType type) {

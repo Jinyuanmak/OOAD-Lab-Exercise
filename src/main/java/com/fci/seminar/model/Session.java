@@ -15,6 +15,7 @@ public class Session implements Serializable {
     private String sessionId;
     private LocalDate date;
     private String venue;
+    private String meetingLink;
     private PresentationType sessionType;
     private List<String> presenterIds;
     private List<String> evaluatorIds;
@@ -55,6 +56,14 @@ public class Session implements Serializable {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public String getMeetingLink() {
+        return meetingLink;
+    }
+
+    public void setMeetingLink(String meetingLink) {
+        this.meetingLink = meetingLink;
     }
 
     public PresentationType getSessionType() {

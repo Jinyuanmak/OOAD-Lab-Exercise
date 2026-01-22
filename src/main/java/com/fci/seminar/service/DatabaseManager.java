@@ -317,11 +317,12 @@ public class DatabaseManager {
     
     public void saveSession(Session session) {
         String sql = """
-            INSERT INTO sessions (session_id, session_date, venue, session_type)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO sessions (session_id, session_date, venue, meeting_link, session_type)
+            VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 session_date = VALUES(session_date),
                 venue = VALUES(venue),
+                meeting_link = VALUES(meeting_link),
                 session_type = VALUES(session_type)
             """;
         
@@ -329,7 +330,8 @@ public class DatabaseManager {
             stmt.setString(1, session.getSessionId());
             stmt.setDate(2, java.sql.Date.valueOf(session.getDate()));
             stmt.setString(3, session.getVenue());
-            stmt.setString(4, session.getSessionType().name());
+            stmt.setString(4, session.getMeetingLink());
+            stmt.setString(5, session.getSessionType().name());
             stmt.executeUpdate();
             
             // Save presenter assignments
@@ -436,6 +438,7 @@ public class DatabaseManager {
         session.setSessionId(rs.getString("session_id"));
         session.setDate(rs.getDate("session_date").toLocalDate());
         session.setVenue(rs.getString("venue"));
+        session.setMeetingLink(rs.getString("meeting_link"));
         session.setSessionType(PresentationType.valueOf(rs.getString("session_type")));
         
         // Load presenter IDs

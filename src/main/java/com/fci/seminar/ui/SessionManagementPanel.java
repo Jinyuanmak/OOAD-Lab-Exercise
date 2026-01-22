@@ -25,12 +25,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import com.toedter.calendar.JDateChooser;
-
 import com.fci.seminar.model.PresentationType;
 import com.fci.seminar.model.Session;
 import com.fci.seminar.service.SessionService;
 import com.fci.seminar.util.ErrorHandler;
+import com.toedter.calendar.JDateChooser;
 
 /**
  * Panel for session management.
@@ -51,6 +50,8 @@ public class SessionManagementPanel extends JPanel {
     private JComboBox<String> venueCombo;
     private JLabel customVenueLabel;
     private JTextField customVenueField;
+    private JLabel meetingLinkLabel;
+    private JTextField meetingLinkField;
     private JComboBox<PresentationType> sessionTypeCombo;
     private JButton createButton;
     private JButton editButton;
@@ -195,7 +196,7 @@ public class SessionManagementPanel extends JPanel {
         gbc.gridy = row++;
         panel.add(sessionTypeCombo, gbc);
         
-        // Venue dropdown (conditionally visible)
+        // Venue dropdown (conditionally visible for POSTER)
         venueLabel = new JLabel("Venue:");
         gbc.gridy = row++;
         panel.add(venueLabel, gbc);
@@ -217,9 +218,22 @@ public class SessionManagementPanel extends JPanel {
         gbc.gridy = row++;
         panel.add(customVenueField, gbc);
         
-        // Initially hide custom venue field
+        // Meeting link field (only visible for ORAL sessions)
+        meetingLinkLabel = new JLabel("Meeting Link:");
+        gbc.gridy = row++;
+        panel.add(meetingLinkLabel, gbc);
+        
+        meetingLinkField = new JTextField(15);
+        meetingLinkField.setPreferredSize(new Dimension(200, 28));
+        meetingLinkField.setText("https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTg1NTM4OGUtN2Y0OC00NjMwLWJiMjYtYTljMDVkM2E2NTFl%40thread.v2/0?context=%7b%22Tid%22%3a%227e0b5fcf-12c4-4eff-96b6-4664f25dc7da%22%2c%22Oid%22%3a%229f19ed86-c108-4857-ae8e-9c72364e6f5d%22%7d");
+        gbc.gridy = row++;
+        panel.add(meetingLinkField, gbc);
+        
+        // Initially hide custom venue and meeting link fields
         customVenueLabel.setVisible(false);
         customVenueField.setVisible(false);
+        meetingLinkLabel.setVisible(false);
+        meetingLinkField.setVisible(false);
         
         // Action buttons
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -257,17 +271,22 @@ public class SessionManagementPanel extends JPanel {
     
     /**
      * Updates venue field visibility based on session type.
-     * ORAL sessions don't need venue, POSTER sessions do.
+     * ORAL sessions show meeting link field, POSTER sessions show venue dropdown.
      */
     private void updateVenueVisibility() {
         PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
-        boolean showVenue = (type == PresentationType.POSTER);
+        boolean isPoster = (type == PresentationType.POSTER);
         
-        venueLabel.setVisible(showVenue);
-        venueCombo.setVisible(showVenue);
+        // Show venue fields for POSTER, hide for ORAL
+        venueLabel.setVisible(isPoster);
+        venueCombo.setVisible(isPoster);
         
-        // Also update custom venue visibility
-        if (showVenue) {
+        // Show meeting link for ORAL, hide for POSTER
+        meetingLinkLabel.setVisible(!isPoster);
+        meetingLinkField.setVisible(!isPoster);
+        
+        // Update custom venue visibility if POSTER
+        if (isPoster) {
             updateCustomVenueVisibility();
         } else {
             customVenueLabel.setVisible(false);
@@ -365,9 +384,10 @@ public class SessionManagementPanel extends JPanel {
                 // Set session type first (this will update venue visibility)
                 sessionTypeCombo.setSelectedItem(selectedSession.getSessionType());
                 
-                // Set venue in combo if it's a POSTER session
+                String venue = selectedSession.getVenue();
+                
+                // Set venue or meeting link based on session type
                 if (selectedSession.getSessionType() == PresentationType.POSTER) {
-                    String venue = selectedSession.getVenue();
                     boolean foundVenue = false;
                     
                     // Check if venue exists in dropdown
@@ -380,10 +400,14 @@ public class SessionManagementPanel extends JPanel {
                     }
                     
                     // If venue not found in dropdown, it's a custom venue
-                    if (!foundVenue && !venue.equals("ONLINE")) {
+                    if (!foundVenue) {
                         venueCombo.setSelectedItem("Others");
                         customVenueField.setText(venue);
                     }
+                } else {
+                    // ORAL session - set meeting link
+                    String link = selectedSession.getMeetingLink();
+                    meetingLinkField.setText(link != null ? link : "");
                 }
                 
                 editButton.setEnabled(true);
@@ -405,11 +429,18 @@ public class SessionManagementPanel extends JPanel {
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
             
             String venue;
+            String meetingLink = null;
+            
             if (type == PresentationType.ORAL) {
-                // ORAL sessions are online
-                venue = "ONLINE";
+                // ORAL sessions use meeting link
+                meetingLink = meetingLinkField.getText().trim();
+                if (meetingLink.isEmpty()) {
+                    ErrorHandler.showError(this, "Please enter a meeting link for ORAL session");
+                    return;
+                }
+                venue = "ONLINE"; // Set venue to ONLINE for ORAL sessions
             } else {
-                // POSTER sessions need venue
+                // POSTER sessions need physical venue
                 String selectedVenue = (String) venueCombo.getSelectedItem();
                 
                 if (selectedVenue == null || selectedVenue.isEmpty()) {
@@ -429,7 +460,14 @@ public class SessionManagementPanel extends JPanel {
                 }
             }
             
-            sessionService.createSession(date, venue, type);
+            Session session = new Session();
+            session.setSessionId(java.util.UUID.randomUUID().toString().substring(0, 8));
+            session.setDate(date);
+            session.setVenue(venue);
+            session.setMeetingLink(meetingLink);
+            session.setSessionType(type);
+            
+            sessionService.createSession(session);
             
             // Auto-save after creating session
             app.autoSave();
@@ -463,11 +501,18 @@ public class SessionManagementPanel extends JPanel {
             PresentationType type = (PresentationType) sessionTypeCombo.getSelectedItem();
             
             String venue;
+            String meetingLink = null;
+            
             if (type == PresentationType.ORAL) {
-                // ORAL sessions are online
-                venue = "ONLINE";
+                // ORAL sessions use meeting link
+                meetingLink = meetingLinkField.getText().trim();
+                if (meetingLink.isEmpty()) {
+                    ErrorHandler.showError(this, "Please enter a meeting link for ORAL session");
+                    return;
+                }
+                venue = "ONLINE"; // Set venue to ONLINE for ORAL sessions
             } else {
-                // POSTER sessions need venue
+                // POSTER sessions need physical venue
                 String selectedVenue = (String) venueCombo.getSelectedItem();
                 
                 if (selectedVenue == null || selectedVenue.isEmpty()) {
@@ -489,6 +534,7 @@ public class SessionManagementPanel extends JPanel {
             
             selectedSession.setDate(date);
             selectedSession.setVenue(venue);
+            selectedSession.setMeetingLink(meetingLink);
             selectedSession.setSessionType(type);
             
             sessionService.updateSession(selectedSession);
@@ -558,6 +604,7 @@ public class SessionManagementPanel extends JPanel {
             venueCombo.setSelectedIndex(0);
         }
         customVenueField.setText("");
+        meetingLinkField.setText("https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTg1NTM4OGUtN2Y0OC00NjMwLWJiMjYtYTljMDVkM2E2NTFl%40thread.v2/0?context=%7b%22Tid%22%3a%227e0b5fcf-12c4-4eff-96b6-4664f25dc7da%22%2c%22Oid%22%3a%229f19ed86-c108-4857-ae8e-9c72364e6f5d%22%7d");
         sessionTypeCombo.setSelectedIndex(0);
         selectedSession = null;
         sessionTable.clearSelection();

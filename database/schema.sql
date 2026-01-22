@@ -50,6 +50,7 @@ CREATE TABLE sessions (
     session_id VARCHAR(50) PRIMARY KEY,
     session_date DATE NOT NULL,
     venue VARCHAR(200) NOT NULL,
+    meeting_link VARCHAR(500),
     session_type ENUM('ORAL', 'POSTER') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
