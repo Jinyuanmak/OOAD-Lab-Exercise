@@ -17,9 +17,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.fci.seminar.model.Award;
@@ -27,7 +26,6 @@ import com.fci.seminar.model.CeremonyAgenda;
 import com.fci.seminar.model.Student;
 import com.fci.seminar.service.AwardService;
 import com.fci.seminar.service.UserService;
-import com.fci.seminar.util.ErrorHandler;
 
 /**
  * Panel for managing awards and ceremony agenda.
@@ -44,14 +42,13 @@ public class AwardPanel extends JPanel {
     private JLabel bestPosterLabel;
     private JLabel peoplesChoiceLabel;
     private JComboBox<PresenterItem> votingCombo;
-    private JSpinner voteCountSpinner;
+    private JTextField voteCountField;
     private JTextArea agendaArea;
     private JButton computeButton;
-    private JButton addVoteButton;
     private JButton generateAgendaButton;
     private JButton backButton;
     
-    private Map<String, Integer> peoplesChoiceVotes;
+    private final Map<String, Integer> peoplesChoiceVotes;
 
     /**
      * Creates a new AwardPanel.
@@ -194,24 +191,21 @@ public class AwardPanel extends JPanel {
         panel.add(presenterLabel, gbc);
         
         votingCombo = new JComboBox<>();
+        votingCombo.addActionListener(e -> onPresenterSelected());
         gbc.gridy = row++;
         panel.add(votingCombo, gbc);
         
-        // Vote count
-        JLabel voteLabel = new JLabel("Vote Count:");
+        // Vote count (read-only)
+        JLabel voteLabel = new JLabel("Total Votes:");
         gbc.gridy = row++;
         panel.add(voteLabel, gbc);
         
-        voteCountSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+        voteCountField = new JTextField(10);
+        voteCountField.setEditable(false);
+        voteCountField.setBackground(java.awt.Color.LIGHT_GRAY);
+        voteCountField.setText("0");
         gbc.gridy = row++;
-        panel.add(voteCountSpinner, gbc);
-        
-        // Add vote button
-        addVoteButton = new JButton("Add/Update Votes");
-        addVoteButton.addActionListener(e -> addVote());
-        gbc.gridy = row;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(addVoteButton, gbc);
+        panel.add(voteCountField, gbc);
         
         return panel;
     }
@@ -255,16 +249,6 @@ public class AwardPanel extends JPanel {
         backButton.setPreferredSize(new Dimension(150, 35));
         backButton.addActionListener(e -> navigateBack());
         panel.add(backButton);
-        
-        JButton refreshButton = new JButton("Refresh");
-        refreshButton.setPreferredSize(new Dimension(100, 35));
-        refreshButton.addActionListener(e -> refresh());
-        panel.add(refreshButton);
-        
-        JButton clearVotesButton = new JButton("Clear Votes");
-        clearVotesButton.setPreferredSize(new Dimension(100, 35));
-        clearVotesButton.addActionListener(e -> clearVotes());
-        panel.add(clearVotesButton);
         
         return panel;
     }
@@ -317,22 +301,21 @@ public class AwardPanel extends JPanel {
     }
     
     /**
-     * Adds or updates votes for a presenter.
+     * Handles presenter selection and displays their vote count.
      */
-    private void addVote() {
+    private void onPresenterSelected() {
         PresenterItem selected = (PresenterItem) votingCombo.getSelectedItem();
         if (selected == null) {
-            ErrorHandler.showError(this, "Please select a presenter");
+            voteCountField.setText("0");
             return;
         }
         
-        int votes = (Integer) voteCountSpinner.getValue();
-        peoplesChoiceVotes.put(selected.student.getPresenterId(), votes);
+        // Get vote count from student's voteCount field
+        int voteCount = selected.student.getVoteCount();
+        voteCountField.setText(String.valueOf(voteCount));
         
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Votes recorded for " + selected.student.getUsername() + ": " + votes,
-            "Success",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        // Update the peoplesChoiceVotes map with current vote count
+        peoplesChoiceVotes.put(selected.student.getPresenterId(), voteCount);
     }
     
     /**
@@ -382,30 +365,29 @@ public class AwardPanel extends JPanel {
     }
     
     /**
-     * Clears all People's Choice votes.
-     */
-    private void clearVotes() {
-        if (ErrorHandler.confirmAction(this, "Are you sure you want to clear all votes?")) {
-            peoplesChoiceVotes.clear();
-            peoplesChoiceLabel.setText("Not computed");
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "All votes cleared.",
-                "Success",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-    
-    /**
      * Refreshes the panel data.
      */
     public void refresh() {
+        // Clear previous votes
+        peoplesChoiceVotes.clear();
+        
         // Refresh voting combo
         votingCombo.removeAllItems();
         List<Student> students = userService.getAllStudents();
         for (Student student : students) {
             if (student.getPresenterId() != null) {
                 votingCombo.addItem(new PresenterItem(student));
+                // Load vote count from database
+                peoplesChoiceVotes.put(student.getPresenterId(), student.getVoteCount());
             }
+        }
+        
+        // Trigger presenter selection to show vote count
+        if (votingCombo.getItemCount() > 0) {
+            votingCombo.setSelectedIndex(0);
+            onPresenterSelected();
+        } else {
+            voteCountField.setText("0");
         }
         
         // Reset labels
@@ -459,8 +441,8 @@ public class AwardPanel extends JPanel {
         return votingCombo;
     }
     
-    public JSpinner getVoteCountSpinner() {
-        return voteCountSpinner;
+    public JTextField getVoteCountField() {
+        return voteCountField;
     }
     
     public JTextArea getAgendaArea() {
@@ -469,10 +451,6 @@ public class AwardPanel extends JPanel {
     
     public JButton getComputeButton() {
         return computeButton;
-    }
-    
-    public JButton getAddVoteButton() {
-        return addVoteButton;
     }
     
     public JButton getGenerateAgendaButton() {

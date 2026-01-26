@@ -38,6 +38,8 @@ public class SeminarApp extends JFrame {
     public static final String SIGN_UP_PANEL = "signUp";
     public static final String STUDENT_DASHBOARD = "studentDashboard";
     public static final String STUDENT_REGISTRATION = "studentRegistration";
+    public static final String MY_SESSION = "mySession";
+    public static final String VOTING_PANEL = "votingPanel";
     public static final String COORDINATOR_DASHBOARD = "coordinatorDashboard";
     public static final String SESSION_MANAGEMENT = "sessionManagement";
     public static final String ASSIGNMENT_PANEL = "assignmentPanel";
@@ -67,6 +69,10 @@ public class SeminarApp extends JFrame {
     private AssignmentPanel assignmentPanel;
     private SessionManagementPanel sessionManagementPanel;
     private PosterManagementPanel posterManagementPanel;
+    private MySessionPanel mySessionPanel;
+    private UserManagementPanel userManagementPanel;
+    private VotingPanel votingPanel;
+    private AwardPanel awardPanel;
 
     /**
      * Creates the main application frame.
@@ -142,6 +148,12 @@ public class SeminarApp extends JFrame {
         studentRegistrationPanel = new StudentRegistrationPanel(this, userService);
         addPanel(studentRegistrationPanel, STUDENT_REGISTRATION);
         
+        mySessionPanel = new MySessionPanel(this, sessionService, userService);
+        addPanel(mySessionPanel, MY_SESSION);
+        
+        votingPanel = new VotingPanel(this, userService);
+        addPanel(votingPanel, VOTING_PANEL);
+        
         // Create and register coordinator panels
         CoordinatorDashboard coordinatorDashboard = new CoordinatorDashboard(this);
         addPanel(coordinatorDashboard, COORDINATOR_DASHBOARD);
@@ -155,13 +167,13 @@ public class SeminarApp extends JFrame {
         posterManagementPanel = new PosterManagementPanel(this, posterBoardService, sessionService, userService);
         addPanel(posterManagementPanel, POSTER_MANAGEMENT);
         
-        AwardPanel awardPanel = new AwardPanel(this, awardService, userService);
+        awardPanel = new AwardPanel(this, awardService, userService);
         addPanel(awardPanel, AWARD_PANEL);
         
         ReportPanel reportPanel = new ReportPanel(this, reportService);
         addPanel(reportPanel, REPORT_PANEL);
         
-        UserManagementPanel userManagementPanel = new UserManagementPanel(this, userService);
+        userManagementPanel = new UserManagementPanel(this, userService);
         addPanel(userManagementPanel, USER_MANAGEMENT);
         
         // Create and register evaluator panels
@@ -235,6 +247,10 @@ public class SeminarApp extends JFrame {
             studentRegistrationPanel.refresh();
         } else if (STUDENT_DASHBOARD.equals(panelName) && studentDashboard != null) {
             studentDashboard.refresh();
+        } else if (MY_SESSION.equals(panelName) && mySessionPanel != null) {
+            mySessionPanel.refresh();
+        } else if (VOTING_PANEL.equals(panelName) && votingPanel != null) {
+            votingPanel.refresh();
         } else if (EVALUATOR_DASHBOARD.equals(panelName) && evaluatorDashboard != null) {
             evaluatorDashboard.refresh();
         } else if (ASSIGNMENT_PANEL.equals(panelName) && assignmentPanel != null) {
@@ -243,6 +259,10 @@ public class SeminarApp extends JFrame {
             sessionManagementPanel.refresh();
         } else if (POSTER_MANAGEMENT.equals(panelName) && posterManagementPanel != null) {
             posterManagementPanel.refresh();
+        } else if (USER_MANAGEMENT.equals(panelName) && userManagementPanel != null) {
+            userManagementPanel.refresh();
+        } else if (AWARD_PANEL.equals(panelName) && awardPanel != null) {
+            awardPanel.refresh();
         }
         cardLayout.show(mainPanel, panelName);
     }

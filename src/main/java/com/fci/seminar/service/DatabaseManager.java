@@ -115,15 +115,15 @@ public class DatabaseManager {
             // INSERT without ID - let database auto-generate
             sql = """
                 INSERT INTO users (username, password, role, student_id, research_title, abstract_text, 
-                                  supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                  supervisor_name, presentation_type, file_path, presenter_id, vote_count, has_voted, evaluator_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
         } else {
             // UPDATE existing user
             sql = """
                 INSERT INTO users (id, username, password, role, student_id, research_title, abstract_text, 
-                                  supervisor_name, presentation_type, file_path, presenter_id, evaluator_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                  supervisor_name, presentation_type, file_path, presenter_id, vote_count, has_voted, evaluator_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
                     username = VALUES(username),
                     password = VALUES(password),
@@ -135,6 +135,8 @@ public class DatabaseManager {
                     presentation_type = VALUES(presentation_type),
                     file_path = VALUES(file_path),
                     presenter_id = VALUES(presenter_id),
+                    vote_count = VALUES(vote_count),
+                    has_voted = VALUES(has_voted),
                     evaluator_id = VALUES(evaluator_id)
                 """;
         }
@@ -162,6 +164,8 @@ public class DatabaseManager {
                     student.getPresentationType().name() : null);
                 stmt.setString(paramIndex++, student.getFilePath());
                 stmt.setString(paramIndex++, student.getPresenterId());
+                stmt.setInt(paramIndex++, student.getVoteCount());
+                stmt.setBoolean(paramIndex++, student.hasVoted());
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
             } else if (user instanceof Evaluator evaluator) {
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
@@ -171,6 +175,8 @@ public class DatabaseManager {
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setInt(paramIndex++, 0);
+                stmt.setBoolean(paramIndex++, false);
                 stmt.setString(paramIndex++, evaluator.getEvaluatorId());
             } else {
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
@@ -180,6 +186,8 @@ public class DatabaseManager {
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
+                stmt.setInt(paramIndex++, 0);
+                stmt.setBoolean(paramIndex++, false);
                 stmt.setNull(paramIndex++, java.sql.Types.VARCHAR);
             }
             
@@ -275,6 +283,8 @@ public class DatabaseManager {
                 }
                 student.setFilePath(rs.getString("file_path"));
                 student.setPresenterId(rs.getString("presenter_id"));
+                student.setVoteCount(rs.getInt("vote_count"));
+                student.setHasVoted(rs.getBoolean("has_voted"));
                 user = student;
             }
             case PANEL_MEMBER -> {

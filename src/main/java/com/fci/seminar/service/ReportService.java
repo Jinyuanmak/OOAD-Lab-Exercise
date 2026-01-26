@@ -213,37 +213,101 @@ public class ReportService {
     
     /**
      * Exports report content to a PDF file.
-     * Creates a simple PDF with the report content.
+     * Creates a properly formatted PDF with the report content using Apache PDFBox.
      * @param content the report content to export
      * @param filename the target filename
      * @param reportType the type of report (for title)
      * @throws IOException if file writing fails
      */
     public void exportToPDF(String content, String filename, String reportType) throws IOException {
-        try (FileWriter writer = new FileWriter(filename)) {
-            // Simple PDF generation - write as text with PDF header
-            // For a real PDF, you would use a library like iText or Apache PDFBox
-            // This is a simplified version that creates a text-based PDF
-            writer.write("%PDF-1.4\n");
-            writer.write("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
-            writer.write("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
-            writer.write("3 0 obj\n<< /Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 5 0 R >>\nendobj\n");
-            writer.write("4 0 obj\n<< /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >>\nendobj\n");
+        try {
+            org.apache.pdfbox.pdmodel.PDDocument document = new org.apache.pdfbox.pdmodel.PDDocument();
+            org.apache.pdfbox.pdmodel.PDPage page = new org.apache.pdfbox.pdmodel.PDPage();
+            document.addPage(page);
             
-            // Escape special characters and format content for PDF
-            String pdfContent = content.replace("\\", "\\\\")
-                                      .replace("(", "\\(")
-                                      .replace(")", "\\)")
-                                      .replace("\n", "\\n");
+            org.apache.pdfbox.pdmodel.PDPageContentStream contentStream = 
+                new org.apache.pdfbox.pdmodel.PDPageContentStream(document, page);
             
-            writer.write("5 0 obj\n<< /Length " + (pdfContent.length() + 50) + " >>\nstream\n");
-            writer.write("BT\n/F1 10 Tf\n50 750 Td\n");
-            writer.write("(" + pdfContent + ") Tj\n");
-            writer.write("ET\nendstream\nendobj\n");
-            writer.write("xref\n0 6\n");
-            writer.write("0000000000 65535 f\n0000000009 00000 n\n0000000058 00000 n\n");
-            writer.write("0000000115 00000 n\n0000000214 00000 n\n0000000308 00000 n\n");
-            writer.write("trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n400\n%%EOF\n");
+            // Set font
+            org.apache.pdfbox.pdmodel.font.PDType1Font font = org.apache.pdfbox.pdmodel.font.PDType1Font.COURIER;
+            contentStream.setFont(font, 10);
+            
+            // Starting position
+            float margin = 50;
+            float yPosition = page.getMediaBox().getHeight() - margin;
+            float lineHeight = 12;
+            
+            contentStream.beginText();
+            contentStream.newLineAtOffset(margin, yPosition);
+            
+            // Split content into lines and write each line
+            String[] lines = content.split("\n");
+            int lineCount = 0;
+            
+            for (String line : lines) {
+                // Check if we need a new page
+                if (yPosition < margin) {
+                    contentStream.endText();
+                    contentStream.close();
+                    
+                    // Create new page
+                    page = new org.apache.pdfbox.pdmodel.PDPage();
+                    document.addPage(page);
+                    contentStream = new org.apache.pdfbox.pdmodel.PDPageContentStream(document, page);
+                    contentStream.setFont(font, 10);
+                    yPosition = page.getMediaBox().getHeight() - margin;
+                    
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(margin, yPosition);
+                }
+                
+                // Handle long lines by wrapping
+                if (line.length() > 90) {
+                    // Split long lines
+                    int start = 0;
+                    while (start < line.length()) {
+                        int end = Math.min(start + 90, line.length());
+                        String segment = line.substring(start, end);
+                        
+                        contentStream.showText(segment);
+                        contentStream.newLineAtOffset(0, -lineHeight);
+                        yPosition -= lineHeight;
+                        
+                        // Check for new page
+                        if (yPosition < margin) {
+                            contentStream.endText();
+                            contentStream.close();
+                            
+                            page = new org.apache.pdfbox.pdmodel.PDPage();
+                            document.addPage(page);
+                            contentStream = new org.apache.pdfbox.pdmodel.PDPageContentStream(document, page);
+                            contentStream.setFont(font, 10);
+                            yPosition = page.getMediaBox().getHeight() - margin;
+                            
+                            contentStream.beginText();
+                            contentStream.newLineAtOffset(margin, yPosition);
+                        }
+                        
+                        start = end;
+                    }
+                } else {
+                    contentStream.showText(line);
+                    contentStream.newLineAtOffset(0, -lineHeight);
+                    yPosition -= lineHeight;
+                }
+                
+                lineCount++;
+            }
+            
+            contentStream.endText();
+            contentStream.close();
+            
+            // Save the document
+            document.save(filename);
+            document.close();
+            
+        } catch (Exception e) {
+            throw new IOException("Failed to create PDF: " + e.getMessage(), e);
         }
     }
     

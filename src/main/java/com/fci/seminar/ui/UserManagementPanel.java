@@ -43,7 +43,6 @@ public class UserManagementPanel extends JPanel {
     private JComboBox<String> userTypeFilter;
     private JButton editButton;
     private JButton deleteButton;
-    private JButton refreshButton;
     private JButton backButton;
     
     private User selectedUser;
@@ -160,12 +159,6 @@ public class UserManagementPanel extends JPanel {
         deleteButton.addActionListener(e -> deleteUser());
         gbc.gridy = row++;
         panel.add(deleteButton, gbc);
-        
-        refreshButton = new JButton("Refresh");
-        refreshButton.setPreferredSize(new Dimension(120, 35));
-        refreshButton.addActionListener(e -> refresh());
-        gbc.gridy = row++;
-        panel.add(refreshButton, gbc);
         
         return panel;
     }

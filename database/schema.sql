@@ -7,6 +7,7 @@ CREATE DATABASE IF NOT EXISTS seminar_db;
 USE seminar_db;
 
 -- Drop existing tables (for clean setup)
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS evaluations;
 DROP TABLE IF EXISTS poster_boards;
 DROP TABLE IF EXISTS session_evaluators;
@@ -30,6 +31,8 @@ CREATE TABLE users (
     presentation_type ENUM('ORAL', 'POSTER'),
     file_path VARCHAR(500),
     presenter_id VARCHAR(50),
+    vote_count INT DEFAULT 0,
+    has_voted BOOLEAN DEFAULT FALSE,
     -- Evaluator-specific fields
     evaluator_id VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -108,6 +111,15 @@ CREATE TABLE awards (
     score DOUBLE NOT NULL,
     ceremony_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Votes table (for People's Choice voting)
+CREATE TABLE votes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    voter_student_id VARCHAR(10) NOT NULL,
+    voted_for_presenter_id VARCHAR(50) NOT NULL,
+    voted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_voter (voter_student_id)
 );
 
 -- Initialize venues

@@ -28,6 +28,8 @@ public class StudentDashboard extends JPanel {
     private final SeminarApp app;
     private JLabel welcomeLabel;
     private JButton registrationButton;
+    private JButton mySessionButton;
+    private JButton voteButton;
 
     /**
      * Creates a new StudentDashboard.
@@ -102,13 +104,31 @@ public class StudentDashboard extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         panel.add(registrationButton, gbc);
         
+        // My Session button
+        mySessionButton = new JButton("My Session");
+        mySessionButton.setPreferredSize(new Dimension(250, 50));
+        mySessionButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        mySessionButton.addActionListener(e -> navigateToMySession());
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(mySessionButton, gbc);
+        
+        // Vote button
+        voteButton = new JButton("Vote for People's Choice");
+        voteButton.setPreferredSize(new Dimension(250, 50));
+        voteButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        voteButton.addActionListener(e -> navigateToVoting());
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(voteButton, gbc);
+        
         // Logout button
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(250, 50));
         logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         logoutButton.addActionListener(e -> logout());
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         panel.add(logoutButton, gbc);
         
         return panel;
@@ -130,6 +150,20 @@ public class StudentDashboard extends JPanel {
     }
     
     /**
+     * Navigates to the my session panel.
+     */
+    private void navigateToMySession() {
+        app.showPanel(SeminarApp.MY_SESSION);
+    }
+    
+    /**
+     * Navigates to the voting panel.
+     */
+    private void navigateToVoting() {
+        app.showPanel(SeminarApp.VOTING_PANEL);
+    }
+    
+    /**
      * Refreshes the dashboard with current user information.
      * Should be called when the panel becomes visible.
      */
@@ -146,9 +180,20 @@ public class StudentDashboard extends JPanel {
             } else {
                 registrationButton.setText("Register for Seminar");
             }
+            
+            // Update vote button text based on voting status
+            if (student.hasVoted()) {
+                voteButton.setText("Already Voted");
+                voteButton.setEnabled(false);
+            } else {
+                voteButton.setText("Vote for People's Choice");
+                voteButton.setEnabled(true);
+            }
         } else {
             welcomeLabel.setText("Welcome, Student!");
             registrationButton.setText("Register for Seminar");
+            voteButton.setText("Vote for People's Choice");
+            voteButton.setEnabled(true);
         }
     }
     
@@ -166,5 +211,21 @@ public class StudentDashboard extends JPanel {
      */
     public JButton getRegistrationButton() {
         return registrationButton;
+    }
+    
+    /**
+     * Gets the my session button for testing purposes.
+     * @return the my session button
+     */
+    public JButton getMySessionButton() {
+        return mySessionButton;
+    }
+    
+    /**
+     * Gets the vote button for testing purposes.
+     * @return the vote button
+     */
+    public JButton getVoteButton() {
+        return voteButton;
     }
 }

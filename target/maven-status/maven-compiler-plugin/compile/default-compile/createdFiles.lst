@@ -1,7 +1,6 @@
 com\fci\seminar\ui\EvaluatorDashboard.class
 com\fci\seminar\ui\SeminarApp.class
 com\fci\seminar\ui\PosterManagementPanel$2.class
-com\fci\seminar\ui\PosterManagementPanel$PresenterItem.class
 com\fci\seminar\model\User.class
 com\fci\seminar\ui\StudentRegistrationPanel.class
 com\fci\seminar\util\SampleDataLoader.class
@@ -14,6 +13,7 @@ com\fci\seminar\model\Evaluator.class
 com\fci\seminar\service\SessionService.class
 com\fci\seminar\model\RubricScores.class
 com\fci\seminar\ui\SessionManagementPanel.class
+com\fci\seminar\ui\VotingPanel.class
 com\fci\seminar\ui\EvaluatorDashboard$2.class
 com\fci\seminar\ui\SignUpPanel.class
 com\fci\seminar\ui\PosterManagementPanel$1.class
@@ -44,12 +44,15 @@ com\fci\seminar\ui\PosterManagementPanel$SessionItem.class
 com\fci\seminar\ui\CoordinatorDashboard.class
 com\fci\seminar\ui\EvaluatorDashboard$1.class
 com\fci\seminar\service\AwardService.class
+com\fci\seminar\ui\PresentationViewerDialog$1.class
 com\fci\seminar\model\Session.class
 com\fci\seminar\ui\ReportPanel.class
 com\fci\seminar\model\Award.class
+com\fci\seminar\ui\PresentationViewerDialog.class
 com\fci\seminar\ui\SeminarApp$1.class
 com\fci\seminar\ui\AwardPanel$PresenterItem.class
 com\fci\seminar\ui\SessionManagementPanel$1.class
+com\fci\seminar\ui\MySessionPanel.class
 com\fci\seminar\service\UserService.class
 com\fci\seminar\service\ReportService.class
 com\fci\seminar\ui\PosterManagementPanel.class

@@ -15,6 +15,8 @@ public class Student extends User {
     private PresentationType presentationType;
     private String filePath;
     private String presenterId;
+    private int voteCount;
+    private boolean hasVoted;
 
     public Student() {
         super();
@@ -83,6 +85,22 @@ public class Student extends User {
 
     public void setPresenterId(String presenterId) {
         this.presenterId = presenterId;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public boolean hasVoted() {
+        return hasVoted;
+    }
+
+    public void setHasVoted(boolean hasVoted) {
+        this.hasVoted = hasVoted;
     }
 
     @Override
