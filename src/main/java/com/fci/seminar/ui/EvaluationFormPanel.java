@@ -41,6 +41,7 @@ public class EvaluationFormPanel extends JPanel {
     
     private JLabel presenterNameLabel;
     private JLabel presenterTitleLabel;
+    private JButton viewMaterialsButton;
     private JButton downloadMaterialsButton;
     private JSpinner problemClaritySpinner;
     private JSpinner methodologySpinner;
@@ -155,23 +156,36 @@ public class EvaluationFormPanel extends JPanel {
         panel.add(presenterTitleLabel, gbc);
         row++;
         
-        // Download materials button
+        // View and Download materials buttons
         JLabel materialsLabel = new JLabel("Materials:");
         materialsLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.gridwidth = 1;
         gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(materialsLabel, gbc);
         
-        downloadMaterialsButton = new JButton("Download Presentation Materials");
-        downloadMaterialsButton.setPreferredSize(new Dimension(250, 30));
-        downloadMaterialsButton.addActionListener(e -> downloadMaterials());
-        downloadMaterialsButton.setEnabled(false);
+        viewMaterialsButton = new JButton("View Materials");
+        viewMaterialsButton.setPreferredSize(new Dimension(180, 35));
+        viewMaterialsButton.addActionListener(e -> viewMaterials());
+        viewMaterialsButton.setEnabled(false);
         gbc.gridx = 1;
         gbc.gridy = row;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1.0;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.5;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(viewMaterialsButton, gbc);
+        
+        downloadMaterialsButton = new JButton("Download Materials");
+        downloadMaterialsButton.setPreferredSize(new Dimension(180, 35));
+        downloadMaterialsButton.addActionListener(e -> downloadMaterials());
+        downloadMaterialsButton.setEnabled(false);
+        gbc.gridx = 2;
+        gbc.gridy = row;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.5;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(downloadMaterialsButton, gbc);
         row++;
         
@@ -435,6 +449,32 @@ public class EvaluationFormPanel extends JPanel {
     }
     
     /**
+     * Views the presentation materials for the selected presenter.
+     */
+    private void viewMaterials() {
+        if (selectedPresenter == null) {
+            ErrorHandler.showError(this, "No presenter selected.");
+            return;
+        }
+        
+        String filePath = selectedPresenter.getFilePath();
+        
+        if (filePath == null || filePath.trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "No materials have been uploaded by this presenter.",
+                "No Materials",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+        
+        // Show the presentation materials viewer dialog
+        PresentationViewerDialog viewer = new PresentationViewerDialog(this, selectedPresenter);
+        viewer.setVisible(true);
+    }
+    
+    /**
      * Downloads the presentation materials for the selected presenter.
      */
     private void downloadMaterials() {
@@ -520,14 +560,10 @@ public class EvaluationFormPanel extends JPanel {
             presenterNameLabel.setText(presenter.getUsername());
             presenterTitleLabel.setText(presenter.getResearchTitle() != null ? presenter.getResearchTitle() : "");
             
-            // Enable/disable download button based on whether materials exist
-            if (presenter.getFilePath() != null && !presenter.getFilePath().trim().isEmpty()) {
-                downloadMaterialsButton.setEnabled(true);
-                downloadMaterialsButton.setText("Download Presentation Materials");
-            } else {
-                downloadMaterialsButton.setEnabled(false);
-                downloadMaterialsButton.setText("No Materials Uploaded");
-            }
+            // Enable/disable view and download buttons based on whether materials exist
+            boolean hasMaterials = presenter.getFilePath() != null && !presenter.getFilePath().trim().isEmpty();
+            viewMaterialsButton.setEnabled(hasMaterials);
+            downloadMaterialsButton.setEnabled(hasMaterials);
             
             // Check if evaluation already exists for this evaluator-presenter pair
             User currentUser = app.getCurrentUser();
@@ -551,8 +587,8 @@ public class EvaluationFormPanel extends JPanel {
         } else {
             presenterNameLabel.setText("No presenter selected");
             presenterTitleLabel.setText("");
+            viewMaterialsButton.setEnabled(false);
             downloadMaterialsButton.setEnabled(false);
-            downloadMaterialsButton.setText("No Materials Uploaded");
             resetForm();
             submitButton.setText("Submit Evaluation");
         }

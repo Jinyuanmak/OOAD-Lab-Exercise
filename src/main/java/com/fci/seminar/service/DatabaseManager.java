@@ -290,8 +290,8 @@ public class DatabaseManager {
             case PANEL_MEMBER -> {
                 Evaluator evaluator = new Evaluator();
                 evaluator.setEvaluatorId(rs.getString("evaluator_id"));
-                // Load assigned session IDs
-                evaluator.setAssignedSessionIds(getEvaluatorSessionIds(rs.getString("id")));
+                // Load assigned session IDs using evaluator_id (EV-xxxxxxxx format)
+                evaluator.setAssignedSessionIds(getEvaluatorSessionIds(rs.getString("evaluator_id")));
                 user = evaluator;
             }
             case COORDINATOR -> user = new Coordinator();

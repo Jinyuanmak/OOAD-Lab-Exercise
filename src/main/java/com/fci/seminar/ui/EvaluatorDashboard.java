@@ -41,7 +41,6 @@ public class EvaluatorDashboard extends JPanel {
     private JLabel welcomeLabel;
     private JTable assignmentsTable;
     private DefaultTableModel tableModel;
-    private JButton refreshButton;
 
     /**
      * Creates a new EvaluatorDashboard.
@@ -164,21 +163,12 @@ public class EvaluatorDashboard extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         
-        // Refresh button
-        refreshButton = new JButton("Refresh");
-        refreshButton.setPreferredSize(new Dimension(120, 40));
-        refreshButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        refreshButton.addActionListener(e -> refresh());
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(refreshButton, gbc);
-        
         // Logout button
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(120, 40));
         logoutButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
         logoutButton.addActionListener(e -> logout());
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(logoutButton, gbc);
         
@@ -334,13 +324,5 @@ public class EvaluatorDashboard extends JPanel {
      */
     public JTable getAssignmentsTable() {
         return assignmentsTable;
-    }
-    
-    /**
-     * Gets the refresh button for testing purposes.
-     * @return the refresh button
-     */
-    public JButton getRefreshButton() {
-        return refreshButton;
     }
 }
