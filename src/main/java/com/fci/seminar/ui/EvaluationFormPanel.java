@@ -41,6 +41,10 @@ public class EvaluationFormPanel extends JPanel {
     
     private JLabel presenterNameLabel;
     private JLabel presenterTitleLabel;
+    private JLabel sessionInfoLabel;
+    private JTextArea meetingLinkArea;
+    private JScrollPane meetingLinkScrollPane;
+    private JButton joinMeetingButton;
     private JButton viewMaterialsButton;
     private JButton downloadMaterialsButton;
     private JSpinner problemClaritySpinner;
@@ -154,6 +158,64 @@ public class EvaluationFormPanel extends JPanel {
         gbc.gridwidth = 3;
         gbc.weightx = 1.0;
         panel.add(presenterTitleLabel, gbc);
+        row++;
+        
+        // Session info (type, date, venue/meeting link)
+        JLabel sessionLabel = new JLabel("Session:");
+        sessionLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        panel.add(sessionLabel, gbc);
+        
+        sessionInfoLabel = new JLabel("");
+        sessionInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        panel.add(sessionInfoLabel, gbc);
+        row++;
+        
+        // Meeting link (for ORAL sessions only) - Label
+        JLabel meetingLinkLabel = new JLabel("Meeting Link:");
+        meetingLinkLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(meetingLinkLabel, gbc);
+        
+        // Meeting link text area
+        meetingLinkArea = new JTextArea(2, 40);
+        meetingLinkArea.setEditable(false);
+        meetingLinkArea.setLineWrap(true);
+        meetingLinkArea.setWrapStyleWord(true);
+        meetingLinkArea.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        meetingLinkArea.setBackground(java.awt.Color.LIGHT_GRAY);
+        meetingLinkScrollPane = new JScrollPane(meetingLinkArea);
+        meetingLinkScrollPane.setPreferredSize(new Dimension(400, 50));
+        meetingLinkScrollPane.setVisible(false); // Hidden by default
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.7;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(meetingLinkScrollPane, gbc);
+        
+        // Join meeting button
+        joinMeetingButton = new JButton("Join Meeting");
+        joinMeetingButton.setPreferredSize(new Dimension(150, 30));
+        joinMeetingButton.addActionListener(e -> joinMeeting());
+        joinMeetingButton.setVisible(false); // Hidden by default
+        gbc.gridx = 3;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(joinMeetingButton, gbc);
         row++;
         
         // View and Download materials buttons
@@ -560,6 +622,9 @@ public class EvaluationFormPanel extends JPanel {
             presenterNameLabel.setText(presenter.getUsername());
             presenterTitleLabel.setText(presenter.getResearchTitle() != null ? presenter.getResearchTitle() : "");
             
+            // Load session information
+            loadSessionInfo(sessionId);
+            
             // Enable/disable view and download buttons based on whether materials exist
             boolean hasMaterials = presenter.getFilePath() != null && !presenter.getFilePath().trim().isEmpty();
             viewMaterialsButton.setEnabled(hasMaterials);
@@ -587,10 +652,78 @@ public class EvaluationFormPanel extends JPanel {
         } else {
             presenterNameLabel.setText("No presenter selected");
             presenterTitleLabel.setText("");
+            sessionInfoLabel.setText("");
+            meetingLinkScrollPane.setVisible(false);
+            joinMeetingButton.setVisible(false);
             viewMaterialsButton.setEnabled(false);
             downloadMaterialsButton.setEnabled(false);
             resetForm();
             submitButton.setText("Submit Evaluation");
+        }
+    }
+    
+    /**
+     * Loads session information and displays meeting link for ORAL sessions.
+     * @param sessionId the session ID
+     */
+    private void loadSessionInfo(String sessionId) {
+        if (sessionId == null) {
+            sessionInfoLabel.setText("No session information");
+            meetingLinkScrollPane.setVisible(false);
+            joinMeetingButton.setVisible(false);
+            return;
+        }
+        
+        com.fci.seminar.model.Session session = app.getDataStore().getSession(sessionId);
+        if (session == null) {
+            sessionInfoLabel.setText("Session not found");
+            meetingLinkScrollPane.setVisible(false);
+            joinMeetingButton.setVisible(false);
+            return;
+        }
+        
+        // Display session info
+        String sessionInfo = session.getSessionType() + " - " + session.getDate() + " - " + session.getVenue();
+        sessionInfoLabel.setText(sessionInfo);
+        
+        // Show meeting link for ORAL sessions
+        if (session.getSessionType() == com.fci.seminar.model.PresentationType.ORAL) {
+            String meetingLink = session.getMeetingLink();
+            if (meetingLink != null && !meetingLink.trim().isEmpty()) {
+                meetingLinkArea.setText(meetingLink);
+                meetingLinkScrollPane.setVisible(true);
+                joinMeetingButton.setVisible(true);
+            } else {
+                meetingLinkScrollPane.setVisible(false);
+                joinMeetingButton.setVisible(false);
+            }
+        } else {
+            meetingLinkScrollPane.setVisible(false);
+            joinMeetingButton.setVisible(false);
+        }
+    }
+    
+    /**
+     * Opens the meeting link in the default browser.
+     */
+    private void joinMeeting() {
+        String meetingLink = meetingLinkArea.getText().trim();
+        
+        if (meetingLink.isEmpty()) {
+            ErrorHandler.showError(this, "No meeting link available");
+            return;
+        }
+        
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI(meetingLink));
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Opening meeting in your default browser...\nMicrosoft Teams will launch automatically.",
+                "Joining Meeting",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (Exception e) {
+            ErrorHandler.showError(this, "Failed to open meeting link: " + e.getMessage());
         }
     }
     
