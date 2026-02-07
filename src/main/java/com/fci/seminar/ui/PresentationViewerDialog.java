@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import com.fci.seminar.model.Student;
+import com.fci.seminar.service.FileStorageService;
 import com.fci.seminar.util.ErrorHandler;
 
 /**
@@ -270,9 +271,18 @@ public class PresentationViewerDialog extends JFrame {
             return;
         }
         
-        currentFile = new java.io.File(filePath);
+        FileStorageService fileService = FileStorageService.getInstance();
         
-        if (!currentFile.exists()) {
+        // Resolve the path (handles both relative and absolute paths)
+        if (fileService.isAbsolutePath(filePath)) {
+            // Backward compatibility: handle old absolute paths
+            currentFile = new java.io.File(filePath);
+        } else {
+            // New relative paths
+            currentFile = fileService.resolveStoragePath(filePath);
+        }
+        
+        if (currentFile == null || !currentFile.exists()) {
             showError("File not found: " + filePath);
             return;
         }

@@ -278,6 +278,41 @@ classDiagram
         +exportToPDF(String,String)
     }
     
+    class FileStorageService {
+        -FileStorageService instance
+        -String BASE_UPLOAD_DIR
+        -Set~String~ SUPPORTED_EXTENSIONS
+        +getInstance() FileStorageService
+        +uploadFile(File,String) String
+        +isFileTypeSupported(File) boolean
+        +resolveStoragePath(String) File
+        +isAbsolutePath(String) boolean
+        -getFileExtension(String) String
+        -createPresenterDirectory(String) Path
+        -deleteOldFiles(String,String)
+        -initializeBaseDirectory()
+        -logError(String,Exception)
+    }
+    
+    class FileStorageException {
+        <<exception>>
+        -ErrorType errorType
+        +FileStorageException(String,ErrorType)
+        +FileStorageException(String,ErrorType,Throwable)
+        +getErrorType() ErrorType
+        +getUserFriendlyMessage() String
+    }
+    
+    class ErrorType {
+        <<enumeration>>
+        FILE_NOT_FOUND
+        INVALID_FILE_TYPE
+        PERMISSION_DENIED
+        INSUFFICIENT_SPACE
+        COPY_FAILED
+        DIRECTORY_CREATION_FAILED
+    }
+    
     DataStore --> DatabaseManager
     UserService --> DataStore
     SessionService --> DataStore
@@ -287,6 +322,8 @@ classDiagram
     AwardService --> DataStore
     AwardService --> EvaluationService
     ReportService --> DataStore
+    FileStorageService --> FileStorageException
+    FileStorageException --> ErrorType
 ```
 
 ---
@@ -560,18 +597,42 @@ graph TB
 sequenceDiagram
     actor Student
     participant UI as StudentRegistrationPanel
+    participant FileSvc as FileStorageService
     participant Service as UserService
     participant Store as DataStore
     participant DB as DatabaseManager
+    participant FS as File System
     
     Student->>UI: Fill registration form
+    Student->>UI: Browse and select file
+    UI->>UI: Display selected filename
     Student->>UI: Click Register
     UI->>UI: Validate input
+    
+    alt File selected
+        UI->>FileSvc: isFileTypeSupported(file)
+        FileSvc-->>UI: true/false
+        
+        alt Valid file type
+            UI->>FileSvc: uploadFile(file, presenterId)
+            FileSvc->>FileSvc: Validate file exists
+            FileSvc->>FileSvc: Create presenter directory
+            FileSvc->>FS: Copy file to uploads/presentations/{presenterId}/
+            FS-->>FileSvc: Success
+            FileSvc->>FileSvc: Generate relative storage path
+            FileSvc-->>UI: Return storage path
+            UI->>UI: Set student.filePath(storagePath)
+        else Invalid file type
+            FileSvc-->>UI: Throw FileStorageException
+            UI->>Student: Show error message
+        end
+    end
+    
     UI->>Service: registerStudent(student)
     Service->>Service: Generate presenter ID
     Service->>Store: addUser(student)
     Store->>DB: saveUser(student)
-    DB->>DB: INSERT INTO users
+    DB->>DB: INSERT INTO users (with relative file_path)
     DB-->>Store: Success
     Store-->>Service: Success
     Service-->>UI: Registration successful
@@ -588,18 +649,40 @@ sequenceDiagram
     actor Evaluator
     participant Dashboard as EvaluatorDashboard
     participant Form as EvaluationFormPanel
+    participant FileSvc as FileStorageService
     participant EvalService as EvaluationService
     participant Store as DataStore
     participant DB as DatabaseManager
+    participant FS as File System
     
     Evaluator->>Dashboard: Double-click session
     Dashboard->>Form: setPresenter(student, sessionId)
     Form->>Store: getSession(sessionId)
     Store-->>Form: Session details
-    Form->>Form: Display session info & meeting link
+    Form->>Form: Display session info
+    
+    alt Session is ORAL
+        Form->>Form: Show meeting link & join button
+    else Session is POSTER
+        Form->>Form: Hide meeting link field
+    end
+    
     Form->>Evaluator: Show evaluation form
     
-    Evaluator->>Form: View materials
+    Evaluator->>Form: Click "View Materials"
+    Form->>FileSvc: isAbsolutePath(student.filePath)
+    
+    alt Relative path (new format)
+        FileSvc-->>Form: false
+        Form->>FileSvc: resolveStoragePath(filePath)
+        FileSvc->>FS: Resolve to uploads/presentations/{presenterId}/
+        FS-->>FileSvc: Absolute File object
+        FileSvc-->>Form: File object
+    else Absolute path (legacy)
+        FileSvc-->>Form: true
+        Form->>Form: Use path directly
+    end
+    
     Form->>Form: Open PresentationViewerDialog
     
     Evaluator->>Form: Fill rubric scores
@@ -786,6 +869,7 @@ graph TB
         PosterSvc[PosterBoardService]
         AwardSvc[AwardService]
         ReportSvc[ReportService]
+        FileSvc[FileStorageService]
     end
     
     subgraph "Data Access Layer"
@@ -799,7 +883,7 @@ graph TB
     
     subgraph "External Systems"
         MySQL[(MySQL Database<br/>seminar_db)]
-        FileSystem[File System<br/>Presentation Materials]
+        FileSystem[File System<br/>uploads/presentations/]
         Browser[Web Browser<br/>Teams Meetings]
     end
     
@@ -807,6 +891,7 @@ graph TB
         ErrorHandler[ErrorHandler]
         IdGenerator[IdGenerator]
         PDFBox[Apache PDFBox<br/>PDF Rendering]
+        FileStorageEx[FileStorageException]
     end
     
     UI --> App
@@ -830,9 +915,11 @@ graph TB
     DBMgr --> MySQL
     
     UI --> ErrorHandler
+    UI --> FileSvc
     UserSvc --> IdGenerator
     UI --> PDFBox
-    UI --> FileSystem
+    FileSvc --> FileSystem
+    FileSvc --> FileStorageEx
     UI --> Browser
     
     SessionSvc --> UserSvc

@@ -25,8 +25,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.fci.seminar.model.PresentationType;
 import com.fci.seminar.model.Student;
 import com.fci.seminar.model.User;
+import com.fci.seminar.service.FileStorageService;
 import com.fci.seminar.service.UserService;
 import com.fci.seminar.util.ErrorHandler;
+import com.fci.seminar.util.FileStorageException;
 
 /**
  * Panel for student seminar registration.
@@ -327,9 +329,31 @@ public class StudentRegistrationPanel extends JPanel {
         student.setSupervisorName(supervisor);
         student.setPresentationType(type);
         
-        // Save file path if a file was selected
+        // Handle file upload if a file was selected
+        String storagePath = null;
         if (selectedFile != null && selectedFile.exists()) {
-            student.setFilePath(selectedFile.getAbsolutePath());
+            try {
+                FileStorageService fileService = FileStorageService.getInstance();
+                
+                // Validate file type
+                if (!fileService.isFileTypeSupported(selectedFile)) {
+                    ErrorHandler.showError(this, 
+                        "Unsupported file type. Please upload PDF, image (JPG, PNG, GIF), or text files.");
+                    return;
+                }
+                
+                // Upload file to centralized storage
+                storagePath = fileService.uploadFile(selectedFile, student.getPresenterId());
+                
+            } catch (FileStorageException e) {
+                ErrorHandler.showError(this, e.getUserFriendlyMessage());
+                return;
+            }
+        }
+        
+        // Update student's file path with storage path
+        if (storagePath != null) {
+            student.setFilePath(storagePath);
         }
         
         try {

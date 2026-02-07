@@ -42,6 +42,7 @@ public class EvaluationFormPanel extends JPanel {
     private JLabel presenterNameLabel;
     private JLabel presenterTitleLabel;
     private JLabel sessionInfoLabel;
+    private JLabel meetingLinkLabel;
     private JTextArea meetingLinkArea;
     private JScrollPane meetingLinkScrollPane;
     private JButton joinMeetingButton;
@@ -179,8 +180,9 @@ public class EvaluationFormPanel extends JPanel {
         row++;
         
         // Meeting link (for ORAL sessions only) - Label
-        JLabel meetingLinkLabel = new JLabel("Meeting Link:");
+        meetingLinkLabel = new JLabel("Meeting Link:");
         meetingLinkLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        meetingLinkLabel.setVisible(false); // Hidden by default
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.gridwidth = 1;
@@ -653,6 +655,7 @@ public class EvaluationFormPanel extends JPanel {
             presenterNameLabel.setText("No presenter selected");
             presenterTitleLabel.setText("");
             sessionInfoLabel.setText("");
+            meetingLinkLabel.setVisible(false);
             meetingLinkScrollPane.setVisible(false);
             joinMeetingButton.setVisible(false);
             viewMaterialsButton.setEnabled(false);
@@ -669,6 +672,7 @@ public class EvaluationFormPanel extends JPanel {
     private void loadSessionInfo(String sessionId) {
         if (sessionId == null) {
             sessionInfoLabel.setText("No session information");
+            meetingLinkLabel.setVisible(false);
             meetingLinkScrollPane.setVisible(false);
             joinMeetingButton.setVisible(false);
             return;
@@ -677,6 +681,7 @@ public class EvaluationFormPanel extends JPanel {
         com.fci.seminar.model.Session session = app.getDataStore().getSession(sessionId);
         if (session == null) {
             sessionInfoLabel.setText("Session not found");
+            meetingLinkLabel.setVisible(false);
             meetingLinkScrollPane.setVisible(false);
             joinMeetingButton.setVisible(false);
             return;
@@ -686,18 +691,22 @@ public class EvaluationFormPanel extends JPanel {
         String sessionInfo = session.getSessionType() + " - " + session.getDate() + " - " + session.getVenue();
         sessionInfoLabel.setText(sessionInfo);
         
-        // Show meeting link for ORAL sessions
+        // Show meeting link for ORAL sessions only
         if (session.getSessionType() == com.fci.seminar.model.PresentationType.ORAL) {
             String meetingLink = session.getMeetingLink();
             if (meetingLink != null && !meetingLink.trim().isEmpty()) {
                 meetingLinkArea.setText(meetingLink);
+                meetingLinkLabel.setVisible(true);
                 meetingLinkScrollPane.setVisible(true);
                 joinMeetingButton.setVisible(true);
             } else {
+                meetingLinkLabel.setVisible(false);
                 meetingLinkScrollPane.setVisible(false);
                 joinMeetingButton.setVisible(false);
             }
         } else {
+            // Hide meeting link for POSTER sessions
+            meetingLinkLabel.setVisible(false);
             meetingLinkScrollPane.setVisible(false);
             joinMeetingButton.setVisible(false);
         }

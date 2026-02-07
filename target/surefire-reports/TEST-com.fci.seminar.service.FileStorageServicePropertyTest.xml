@@ -1,0 +1,2154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fci.seminar.service.FileStorageServicePropertyTest" time="15.738" tests="17" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise\target\test-classes;C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise\target\classes;C:\Users\Jin Yuan\.m2\repository\com\mysql\mysql-connector-j\8.2.0\mysql-connector-j-8.2.0.jar;C:\Users\Jin Yuan\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Jin Yuan\.m2\repository\com\zaxxer\HikariCP\5.1.0\HikariCP-5.1.0.jar;C:\Users\Jin Yuan\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\Jin Yuan\.m2\repository\com\toedter\jcalendar\1.4\jcalendar-1.4.jar;C:\Users\Jin Yuan\.m2\repository\org\apache\pdfbox\pdfbox\2.0.30\pdfbox-2.0.30.jar;C:\Users\Jin Yuan\.m2\repository\org\apache\pdfbox\fontbox\2.0.30\fontbox-2.0.30.jar;C:\Users\Jin Yuan\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik\1.8.2\jqwik-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-api\1.8.2\jqwik-api-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-web\1.8.2\jqwik-web-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-time\1.8.2\jqwik-time-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-engine\1.8.2\jqwik-engine-1.8.2.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Kuala_Lumpur"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="25"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="MY"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-25\bin"/>
+    <property name="sun.java.command" value="C:\Users\Jin Yuan\AppData\Local\Temp\surefire8447591964374776671\surefirebooter-20260207121752953_3.jar C:\Users\Jin Yuan\AppData\Local\Temp\surefire8447591964374776671 2026-02-07T12-17-52_446-jvmRun1 surefire-20260207121752953_1tmp surefire_0-20260207121752953_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise\target\test-classes;C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise\target\classes;C:\Users\Jin Yuan\.m2\repository\com\mysql\mysql-connector-j\8.2.0\mysql-connector-j-8.2.0.jar;C:\Users\Jin Yuan\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Jin Yuan\.m2\repository\com\zaxxer\HikariCP\5.1.0\HikariCP-5.1.0.jar;C:\Users\Jin Yuan\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\Jin Yuan\.m2\repository\com\toedter\jcalendar\1.4\jcalendar-1.4.jar;C:\Users\Jin Yuan\.m2\repository\org\apache\pdfbox\pdfbox\2.0.30\pdfbox-2.0.30.jar;C:\Users\Jin Yuan\.m2\repository\org\apache\pdfbox\fontbox\2.0.30\fontbox-2.0.30.jar;C:\Users\Jin Yuan\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\Jin Yuan\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik\1.8.2\jqwik-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-api\1.8.2\jqwik-api-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-web\1.8.2\jqwik-web-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-time\1.8.2\jqwik-time-1.8.2.jar;C:\Users\Jin Yuan\.m2\repository\net\jqwik\jqwik-engine\1.8.2\jqwik-engine-1.8.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Jin Yuan"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-25"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Jin Yuan\AppData\Local\Temp\surefire8447591964374776671\surefirebooter-20260207121752953_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="25.0.1+8-LTS-27"/>
+    <property name="user.name" value="Jin Yuan"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\Jin Yuan\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\JINYUA~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="25.0.1"/>
+    <property name="user.dir" value="C:\Users\Jin Yuan\Documents\OOAD\Lab Exercise\OOAD-Lab-Exercise"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-25\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Users\Jin Yuan\Documents\OOAD\Assignment\OOAD-Assignment\apache-maven-3.9.12\bin;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Users\Jin Yuan\AppData\Local\Programs\Python\Python313\Scripts;C:\Program Files\Git\cmd;C:\xampp\php;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-25;C:\Users\Jin Yuan\AppData\Local\Programs\Python\Python313\;C:\Users\Jin Yuan\AppData\Local\Programs\Python\Launcher\;C:\Users\Jin Yuan\AppData\Local\Microsoft\WindowsApps;C:\Users\Jin Yuan\AppData\Local\Programs\Fiddler;C:\Users\Jin Yuan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Jin Yuan\AppData\Roaming\npm;C:\Users\Jin Yuan\AppData\Local\atom\bin;C:\Users\Jin Yuan\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\Jin Yuan\AppData\Local\GitHubDesktop\bin;C:\Program Files\Git\bin;C:\Program Files\git\cmd;C:\Users\Jin Yuan\AppData\Local\Programs\Python\Python313\Scripts;C:\Users\Jin Yuan\AppData\Local\Programs\Kiro\bin;C:\Users\Jin Yuan\AppData\Local\Microsoft\WindowsApps;c:\Users\Jin Yuan\.kiro\extensions\vscjava.vscode-java-debug-0.58.5-universal\bundled\scripts\noConfigScripts;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="25.0.1+8-LTS-27"/>
+    <property name="stdin.encoding" value="Cp1252"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="69.0"/>
+  </properties>
+  <testcase name="property8 oldFileCleanupOnDifferentFilename" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="3.061">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-MD4BAY5o
+Uploaded file: ADEJCLhBg.jpg to uploads\presentations\P-MD4BAY5o\ADEJCLhBg.jpg
+Deleted old file: ADEJCLhBg.jpg
+Uploaded file: CZMCf.txt to uploads\presentations\P-MD4BAY5o\CZMCf.txt
+Created presenter directory: uploads\presentations\P-9IyRARAU
+Uploaded file: ISDlq.txt to uploads\presentations\P-9IyRARAU\ISDlq.txt
+Deleted old file: ISDlq.txt
+Uploaded file: jqfuJEN.jpeg to uploads\presentations\P-9IyRARAU\jqfuJEN.jpeg
+Created presenter directory: uploads\presentations\P-0qGNYXAG
+Uploaded file: drINyNfY.jpeg to uploads\presentations\P-0qGNYXAG\drINyNfY.jpeg
+Deleted old file: drINyNfY.jpeg
+Uploaded file: nTUtiuC.jpg to uploads\presentations\P-0qGNYXAG\nTUtiuC.jpg
+Created presenter directory: uploads\presentations\P-nivZxgNI
+Uploaded file: lYAsD.png to uploads\presentations\P-nivZxgNI\lYAsD.png
+Deleted old file: lYAsD.png
+Uploaded file: xD.pdf to uploads\presentations\P-nivZxgNI\xD.pdf
+Created presenter directory: uploads\presentations\P-H9w2lusW
+Uploaded file: lehC.png to uploads\presentations\P-H9w2lusW\lehC.png
+Deleted old file: lehC.png
+Uploaded file: eICZh.jpeg to uploads\presentations\P-H9w2lusW\eICZh.jpeg
+Created presenter directory: uploads\presentations\P-md1ZpjQJ
+Uploaded file: GwljVZiu.pdf to uploads\presentations\P-md1ZpjQJ\GwljVZiu.pdf
+Deleted old file: GwljVZiu.pdf
+Uploaded file: LSBMXWz.txt to uploads\presentations\P-md1ZpjQJ\LSBMXWz.txt
+Created presenter directory: uploads\presentations\P-bIEm7yQS
+Uploaded file: Z.jpeg to uploads\presentations\P-bIEm7yQS\Z.jpeg
+Deleted old file: Z.jpeg
+Uploaded file: yPwdAOtPsk.pdf to uploads\presentations\P-bIEm7yQS\yPwdAOtPsk.pdf
+Created presenter directory: uploads\presentations\P-WeGtGSdB
+Uploaded file: gwbINLiShs.png to uploads\presentations\P-WeGtGSdB\gwbINLiShs.png
+Deleted old file: gwbINLiShs.png
+Uploaded file: A.jpg to uploads\presentations\P-WeGtGSdB\A.jpg
+Created presenter directory: uploads\presentations\P-Qf7OuG9l
+Uploaded file: drcGdmSmn.txt to uploads\presentations\P-Qf7OuG9l\drcGdmSmn.txt
+Deleted old file: drcGdmSmn.txt
+Uploaded file: FjP.txt to uploads\presentations\P-Qf7OuG9l\FjP.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Deleted old file: A.gif
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-2jwvv5Qy
+Uploaded file: DqwbZITjt.pdf to uploads\presentations\P-2jwvv5Qy\DqwbZITjt.pdf
+Deleted old file: DqwbZITjt.pdf
+Uploaded file: QaAHhpmKA.jpeg to uploads\presentations\P-2jwvv5Qy\QaAHhpmKA.jpeg
+Created presenter directory: uploads\presentations\P-sZALUSxC
+Uploaded file: WyiWLRApm.png to uploads\presentations\P-sZALUSxC\WyiWLRApm.png
+Deleted old file: WyiWLRApm.png
+Uploaded file: Z.txt to uploads\presentations\P-sZALUSxC\Z.txt
+Created presenter directory: uploads\presentations\P-UzuZVnZD
+Uploaded file: RvILoxTB.pdf to uploads\presentations\P-UzuZVnZD\RvILoxTB.pdf
+Deleted old file: RvILoxTB.pdf
+Uploaded file: Pqb.txt to uploads\presentations\P-UzuZVnZD\Pqb.txt
+Created presenter directory: uploads\presentations\P-mQhcvpMW
+Uploaded file: KmpVr.png to uploads\presentations\P-mQhcvpMW\KmpVr.png
+Deleted old file: KmpVr.png
+Uploaded file: MJ.png to uploads\presentations\P-mQhcvpMW\MJ.png
+Created presenter directory: uploads\presentations\P-Cn5WgsWo
+Uploaded file: Rd.jpg to uploads\presentations\P-Cn5WgsWo\Rd.jpg
+Deleted old file: Rd.jpg
+Uploaded file: WvzNGEG.png to uploads\presentations\P-Cn5WgsWo\WvzNGEG.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Deleted old file: A.pdf
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-aA4qdeQp
+Uploaded file: t.jpg to uploads\presentations\P-aA4qdeQp\t.jpg
+Deleted old file: t.jpg
+Uploaded file: TQMrE.png to uploads\presentations\P-aA4qdeQp\TQMrE.png
+Created presenter directory: uploads\presentations\P-scioeL5j
+Uploaded file: WQ.png to uploads\presentations\P-scioeL5j\WQ.png
+Deleted old file: WQ.png
+Uploaded file: xESXlPviO.jpg to uploads\presentations\P-scioeL5j\xESXlPviO.jpg
+Created presenter directory: uploads\presentations\P-UfSjDItV
+Uploaded file: M.gif to uploads\presentations\P-UfSjDItV\M.gif
+Deleted old file: M.gif
+Uploaded file: xumBSskb.pdf to uploads\presentations\P-UfSjDItV\xumBSskb.pdf
+Created presenter directory: uploads\presentations\P-J1QpLdS0
+Uploaded file: setadH.gif to uploads\presentations\P-J1QpLdS0\setadH.gif
+Deleted old file: setadH.gif
+Uploaded file: aqDoFVW.jpg to uploads\presentations\P-J1QpLdS0\aqDoFVW.jpg
+Created presenter directory: uploads\presentations\P-4x2REppF
+Uploaded file: TWi.png to uploads\presentations\P-4x2REppF\TWi.png
+Deleted old file: TWi.png
+Uploaded file: lIKbLvx.txt to uploads\presentations\P-4x2REppF\lIKbLvx.txt
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: TwG.png to uploads\presentations\P-zzzzzzzz\TwG.png
+Deleted old file: TwG.png
+Uploaded file: ZQvcuq.pdf to uploads\presentations\P-zzzzzzzz\ZQvcuq.pdf
+Created presenter directory: uploads\presentations\P-E4AJu4aI
+Uploaded file: ZnZJQVR.jpeg to uploads\presentations\P-E4AJu4aI\ZnZJQVR.jpeg
+Deleted old file: ZnZJQVR.jpeg
+Uploaded file: a.pdf to uploads\presentations\P-E4AJu4aI\a.pdf
+Created presenter directory: uploads\presentations\P-qN1snQLz
+Uploaded file: z.txt to uploads\presentations\P-qN1snQLz\z.txt
+Deleted old file: z.txt
+Uploaded file: gQA.jpeg to uploads\presentations\P-qN1snQLz\gQA.jpeg
+Created presenter directory: uploads\presentations\P-OzEvKliw
+Uploaded file: RD.png to uploads\presentations\P-OzEvKliw\RD.png
+Deleted old file: RD.png
+Uploaded file: N.png to uploads\presentations\P-OzEvKliw\N.png
+Created presenter directory: uploads\presentations\P-jUqK0VQN
+Uploaded file: a.jpg to uploads\presentations\P-jUqK0VQN\a.jpg
+Deleted old file: a.jpg
+Uploaded file: xKiaPBTspr.jpg to uploads\presentations\P-jUqK0VQN\xKiaPBTspr.jpg
+Created presenter directory: uploads\presentations\P-UfQrFxDP
+Uploaded file: kAtZQtO.txt to uploads\presentations\P-UfQrFxDP\kAtZQtO.txt
+Deleted old file: kAtZQtO.txt
+Uploaded file: POEC.jpeg to uploads\presentations\P-UfQrFxDP\POEC.jpeg
+Created presenter directory: uploads\presentations\P-uHWL5wdM
+Uploaded file: ZTBWR.gif to uploads\presentations\P-uHWL5wdM\ZTBWR.gif
+Deleted old file: ZTBWR.gif
+Uploaded file: W.txt to uploads\presentations\P-uHWL5wdM\W.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Deleted old file: A.gif
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-jVWgWooq
+Uploaded file: O.jpg to uploads\presentations\P-jVWgWooq\O.jpg
+Deleted old file: O.jpg
+Uploaded file: p.pdf to uploads\presentations\P-jVWgWooq\p.pdf
+Created presenter directory: uploads\presentations\P-Xq17Gv28
+Uploaded file: R.txt to uploads\presentations\P-Xq17Gv28\R.txt
+Deleted old file: R.txt
+Uploaded file: c.gif to uploads\presentations\P-Xq17Gv28\c.gif
+Created presenter directory: uploads\presentations\P-oZXVFL7X
+Uploaded file: I.png to uploads\presentations\P-oZXVFL7X\I.png
+Deleted old file: I.png
+Uploaded file: GbV.png to uploads\presentations\P-oZXVFL7X\GbV.png
+Created presenter directory: uploads\presentations\P-CRvXqIfE
+Uploaded file: F.txt to uploads\presentations\P-CRvXqIfE\F.txt
+Deleted old file: F.txt
+Uploaded file: gN.pdf to uploads\presentations\P-CRvXqIfE\gN.pdf
+Created presenter directory: uploads\presentations\P-TYdYReMS
+Uploaded file: NYld.gif to uploads\presentations\P-TYdYReMS\NYld.gif
+Deleted old file: NYld.gif
+Uploaded file: Og.pdf to uploads\presentations\P-TYdYReMS\Og.pdf
+Created presenter directory: uploads\presentations\P-jpl7yPIJ
+Uploaded file: qiahqsB.png to uploads\presentations\P-jpl7yPIJ\qiahqsB.png
+Deleted old file: qiahqsB.png
+Uploaded file: ngv.jpeg to uploads\presentations\P-jpl7yPIJ\ngv.jpeg
+Created presenter directory: uploads\presentations\P-TJKk0BBl
+Uploaded file: sSi.jpg to uploads\presentations\P-TJKk0BBl\sSi.jpg
+Deleted old file: sSi.jpg
+Uploaded file: a.png to uploads\presentations\P-TJKk0BBl\a.png
+Created presenter directory: uploads\presentations\P-stR2lyQT
+Uploaded file: gbbtPDl.txt to uploads\presentations\P-stR2lyQT\gbbtPDl.txt
+Deleted old file: gbbtPDl.txt
+Uploaded file: w.pdf to uploads\presentations\P-stR2lyQT\w.pdf
+Created presenter directory: uploads\presentations\P-i1GZwlKj
+Uploaded file: cb.png to uploads\presentations\P-i1GZwlKj\cb.png
+Deleted old file: cb.png
+Uploaded file: ap.jpeg to uploads\presentations\P-i1GZwlKj\ap.jpeg
+Created presenter directory: uploads\presentations\P-y2YQKqXd
+Uploaded file: VandNqPkW.pdf to uploads\presentations\P-y2YQKqXd\VandNqPkW.pdf
+Deleted old file: VandNqPkW.pdf
+Uploaded file: a.png to uploads\presentations\P-y2YQKqXd\a.png
+Created presenter directory: uploads\presentations\P-HiT53X7V
+Uploaded file: sdVyJuP.pdf to uploads\presentations\P-HiT53X7V\sdVyJuP.pdf
+Deleted old file: sdVyJuP.pdf
+Uploaded file: D.gif to uploads\presentations\P-HiT53X7V\D.gif
+Created presenter directory: uploads\presentations\P-77TcQMlg
+Uploaded file: oy.jpg to uploads\presentations\P-77TcQMlg\oy.jpg
+Deleted old file: oy.jpg
+Uploaded file: tnPWBpdpN.png to uploads\presentations\P-77TcQMlg\tnPWBpdpN.png
+Created presenter directory: uploads\presentations\P-JInymXrg
+Uploaded file: FxrujrGoP.pdf to uploads\presentations\P-JInymXrg\FxrujrGoP.pdf
+Deleted old file: FxrujrGoP.pdf
+Uploaded file: IPbR.jpeg to uploads\presentations\P-JInymXrg\IPbR.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Deleted old file: A.gif
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-jZ4SwvuA
+Uploaded file: lWhWPd.gif to uploads\presentations\P-jZ4SwvuA\lWhWPd.gif
+Deleted old file: lWhWPd.gif
+Uploaded file: I.txt to uploads\presentations\P-jZ4SwvuA\I.txt
+Created presenter directory: uploads\presentations\P-yUbMxCe0
+Uploaded file: q.jpg to uploads\presentations\P-yUbMxCe0\q.jpg
+Deleted old file: q.jpg
+Uploaded file: oaIGF.jpeg to uploads\presentations\P-yUbMxCe0\oaIGF.jpeg
+Created presenter directory: uploads\presentations\P-se7a9let
+Uploaded file: JoDAhLv.gif to uploads\presentations\P-se7a9let\JoDAhLv.gif
+Deleted old file: JoDAhLv.gif
+Uploaded file: wqwuKkbfc.png to uploads\presentations\P-se7a9let\wqwuKkbfc.png
+Created presenter directory: uploads\presentations\P-6qJXUtzE
+Uploaded file: o.jpeg to uploads\presentations\P-6qJXUtzE\o.jpeg
+Deleted old file: o.jpeg
+Uploaded file: Kq.pdf to uploads\presentations\P-6qJXUtzE\Kq.pdf
+Created presenter directory: uploads\presentations\P-f37K1TN8
+Uploaded file: eAPlNe.jpg to uploads\presentations\P-f37K1TN8\eAPlNe.jpg
+Deleted old file: eAPlNe.jpg
+Uploaded file: UVjtXMUjOO.pdf to uploads\presentations\P-f37K1TN8\UVjtXMUjOO.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Deleted old file: A.pdf
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Deleted old file: A.gif
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Deleted old file: Z.pdf
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-DnWopxCA
+Uploaded file: grasdCoSBy.jpg to uploads\presentations\P-DnWopxCA\grasdCoSBy.jpg
+Deleted old file: grasdCoSBy.jpg
+Uploaded file: BNM.jpg to uploads\presentations\P-DnWopxCA\BNM.jpg
+Created presenter directory: uploads\presentations\P-uZKiWIxe
+Uploaded file: vz.pdf to uploads\presentations\P-uZKiWIxe\vz.pdf
+Deleted old file: vz.pdf
+Uploaded file: XhhkZLLnD.pdf to uploads\presentations\P-uZKiWIxe\XhhkZLLnD.pdf
+Created presenter directory: uploads\presentations\P-wn9oTHJ7
+Uploaded file: oWH.pdf to uploads\presentations\P-wn9oTHJ7\oWH.pdf
+Deleted old file: oWH.pdf
+Uploaded file: Z.pdf to uploads\presentations\P-wn9oTHJ7\Z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Deleted old file: Z.gif
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-Lv5kao5K
+Uploaded file: Wuujo.txt to uploads\presentations\P-Lv5kao5K\Wuujo.txt
+Deleted old file: Wuujo.txt
+Uploaded file: ECYVzgFlbb.png to uploads\presentations\P-Lv5kao5K\ECYVzgFlbb.png
+Created presenter directory: uploads\presentations\P-rBg6Vkfs
+Uploaded file: WePEsz.gif to uploads\presentations\P-rBg6Vkfs\WePEsz.gif
+Deleted old file: WePEsz.gif
+Uploaded file: FGXTOA.pdf to uploads\presentations\P-rBg6Vkfs\FGXTOA.pdf
+Created presenter directory: uploads\presentations\P-54aVXN7q
+Uploaded file: An.txt to uploads\presentations\P-54aVXN7q\An.txt
+Deleted old file: An.txt
+Uploaded file: z.png to uploads\presentations\P-54aVXN7q\z.png
+Created presenter directory: uploads\presentations\P-5WcNJ5lj
+Uploaded file: nfDM.jpeg to uploads\presentations\P-5WcNJ5lj\nfDM.jpeg
+Deleted old file: nfDM.jpeg
+Uploaded file: wRWEJvZV.pdf to uploads\presentations\P-5WcNJ5lj\wRWEJvZV.pdf
+Created presenter directory: uploads\presentations\P-EJFZbeSR
+Uploaded file: A.png to uploads\presentations\P-EJFZbeSR\A.png
+Deleted old file: A.png
+Uploaded file: ZMXqAp.txt to uploads\presentations\P-EJFZbeSR\ZMXqAp.txt
+Created presenter directory: uploads\presentations\P-SoKkMzgA
+Uploaded file: iBufj.gif to uploads\presentations\P-SoKkMzgA\iBufj.gif
+Deleted old file: iBufj.gif
+Uploaded file: RUgITt.png to uploads\presentations\P-SoKkMzgA\RUgITt.png
+Created presenter directory: uploads\presentations\P-OhVlkZKA
+Uploaded file: bnnRfocSxD.jpeg to uploads\presentations\P-OhVlkZKA\bnnRfocSxD.jpeg
+Deleted old file: bnnRfocSxD.jpeg
+Uploaded file: BgeYiM.png to uploads\presentations\P-OhVlkZKA\BgeYiM.png
+Created presenter directory: uploads\presentations\P-8IRMi1U2
+Uploaded file: Q.jpg to uploads\presentations\P-8IRMi1U2\Q.jpg
+Deleted old file: Q.jpg
+Uploaded file: rtnQNdxqhj.gif to uploads\presentations\P-8IRMi1U2\rtnQNdxqhj.gif
+Created presenter directory: uploads\presentations\P-zGGvC1hP
+Uploaded file: Bl.png to uploads\presentations\P-zGGvC1hP\Bl.png
+Deleted old file: Bl.png
+Uploaded file: xiZazOXq.png to uploads\presentations\P-zGGvC1hP\xiZazOXq.png
+Created presenter directory: uploads\presentations\P-s2ejh0Zl
+Uploaded file: mqgaidj.jpeg to uploads\presentations\P-s2ejh0Zl\mqgaidj.jpeg
+Deleted old file: mqgaidj.jpeg
+Uploaded file: jCqUWqzB.gif to uploads\presentations\P-s2ejh0Zl\jCqUWqzB.gif
+Created presenter directory: uploads\presentations\P-VdmMTi6E
+Uploaded file: VO.txt to uploads\presentations\P-VdmMTi6E\VO.txt
+Deleted old file: VO.txt
+Uploaded file: MnESYu.txt to uploads\presentations\P-VdmMTi6E\MnESYu.txt
+Created presenter directory: uploads\presentations\P-jYHJyDJ3
+Uploaded file: DkGHH.png to uploads\presentations\P-jYHJyDJ3\DkGHH.png
+Deleted old file: DkGHH.png
+Uploaded file: qUAmVZA.jpg to uploads\presentations\P-jYHJyDJ3\qUAmVZA.jpg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Deleted old file: Z.gif
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-BW3idFOt
+Uploaded file: bci.jpg to uploads\presentations\P-BW3idFOt\bci.jpg
+Deleted old file: bci.jpg
+Uploaded file: qYZRKHoqLL.pdf to uploads\presentations\P-BW3idFOt\qYZRKHoqLL.pdf
+Created presenter directory: uploads\presentations\P-xudc2500
+Uploaded file: OCXdNIkSr.txt to uploads\presentations\P-xudc2500\OCXdNIkSr.txt
+Deleted old file: OCXdNIkSr.txt
+Uploaded file: mOe.gif to uploads\presentations\P-xudc2500\mOe.gif
+Created presenter directory: uploads\presentations\P-wTdVUsfW
+Uploaded file: wai.pdf to uploads\presentations\P-wTdVUsfW\wai.pdf
+Deleted old file: wai.pdf
+Uploaded file: FXy.gif to uploads\presentations\P-wTdVUsfW\FXy.gif
+Created presenter directory: uploads\presentations\P-HsV7PeqF
+Uploaded file: aSaVYxWD.jpg to uploads\presentations\P-HsV7PeqF\aSaVYxWD.jpg
+Deleted old file: aSaVYxWD.jpg
+Uploaded file: Qz.gif to uploads\presentations\P-HsV7PeqF\Qz.gif
+Created presenter directory: uploads\presentations\P-fcm1VTwP
+Uploaded file: zwUE.jpeg to uploads\presentations\P-fcm1VTwP\zwUE.jpeg
+Deleted old file: zwUE.jpeg
+Uploaded file: FrZqchssiL.gif to uploads\presentations\P-fcm1VTwP\FrZqchssiL.gif
+Created presenter directory: uploads\presentations\P-Xkc8r0nL
+Uploaded file: Rwnyyv.pdf to uploads\presentations\P-Xkc8r0nL\Rwnyyv.pdf
+Deleted old file: Rwnyyv.pdf
+Uploaded file: bMV.png to uploads\presentations\P-Xkc8r0nL\bMV.png
+Created presenter directory: uploads\presentations\P-HoDJxPb8
+Uploaded file: bOSFHnrl.gif to uploads\presentations\P-HoDJxPb8\bOSFHnrl.gif
+Deleted old file: bOSFHnrl.gif
+Uploaded file: Gvgpsf.png to uploads\presentations\P-HoDJxPb8\Gvgpsf.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Deleted old file: Z.pdf
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-Ghd5INsJ
+Uploaded file: uKFwueLfST.gif to uploads\presentations\P-Ghd5INsJ\uKFwueLfST.gif
+Deleted old file: uKFwueLfST.gif
+Uploaded file: sBdkNLUQV.jpeg to uploads\presentations\P-Ghd5INsJ\sBdkNLUQV.jpeg
+Created presenter directory: uploads\presentations\P-SAYSHVWY
+Uploaded file: tSkRM.txt to uploads\presentations\P-SAYSHVWY\tSkRM.txt
+Deleted old file: tSkRM.txt
+Uploaded file: crDfwgtzLM.pdf to uploads\presentations\P-SAYSHVWY\crDfwgtzLM.pdf
+Created presenter directory: uploads\presentations\P-gMBwVQc9
+Uploaded file: a.txt to uploads\presentations\P-gMBwVQc9\a.txt
+Deleted old file: a.txt
+Uploaded file: lixscPl.jpg to uploads\presentations\P-gMBwVQc9\lixscPl.jpg
+Created presenter directory: uploads\presentations\P-SEPDdGY9
+Uploaded file: hKMCWF.gif to uploads\presentations\P-SEPDdGY9\hKMCWF.gif
+Deleted old file: hKMCWF.gif
+Uploaded file: LFdyZnTe.gif to uploads\presentations\P-SEPDdGY9\LFdyZnTe.gif
+Created presenter directory: uploads\presentations\P-NAOxWjxE
+Uploaded file: xBUydnXrv.txt to uploads\presentations\P-NAOxWjxE\xBUydnXrv.txt
+Deleted old file: xBUydnXrv.txt
+Uploaded file: EMAHsHPqKb.pdf to uploads\presentations\P-NAOxWjxE\EMAHsHPqKb.pdf
+Created presenter directory: uploads\presentations\P-ng3pljuE
+Uploaded file: w.gif to uploads\presentations\P-ng3pljuE\w.gif
+Deleted old file: w.gif
+Uploaded file: sPoQ.pdf to uploads\presentations\P-ng3pljuE\sPoQ.pdf
+Created presenter directory: uploads\presentations\P-Z2FBq8b8
+Uploaded file: AvcXu.gif to uploads\presentations\P-Z2FBq8b8\AvcXu.gif
+Deleted old file: AvcXu.gif
+Uploaded file: lybsI.pdf to uploads\presentations\P-Z2FBq8b8\lybsI.pdf
+Created presenter directory: uploads\presentations\P-gMSHFxj9
+Uploaded file: JZ.txt to uploads\presentations\P-gMSHFxj9\JZ.txt
+Deleted old file: JZ.txt
+Uploaded file: jaNJ.png to uploads\presentations\P-gMSHFxj9\jaNJ.png
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: T.pdf to uploads\presentations\P-00000000\T.pdf
+Deleted old file: T.pdf
+Uploaded file: ZDB.pdf to uploads\presentations\P-00000000\ZDB.pdf
+Created presenter directory: uploads\presentations\P-FXCjDiDP
+Uploaded file: mJPeMpxId.jpg to uploads\presentations\P-FXCjDiDP\mJPeMpxId.jpg
+Deleted old file: mJPeMpxId.jpg
+Uploaded file: xdHTWrbko.gif to uploads\presentations\P-FXCjDiDP\xdHTWrbko.gif
+Created presenter directory: uploads\presentations\P-xcBrb7cW
+Uploaded file: ExAdDEaoJC.jpeg to uploads\presentations\P-xcBrb7cW\ExAdDEaoJC.jpeg
+Deleted old file: ExAdDEaoJC.jpeg
+Uploaded file: RleHUaDsIW.jpg to uploads\presentations\P-xcBrb7cW\RleHUaDsIW.jpg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: WzBFhKMXdX.gif to uploads\presentations\P-AAAAAAAA\WzBFhKMXdX.gif
+Deleted old file: WzBFhKMXdX.gif
+Uploaded file: dvFJm.txt to uploads\presentations\P-AAAAAAAA\dvFJm.txt
+Created presenter directory: uploads\presentations\P-mjJs5OP7
+Uploaded file: Me.gif to uploads\presentations\P-mjJs5OP7\Me.gif
+Deleted old file: Me.gif
+Uploaded file: RMHuersTWJ.jpg to uploads\presentations\P-mjJs5OP7\RMHuersTWJ.jpg
+Created presenter directory: uploads\presentations\P-3fTN3mcu
+Uploaded file: jn.jpg to uploads\presentations\P-3fTN3mcu\jn.jpg
+Deleted old file: jn.jpg
+Uploaded file: CAdMGf.txt to uploads\presentations\P-3fTN3mcu\CAdMGf.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Deleted old file: Z.gif
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-g8rga2pm
+Uploaded file: jCu.jpeg to uploads\presentations\P-g8rga2pm\jCu.jpeg
+Deleted old file: jCu.jpeg
+Uploaded file: oWGeM.jpeg to uploads\presentations\P-g8rga2pm\oWGeM.jpeg
+Created presenter directory: uploads\presentations\P-nCJpmJb1
+Uploaded file: A.jpeg to uploads\presentations\P-nCJpmJb1\A.jpeg
+Deleted old file: A.jpeg
+Uploaded file: GWsVyxsJH.gif to uploads\presentations\P-nCJpmJb1\GWsVyxsJH.gif
+Created presenter directory: uploads\presentations\P-eP1LGqlA
+Uploaded file: n.txt to uploads\presentations\P-eP1LGqlA\n.txt
+Deleted old file: n.txt
+Uploaded file: WA.png to uploads\presentations\P-eP1LGqlA\WA.png
+Created presenter directory: uploads\presentations\P-bO8jOUHl
+Uploaded file: OMy.png to uploads\presentations\P-bO8jOUHl\OMy.png
+Deleted old file: OMy.png
+Uploaded file: zmUGyxttJu.txt to uploads\presentations\P-bO8jOUHl\zmUGyxttJu.txt
+Created presenter directory: uploads\presentations\P-hGX6Tawi
+Uploaded file: sHb.jpg to uploads\presentations\P-hGX6Tawi\sHb.jpg
+Deleted old file: sHb.jpg
+Uploaded file: wyMyrA.jpg to uploads\presentations\P-hGX6Tawi\wyMyrA.jpg
+Created presenter directory: uploads\presentations\P-SbGFse5b
+Uploaded file: D.pdf to uploads\presentations\P-SbGFse5b\D.pdf
+Deleted old file: D.pdf
+Uploaded file: EwJc.gif to uploads\presentations\P-SbGFse5b\EwJc.gif
+timestamp = 2026-02-07T12:17:59.198946800, FileStorageServicePropertyTest:property8 oldFileCleanupOnDifferentFilename = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 192        | # of all combined edge cases
+edge-cases#tried = 14         | # of edge cases tried in current run
+seed = 2458415785849175970    | random seed to reproduce generated values
+
+
+]]></system-out>
+    <system-err><![CDATA[Feb 07, 2026 12:17:56 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+INFO: Edge case generation exceeds number of tries. Stopped after 192 generated cases.
+]]></system-err>
+  </testcase>
+  <testcase name="property2 fileTypeValidation unsupportedExtensions" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.542">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:17:59.748952400, FileStorageServicePropertyTest:property2 fileTypeValidation unsupportedExtensions = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 8          | # of all combined edge cases
+edge-cases#tried = 8          | # of edge cases tried in current run
+seed = 5439043639263614515    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property2 fileTypeValidation noExtension" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.233">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:17:59.979615700, FileStorageServicePropertyTest:property2 fileTypeValidation noExtension = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 4          | # of all combined edge cases
+edge-cases#tried = 4          | # of edge cases tried in current run
+seed = 7053008795779644601    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property1 directoryCreatedOnlyWhenNeeded" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.186">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-RBvSLj4P
+Created presenter directory: uploads\presentations\P-6u5Zh0LE
+Created presenter directory: uploads\presentations\P-yd58rtFq
+Created presenter directory: uploads\presentations\P-c8U4htpe
+Created presenter directory: uploads\presentations\P-hGvEaHTk
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Created presenter directory: uploads\presentations\P-OCEDJnpD
+Created presenter directory: uploads\presentations\P-L212X8w7
+Created presenter directory: uploads\presentations\P-ye9buYb8
+Created presenter directory: uploads\presentations\P-7nCryVEi
+Created presenter directory: uploads\presentations\P-GVnN39eZ
+Created presenter directory: uploads\presentations\P-fMh9O1kH
+Created presenter directory: uploads\presentations\P-wm3MXDa9
+Created presenter directory: uploads\presentations\P-St0VTFgx
+Created presenter directory: uploads\presentations\P-zvKsmoDI
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Created presenter directory: uploads\presentations\P-7RwgwsmV
+Created presenter directory: uploads\presentations\P-TbPstUzZ
+Created presenter directory: uploads\presentations\P-KpVbZ1MI
+Created presenter directory: uploads\presentations\P-Er2gXaCd
+Created presenter directory: uploads\presentations\P-myTLczax
+Created presenter directory: uploads\presentations\P-pASpBu5Y
+Created presenter directory: uploads\presentations\P-VQFIk2hx
+Created presenter directory: uploads\presentations\P-z7CRrdl5
+Created presenter directory: uploads\presentations\P-ehvRk1UD
+Created presenter directory: uploads\presentations\P-YYOyy2ae
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-SyMGxmLG
+Created presenter directory: uploads\presentations\P-PcCDyNhN
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Created presenter directory: uploads\presentations\P-pHSKxQoZ
+Created presenter directory: uploads\presentations\P-tUiapcrQ
+Created presenter directory: uploads\presentations\P-hBiCvJhS
+Created presenter directory: uploads\presentations\P-qnClnoBJ
+Created presenter directory: uploads\presentations\P-00000000
+Created presenter directory: uploads\presentations\P-h5eDxLzD
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-N6qMVRFj
+Created presenter directory: uploads\presentations\P-zFFATJm7
+Created presenter directory: uploads\presentations\P-5lmxH6qS
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-N4rBvO7E
+Created presenter directory: uploads\presentations\P-vMwcIUrA
+Created presenter directory: uploads\presentations\P-5YRCNOMd
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Created presenter directory: uploads\presentations\P-CKdyH3Co
+Created presenter directory: uploads\presentations\P-OCWoKO7o
+Created presenter directory: uploads\presentations\P-sXie6AGh
+timestamp = 2026-02-07T12:18:00.166392200, FileStorageServicePropertyTest:property1 directoryCreatedOnlyWhenNeeded = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 6          | # of all combined edge cases
+edge-cases#tried = 6          | # of edge cases tried in current run
+seed = -5581486387266384206   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property12 storagePathResolution" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="1.366">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-KHZjFP14
+Uploaded file: uaDPSClhN.jpeg to uploads\presentations\P-KHZjFP14\uaDPSClhN.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-IvsSgxwl
+Uploaded file: a.png to uploads\presentations\P-IvsSgxwl\a.png
+Created presenter directory: uploads\presentations\P-AVaxQSIl
+Uploaded file: v.txt to uploads\presentations\P-AVaxQSIl\v.txt
+Created presenter directory: uploads\presentations\P-crtXsP6i
+Uploaded file: lQc.jpeg to uploads\presentations\P-crtXsP6i\lQc.jpeg
+Created presenter directory: uploads\presentations\P-Rs4YaLm5
+Uploaded file: mcqIDjNI.gif to uploads\presentations\P-Rs4YaLm5\mcqIDjNI.gif
+Created presenter directory: uploads\presentations\P-XQjP8CQX
+Uploaded file: cVsh.gif to uploads\presentations\P-XQjP8CQX\cVsh.gif
+Created presenter directory: uploads\presentations\P-litopbAm
+Uploaded file: unYidvCnbA.png to uploads\presentations\P-litopbAm\unYidvCnbA.png
+Created presenter directory: uploads\presentations\P-O3GEVqVf
+Uploaded file: FtN.gif to uploads\presentations\P-O3GEVqVf\FtN.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-jHuiUMWj
+Uploaded file: j.png to uploads\presentations\P-jHuiUMWj\j.png
+Created presenter directory: uploads\presentations\P-9WzIKgzL
+Uploaded file: BvgFlDe.jpeg to uploads\presentations\P-9WzIKgzL\BvgFlDe.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Created presenter directory: uploads\presentations\P-XNr8IIwS
+Uploaded file: DYrNE.jpeg to uploads\presentations\P-XNr8IIwS\DYrNE.jpeg
+Created presenter directory: uploads\presentations\P-2gR38oox
+Uploaded file: EhAqVOmDBc.txt to uploads\presentations\P-2gR38oox\EhAqVOmDBc.txt
+Created presenter directory: uploads\presentations\P-hMgRgl19
+Uploaded file: LGxkjRfc.png to uploads\presentations\P-hMgRgl19\LGxkjRfc.png
+Created presenter directory: uploads\presentations\P-IZ7BoFGx
+Uploaded file: uLMJVK.txt to uploads\presentations\P-IZ7BoFGx\uLMJVK.txt
+Created presenter directory: uploads\presentations\P-YBD1tdWG
+Uploaded file: IXVcJBCQAPUTPJk.pdf to uploads\presentations\P-YBD1tdWG\IXVcJBCQAPUTPJk.pdf
+Created presenter directory: uploads\presentations\P-QTJAc2du
+Uploaded file: OBAde.txt to uploads\presentations\P-QTJAc2du\OBAde.txt
+Created presenter directory: uploads\presentations\P-nrAXyT7R
+Uploaded file: GuWpKyTFCYO.txt to uploads\presentations\P-nrAXyT7R\GuWpKyTFCYO.txt
+Created presenter directory: uploads\presentations\P-DgTfBS6S
+Uploaded file: AxBgaOczWqx.txt to uploads\presentations\P-DgTfBS6S\AxBgaOczWqx.txt
+Created presenter directory: uploads\presentations\P-mJn29Wfq
+Uploaded file: xagQ.jpg to uploads\presentations\P-mJn29Wfq\xagQ.jpg
+Created presenter directory: uploads\presentations\P-tZaP4x3P
+Uploaded file: MDyUZh.jpeg to uploads\presentations\P-tZaP4x3P\MDyUZh.jpeg
+Created presenter directory: uploads\presentations\P-49D1dDyi
+Uploaded file: qyAVl.png to uploads\presentations\P-49D1dDyi\qyAVl.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-WAoEW75j
+Uploaded file: x.txt to uploads\presentations\P-WAoEW75j\x.txt
+Created presenter directory: uploads\presentations\P-ceEftR4x
+Uploaded file: ehxBPXTCqodY.jpeg to uploads\presentations\P-ceEftR4x\ehxBPXTCqodY.jpeg
+Created presenter directory: uploads\presentations\P-sOq5Cb7I
+Uploaded file: EX.pdf to uploads\presentations\P-sOq5Cb7I\EX.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.gif to uploads\presentations\P-AAAAAAAA\a.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-x81t9CCT
+Uploaded file: jOxxfDi.png to uploads\presentations\P-x81t9CCT\jOxxfDi.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.gif to uploads\presentations\P-AAAAAAAA\z.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Created presenter directory: uploads\presentations\P-fN1FTJea
+Uploaded file: zbg.jpg to uploads\presentations\P-fN1FTJea\zbg.jpg
+Created presenter directory: uploads\presentations\P-9k6CmyD9
+Uploaded file: NgogJSg.jpg to uploads\presentations\P-9k6CmyD9\NgogJSg.jpg
+Created presenter directory: uploads\presentations\P-n7xAoRzB
+Uploaded file: gVpEFFETXtc.jpeg to uploads\presentations\P-n7xAoRzB\gVpEFFETXtc.jpeg
+Created presenter directory: uploads\presentations\P-zRtoHrsW
+Uploaded file: sf.jpg to uploads\presentations\P-zRtoHrsW\sf.jpg
+Created presenter directory: uploads\presentations\P-rCfzTqWq
+Uploaded file: cNTvxQcaMW.jpeg to uploads\presentations\P-rCfzTqWq\cNTvxQcaMW.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.gif to uploads\presentations\P-ZZZZZZZZ\A.gif
+Created presenter directory: uploads\presentations\P-aIKlQyxJ
+Uploaded file: Yf.pdf to uploads\presentations\P-aIKlQyxJ\Yf.pdf
+Created presenter directory: uploads\presentations\P-iv7jkXdW
+Uploaded file: JIsfuV.jpeg to uploads\presentations\P-iv7jkXdW\JIsfuV.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Created presenter directory: uploads\presentations\P-dKehPK7K
+Uploaded file: QOeZWTewToW.pdf to uploads\presentations\P-dKehPK7K\QOeZWTewToW.pdf
+Created presenter directory: uploads\presentations\P-0TxLxawj
+Uploaded file: JN.jpeg to uploads\presentations\P-0TxLxawj\JN.jpeg
+Created presenter directory: uploads\presentations\P-jmTQIvID
+Uploaded file: RYuecrfG.pdf to uploads\presentations\P-jmTQIvID\RYuecrfG.pdf
+Created presenter directory: uploads\presentations\P-HF2uC07X
+Uploaded file: JKBj.txt to uploads\presentations\P-HF2uC07X\JKBj.txt
+Created presenter directory: uploads\presentations\P-P0ZISSB7
+Uploaded file: S.gif to uploads\presentations\P-P0ZISSB7\S.gif
+Created presenter directory: uploads\presentations\P-c0bf3v1O
+Uploaded file: wHBaltd.png to uploads\presentations\P-c0bf3v1O\wHBaltd.png
+Created presenter directory: uploads\presentations\P-oKtaobwQ
+Uploaded file: OYCkOyUeH.txt to uploads\presentations\P-oKtaobwQ\OYCkOyUeH.txt
+Created presenter directory: uploads\presentations\P-k8gNQV9a
+Uploaded file: axsTjUwcZJ.pdf to uploads\presentations\P-k8gNQV9a\axsTjUwcZJ.pdf
+Created presenter directory: uploads\presentations\P-YpHRzZw1
+Uploaded file: VamfsPcXdyIPXpO.jpg to uploads\presentations\P-YpHRzZw1\VamfsPcXdyIPXpO.jpg
+Created presenter directory: uploads\presentations\P-HN5pDzZ1
+Uploaded file: GERT.jpg to uploads\presentations\P-HN5pDzZ1\GERT.jpg
+Created presenter directory: uploads\presentations\P-kcDnSpxy
+Uploaded file: iI.txt to uploads\presentations\P-kcDnSpxy\iI.txt
+Created presenter directory: uploads\presentations\P-h7WhQkx5
+Uploaded file: PI.gif to uploads\presentations\P-h7WhQkx5\PI.gif
+Created presenter directory: uploads\presentations\P-F5G3H0FT
+Uploaded file: FltbuxhCSEpx.gif to uploads\presentations\P-F5G3H0FT\FltbuxhCSEpx.gif
+Created presenter directory: uploads\presentations\P-RlDWWcpr
+Uploaded file: MtduBrTTxEhWPCZ.gif to uploads\presentations\P-RlDWWcpr\MtduBrTTxEhWPCZ.gif
+Created presenter directory: uploads\presentations\P-gy6Y52Yy
+Uploaded file: DpX.png to uploads\presentations\P-gy6Y52Yy\DpX.png
+Created presenter directory: uploads\presentations\P-BCS1u0SI
+Uploaded file: pZhtwhABS.jpg to uploads\presentations\P-BCS1u0SI\pZhtwhABS.jpg
+Created presenter directory: uploads\presentations\P-oFhbvrGU
+Uploaded file: ViKWCFscL.png to uploads\presentations\P-oFhbvrGU\ViKWCFscL.png
+Created presenter directory: uploads\presentations\P-AGbo3oS1
+Uploaded file: dLDglI.pdf to uploads\presentations\P-AGbo3oS1\dLDglI.pdf
+Created presenter directory: uploads\presentations\P-L20a7Idb
+Uploaded file: FWjCFbL.pdf to uploads\presentations\P-L20a7Idb\FWjCFbL.pdf
+Created presenter directory: uploads\presentations\P-xCuQ9kMr
+Uploaded file: zHZCBw.jpeg to uploads\presentations\P-xCuQ9kMr\zHZCBw.jpeg
+Created presenter directory: uploads\presentations\P-7fhoY6Qw
+Uploaded file: SuRXvwlCBc.pdf to uploads\presentations\P-7fhoY6Qw\SuRXvwlCBc.pdf
+Created presenter directory: uploads\presentations\P-zCTU9nDy
+Uploaded file: WRzxAEdgvE.png to uploads\presentations\P-zCTU9nDy\WRzxAEdgvE.png
+Created presenter directory: uploads\presentations\P-HjQQ5Rui
+Uploaded file: oKpsX.pdf to uploads\presentations\P-HjQQ5Rui\oKpsX.pdf
+Created presenter directory: uploads\presentations\P-Ax6BOShT
+Uploaded file: DIEw.gif to uploads\presentations\P-Ax6BOShT\DIEw.gif
+Created presenter directory: uploads\presentations\P-BKgA35h8
+Uploaded file: RLEaJm.png to uploads\presentations\P-BKgA35h8\RLEaJm.png
+Created presenter directory: uploads\presentations\P-i7sqMEkx
+Uploaded file: sXfCSYDBdssG.png to uploads\presentations\P-i7sqMEkx\sXfCSYDBdssG.png
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.gif to uploads\presentations\P-ZZZZZZZZ\Z.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.pdf to uploads\presentations\P-ZZZZZZZZ\a.pdf
+Created presenter directory: uploads\presentations\P-O5DAsKNa
+Uploaded file: CjhxsTg.png to uploads\presentations\P-O5DAsKNa\CjhxsTg.png
+Created presenter directory: uploads\presentations\P-xM59fhOr
+Uploaded file: ESsh.jpeg to uploads\presentations\P-xM59fhOr\ESsh.jpeg
+Created presenter directory: uploads\presentations\P-0rswxUGT
+Uploaded file: PWDlwHxkviZ.gif to uploads\presentations\P-0rswxUGT\PWDlwHxkviZ.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.gif to uploads\presentations\P-ZZZZZZZZ\a.gif
+Created presenter directory: uploads\presentations\P-MxslZe1e
+Uploaded file: xGAZlimxJ.txt to uploads\presentations\P-MxslZe1e\xGAZlimxJ.txt
+Created presenter directory: uploads\presentations\P-DOSocnh5
+Uploaded file: i.gif to uploads\presentations\P-DOSocnh5\i.gif
+Created presenter directory: uploads\presentations\P-kv6c1TC2
+Uploaded file: TlMcdDnm.gif to uploads\presentations\P-kv6c1TC2\TlMcdDnm.gif
+Created presenter directory: uploads\presentations\P-LehEPVyF
+Uploaded file: hr.png to uploads\presentations\P-LehEPVyF\hr.png
+Created presenter directory: uploads\presentations\P-qv62LEjU
+Uploaded file: riihGe.txt to uploads\presentations\P-qv62LEjU\riihGe.txt
+Created presenter directory: uploads\presentations\P-eI9WccD1
+Uploaded file: bsMDbb.pdf to uploads\presentations\P-eI9WccD1\bsMDbb.pdf
+Created presenter directory: uploads\presentations\P-kNI4FDb4
+Uploaded file: mSQoZBvnvqE.gif to uploads\presentations\P-kNI4FDb4\mSQoZBvnvqE.gif
+Created presenter directory: uploads\presentations\P-gJhYmCRC
+Uploaded file: giLdXyzfaOVK.jpeg to uploads\presentations\P-gJhYmCRC\giLdXyzfaOVK.jpeg
+Created presenter directory: uploads\presentations\P-yLagIwOL
+Uploaded file: YdeOanWBVB.gif to uploads\presentations\P-yLagIwOL\YdeOanWBVB.gif
+Created presenter directory: uploads\presentations\P-t7bnMUQ8
+Uploaded file: hjvKOw.gif to uploads\presentations\P-t7bnMUQ8\hjvKOw.gif
+Created presenter directory: uploads\presentations\P-dm07O12r
+Uploaded file: vScWF.jpg to uploads\presentations\P-dm07O12r\vScWF.jpg
+Created presenter directory: uploads\presentations\P-C9NVfk5b
+Uploaded file: LJDbZziUKoNEw.pdf to uploads\presentations\P-C9NVfk5b\LJDbZziUKoNEw.pdf
+Created presenter directory: uploads\presentations\P-C423dpuT
+Uploaded file: ZMCE.txt to uploads\presentations\P-C423dpuT\ZMCE.txt
+Created presenter directory: uploads\presentations\P-IveINTNs
+Uploaded file: iHh.txt to uploads\presentations\P-IveINTNs\iHh.txt
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.pdf to uploads\presentations\P-ZZZZZZZZ\z.pdf
+Created presenter directory: uploads\presentations\P-Ddz32nUE
+Uploaded file: AZcUVDESXPfbmV.pdf to uploads\presentations\P-Ddz32nUE\AZcUVDESXPfbmV.pdf
+Created presenter directory: uploads\presentations\P-1eVQW3pC
+Uploaded file: POIckBSkfVlMhgF.gif to uploads\presentations\P-1eVQW3pC\POIckBSkfVlMhgF.gif
+Created presenter directory: uploads\presentations\P-UqE1zm5f
+Uploaded file: QOVqVRCvlf.png to uploads\presentations\P-UqE1zm5f\QOVqVRCvlf.png
+Created presenter directory: uploads\presentations\P-xo1GnZJd
+Uploaded file: nwqhjH.pdf to uploads\presentations\P-xo1GnZJd\nwqhjH.pdf
+Created presenter directory: uploads\presentations\P-FaD3XIv7
+Uploaded file: PSgyJ.gif to uploads\presentations\P-FaD3XIv7\PSgyJ.gif
+Created presenter directory: uploads\presentations\P-ujWRkBAn
+Uploaded file: HpjWW.pdf to uploads\presentations\P-ujWRkBAn\HpjWW.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.gif to uploads\presentations\P-ZZZZZZZZ\z.gif
+Created presenter directory: uploads\presentations\P-eMCBUUDV
+Uploaded file: XOw.pdf to uploads\presentations\P-eMCBUUDV\XOw.pdf
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.pdf to uploads\presentations\P-aaaaaaaa\A.pdf
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.gif to uploads\presentations\P-aaaaaaaa\A.gif
+timestamp = 2026-02-07T12:18:01.533642700, FileStorageServicePropertyTest:property12 storagePathResolution = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 18         | # of edge cases tried in current run
+seed = 6010611562761635737    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property15 backwardCompatibilityWithAbsolutePaths" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.063">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:01.597093200, FileStorageServicePropertyTest:property15 backwardCompatibilityWithAbsolutePaths = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 14         | # of all combined edge cases
+edge-cases#tried = 14         | # of edge cases tried in current run
+seed = 8310070708319404758    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property4 sameNameFileOverwrite" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="2.035">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: dwxrsEDTue.png to uploads\presentations\P-00000000\dwxrsEDTue.png
+Uploaded file: dwxrsEDTue.png to uploads\presentations\P-00000000\dwxrsEDTue.png
+Created presenter directory: uploads\presentations\P-NhKGqyZF
+Uploaded file: A.png to uploads\presentations\P-NhKGqyZF\A.png
+Uploaded file: A.png to uploads\presentations\P-NhKGqyZF\A.png
+Created presenter directory: uploads\presentations\P-SBE0jTTO
+Uploaded file: cLQxbNrR.jpg to uploads\presentations\P-SBE0jTTO\cLQxbNrR.jpg
+Uploaded file: cLQxbNrR.jpg to uploads\presentations\P-SBE0jTTO\cLQxbNrR.jpg
+Created presenter directory: uploads\presentations\P-Uetcwa12
+Uploaded file: zLD.txt to uploads\presentations\P-Uetcwa12\zLD.txt
+Uploaded file: zLD.txt to uploads\presentations\P-Uetcwa12\zLD.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-ugmxrSGH
+Uploaded file: YrnVoGoD.jpeg to uploads\presentations\P-ugmxrSGH\YrnVoGoD.jpeg
+Uploaded file: YrnVoGoD.jpeg to uploads\presentations\P-ugmxrSGH\YrnVoGoD.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Created presenter directory: uploads\presentations\P-RhGgF1UI
+Uploaded file: Gijs.gif to uploads\presentations\P-RhGgF1UI\Gijs.gif
+Uploaded file: Gijs.gif to uploads\presentations\P-RhGgF1UI\Gijs.gif
+Created presenter directory: uploads\presentations\P-yUbYHO99
+Uploaded file: IbDGQp.jpeg to uploads\presentations\P-yUbYHO99\IbDGQp.jpeg
+Uploaded file: IbDGQp.jpeg to uploads\presentations\P-yUbYHO99\IbDGQp.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-1w0oZHsa
+Uploaded file: bdgIsFoueZT.gif to uploads\presentations\P-1w0oZHsa\bdgIsFoueZT.gif
+Uploaded file: bdgIsFoueZT.gif to uploads\presentations\P-1w0oZHsa\bdgIsFoueZT.gif
+Created presenter directory: uploads\presentations\P-LvOHoCIL
+Uploaded file: a.jpeg to uploads\presentations\P-LvOHoCIL\a.jpeg
+Uploaded file: a.jpeg to uploads\presentations\P-LvOHoCIL\a.jpeg
+Created presenter directory: uploads\presentations\P-NNSilrPA
+Uploaded file: LMHhzrj.png to uploads\presentations\P-NNSilrPA\LMHhzrj.png
+Uploaded file: LMHhzrj.png to uploads\presentations\P-NNSilrPA\LMHhzrj.png
+Created presenter directory: uploads\presentations\P-gFPZcGhZ
+Uploaded file: K.pdf to uploads\presentations\P-gFPZcGhZ\K.pdf
+Uploaded file: K.pdf to uploads\presentations\P-gFPZcGhZ\K.pdf
+Created presenter directory: uploads\presentations\P-GRzi93j5
+Uploaded file: rd.jpg to uploads\presentations\P-GRzi93j5\rd.jpg
+Uploaded file: rd.jpg to uploads\presentations\P-GRzi93j5\rd.jpg
+Created presenter directory: uploads\presentations\P-KujUILqM
+Uploaded file: zrARLbCtc.pdf to uploads\presentations\P-KujUILqM\zrARLbCtc.pdf
+Uploaded file: zrARLbCtc.pdf to uploads\presentations\P-KujUILqM\zrARLbCtc.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: iKRQuJDR.png to uploads\presentations\P-aaaaaaaa\iKRQuJDR.png
+Uploaded file: iKRQuJDR.png to uploads\presentations\P-aaaaaaaa\iKRQuJDR.png
+Created presenter directory: uploads\presentations\P-rWbD8WsZ
+Uploaded file: SUnvS.gif to uploads\presentations\P-rWbD8WsZ\SUnvS.gif
+Uploaded file: SUnvS.gif to uploads\presentations\P-rWbD8WsZ\SUnvS.gif
+Created presenter directory: uploads\presentations\P-dNhVitrL
+Uploaded file: FLNZbOae.jpeg to uploads\presentations\P-dNhVitrL\FLNZbOae.jpeg
+Uploaded file: FLNZbOae.jpeg to uploads\presentations\P-dNhVitrL\FLNZbOae.jpeg
+Created presenter directory: uploads\presentations\P-em75SZYj
+Uploaded file: infEnAslfDqaZ.gif to uploads\presentations\P-em75SZYj\infEnAslfDqaZ.gif
+Uploaded file: infEnAslfDqaZ.gif to uploads\presentations\P-em75SZYj\infEnAslfDqaZ.gif
+Created presenter directory: uploads\presentations\P-ZpMtSkAF
+Uploaded file: dAkiwIQXSsaJlg.pdf to uploads\presentations\P-ZpMtSkAF\dAkiwIQXSsaJlg.pdf
+Uploaded file: dAkiwIQXSsaJlg.pdf to uploads\presentations\P-ZpMtSkAF\dAkiwIQXSsaJlg.pdf
+Created presenter directory: uploads\presentations\P-Ax1OvfIY
+Uploaded file: Vv.pdf to uploads\presentations\P-Ax1OvfIY\Vv.pdf
+Uploaded file: Vv.pdf to uploads\presentations\P-Ax1OvfIY\Vv.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-OfONJ2g1
+Uploaded file: Z.txt to uploads\presentations\P-OfONJ2g1\Z.txt
+Uploaded file: Z.txt to uploads\presentations\P-OfONJ2g1\Z.txt
+Created presenter directory: uploads\presentations\P-exVnbQWo
+Uploaded file: Z.jpg to uploads\presentations\P-exVnbQWo\Z.jpg
+Uploaded file: Z.jpg to uploads\presentations\P-exVnbQWo\Z.jpg
+Created presenter directory: uploads\presentations\P-wdO0JprX
+Uploaded file: BTLajj.txt to uploads\presentations\P-wdO0JprX\BTLajj.txt
+Uploaded file: BTLajj.txt to uploads\presentations\P-wdO0JprX\BTLajj.txt
+Created presenter directory: uploads\presentations\P-J6UdQqJN
+Uploaded file: jbRBmSyfhbh.gif to uploads\presentations\P-J6UdQqJN\jbRBmSyfhbh.gif
+Uploaded file: jbRBmSyfhbh.gif to uploads\presentations\P-J6UdQqJN\jbRBmSyfhbh.gif
+Created presenter directory: uploads\presentations\P-47aJuLt0
+Uploaded file: Oens.jpeg to uploads\presentations\P-47aJuLt0\Oens.jpeg
+Uploaded file: Oens.jpeg to uploads\presentations\P-47aJuLt0\Oens.jpeg
+Created presenter directory: uploads\presentations\P-Gi5ARvUL
+Uploaded file: GyoN.png to uploads\presentations\P-Gi5ARvUL\GyoN.png
+Uploaded file: GyoN.png to uploads\presentations\P-Gi5ARvUL\GyoN.png
+Created presenter directory: uploads\presentations\P-sFmgYyBj
+Uploaded file: FPZpJNNg.png to uploads\presentations\P-sFmgYyBj\FPZpJNNg.png
+Uploaded file: FPZpJNNg.png to uploads\presentations\P-sFmgYyBj\FPZpJNNg.png
+Created presenter directory: uploads\presentations\P-DeG0O2Xr
+Uploaded file: DsnECmRzrof.jpeg to uploads\presentations\P-DeG0O2Xr\DsnECmRzrof.jpeg
+Uploaded file: DsnECmRzrof.jpeg to uploads\presentations\P-DeG0O2Xr\DsnECmRzrof.jpeg
+Created presenter directory: uploads\presentations\P-xBFr1NX1
+Uploaded file: qQcPzsl.jpg to uploads\presentations\P-xBFr1NX1\qQcPzsl.jpg
+Uploaded file: qQcPzsl.jpg to uploads\presentations\P-xBFr1NX1\qQcPzsl.jpg
+Created presenter directory: uploads\presentations\P-qqFpYEXr
+Uploaded file: fHkNykG.jpeg to uploads\presentations\P-qqFpYEXr\fHkNykG.jpeg
+Uploaded file: fHkNykG.jpeg to uploads\presentations\P-qqFpYEXr\fHkNykG.jpeg
+Created presenter directory: uploads\presentations\P-p9xKwzF1
+Uploaded file: mAe.gif to uploads\presentations\P-p9xKwzF1\mAe.gif
+Uploaded file: mAe.gif to uploads\presentations\P-p9xKwzF1\mAe.gif
+Created presenter directory: uploads\presentations\P-I5sIscVF
+Uploaded file: ETnTErUxSuXE.gif to uploads\presentations\P-I5sIscVF\ETnTErUxSuXE.gif
+Uploaded file: ETnTErUxSuXE.gif to uploads\presentations\P-I5sIscVF\ETnTErUxSuXE.gif
+Created presenter directory: uploads\presentations\P-8WnckA6r
+Uploaded file: G.txt to uploads\presentations\P-8WnckA6r\G.txt
+Uploaded file: G.txt to uploads\presentations\P-8WnckA6r\G.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.gif to uploads\presentations\P-AAAAAAAA\a.gif
+Uploaded file: a.gif to uploads\presentations\P-AAAAAAAA\a.gif
+Created presenter directory: uploads\presentations\P-T4gAxlnc
+Uploaded file: lkUG.txt to uploads\presentations\P-T4gAxlnc\lkUG.txt
+Uploaded file: lkUG.txt to uploads\presentations\P-T4gAxlnc\lkUG.txt
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: XqDOlZc.jpg to uploads\presentations\P-zzzzzzzz\XqDOlZc.jpg
+Uploaded file: XqDOlZc.jpg to uploads\presentations\P-zzzzzzzz\XqDOlZc.jpg
+Created presenter directory: uploads\presentations\P-P5IiqKhe
+Uploaded file: juZpBr.gif to uploads\presentations\P-P5IiqKhe\juZpBr.gif
+Uploaded file: juZpBr.gif to uploads\presentations\P-P5IiqKhe\juZpBr.gif
+Created presenter directory: uploads\presentations\P-99999999
+Uploaded file: VQRrtKumBKY.jpeg to uploads\presentations\P-99999999\VQRrtKumBKY.jpeg
+Uploaded file: VQRrtKumBKY.jpeg to uploads\presentations\P-99999999\VQRrtKumBKY.jpeg
+Created presenter directory: uploads\presentations\P-WkgyQsnf
+Uploaded file: bpRFUNWimm.pdf to uploads\presentations\P-WkgyQsnf\bpRFUNWimm.pdf
+Uploaded file: bpRFUNWimm.pdf to uploads\presentations\P-WkgyQsnf\bpRFUNWimm.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: rbr.jpeg to uploads\presentations\P-ZZZZZZZZ\rbr.jpeg
+Uploaded file: rbr.jpeg to uploads\presentations\P-ZZZZZZZZ\rbr.jpeg
+Created presenter directory: uploads\presentations\P-HL22I8d2
+Uploaded file: reObJtjQoUkFH.gif to uploads\presentations\P-HL22I8d2\reObJtjQoUkFH.gif
+Uploaded file: reObJtjQoUkFH.gif to uploads\presentations\P-HL22I8d2\reObJtjQoUkFH.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-DYyjg7mN
+Uploaded file: QusquNmsM.pdf to uploads\presentations\P-DYyjg7mN\QusquNmsM.pdf
+Uploaded file: QusquNmsM.pdf to uploads\presentations\P-DYyjg7mN\QusquNmsM.pdf
+Created presenter directory: uploads\presentations\P-yAMSK77Y
+Uploaded file: xKH.txt to uploads\presentations\P-yAMSK77Y\xKH.txt
+Uploaded file: xKH.txt to uploads\presentations\P-yAMSK77Y\xKH.txt
+Created presenter directory: uploads\presentations\P-r2x7Ym8N
+Uploaded file: tukcZUfJF.pdf to uploads\presentations\P-r2x7Ym8N\tukcZUfJF.pdf
+Uploaded file: tukcZUfJF.pdf to uploads\presentations\P-r2x7Ym8N\tukcZUfJF.pdf
+Created presenter directory: uploads\presentations\P-QqSmMmF7
+Uploaded file: AMCG.gif to uploads\presentations\P-QqSmMmF7\AMCG.gif
+Uploaded file: AMCG.gif to uploads\presentations\P-QqSmMmF7\AMCG.gif
+Created presenter directory: uploads\presentations\P-mJh8Twwx
+Uploaded file: z.png to uploads\presentations\P-mJh8Twwx\z.png
+Uploaded file: z.png to uploads\presentations\P-mJh8Twwx\z.png
+Created presenter directory: uploads\presentations\P-RRqw81rt
+Uploaded file: bgpwIjtCmPFx.jpeg to uploads\presentations\P-RRqw81rt\bgpwIjtCmPFx.jpeg
+Uploaded file: bgpwIjtCmPFx.jpeg to uploads\presentations\P-RRqw81rt\bgpwIjtCmPFx.jpeg
+Created presenter directory: uploads\presentations\P-VWxrysJm
+Uploaded file: VCrRQWv.png to uploads\presentations\P-VWxrysJm\VCrRQWv.png
+Uploaded file: VCrRQWv.png to uploads\presentations\P-VWxrysJm\VCrRQWv.png
+Created presenter directory: uploads\presentations\P-mLhIN3H8
+Uploaded file: KpZeQHjGJxX.png to uploads\presentations\P-mLhIN3H8\KpZeQHjGJxX.png
+Uploaded file: KpZeQHjGJxX.png to uploads\presentations\P-mLhIN3H8\KpZeQHjGJxX.png
+Created presenter directory: uploads\presentations\P-qpsTFF8C
+Uploaded file: QMUWldnjBm.jpg to uploads\presentations\P-qpsTFF8C\QMUWldnjBm.jpg
+Uploaded file: QMUWldnjBm.jpg to uploads\presentations\P-qpsTFF8C\QMUWldnjBm.jpg
+Created presenter directory: uploads\presentations\P-PXdmJAj7
+Uploaded file: iMFNsPFbQit.txt to uploads\presentations\P-PXdmJAj7\iMFNsPFbQit.txt
+Uploaded file: iMFNsPFbQit.txt to uploads\presentations\P-PXdmJAj7\iMFNsPFbQit.txt
+Created presenter directory: uploads\presentations\P-yeqhjpkt
+Uploaded file: VpFtDszXoCLT.gif to uploads\presentations\P-yeqhjpkt\VpFtDszXoCLT.gif
+Uploaded file: VpFtDszXoCLT.gif to uploads\presentations\P-yeqhjpkt\VpFtDszXoCLT.gif
+Created presenter directory: uploads\presentations\P-Hqfg8HE1
+Uploaded file: wL.jpg to uploads\presentations\P-Hqfg8HE1\wL.jpg
+Uploaded file: wL.jpg to uploads\presentations\P-Hqfg8HE1\wL.jpg
+Created presenter directory: uploads\presentations\P-tonrTBZm
+Uploaded file: VxtHWgDDAp.txt to uploads\presentations\P-tonrTBZm\VxtHWgDDAp.txt
+Uploaded file: VxtHWgDDAp.txt to uploads\presentations\P-tonrTBZm\VxtHWgDDAp.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.gif to uploads\presentations\P-AAAAAAAA\z.gif
+Uploaded file: z.gif to uploads\presentations\P-AAAAAAAA\z.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Created presenter directory: uploads\presentations\P-hMCs3rhK
+Uploaded file: a.pdf to uploads\presentations\P-hMCs3rhK\a.pdf
+Uploaded file: a.pdf to uploads\presentations\P-hMCs3rhK\a.pdf
+Created presenter directory: uploads\presentations\P-FeAs9XTX
+Uploaded file: MCmZ.jpg to uploads\presentations\P-FeAs9XTX\MCmZ.jpg
+Uploaded file: MCmZ.jpg to uploads\presentations\P-FeAs9XTX\MCmZ.jpg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.gif to uploads\presentations\P-ZZZZZZZZ\A.gif
+Uploaded file: A.gif to uploads\presentations\P-ZZZZZZZZ\A.gif
+Created presenter directory: uploads\presentations\P-FCd8PPyP
+Uploaded file: tqQBIh.jpg to uploads\presentations\P-FCd8PPyP\tqQBIh.jpg
+Uploaded file: tqQBIh.jpg to uploads\presentations\P-FCd8PPyP\tqQBIh.jpg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Created presenter directory: uploads\presentations\P-VOdFx4OO
+Uploaded file: tmXF.png to uploads\presentations\P-VOdFx4OO\tmXF.png
+Uploaded file: tmXF.png to uploads\presentations\P-VOdFx4OO\tmXF.png
+Created presenter directory: uploads\presentations\P-tD8tNtzJ
+Uploaded file: jZVrvwOgblQ.gif to uploads\presentations\P-tD8tNtzJ\jZVrvwOgblQ.gif
+Uploaded file: jZVrvwOgblQ.gif to uploads\presentations\P-tD8tNtzJ\jZVrvwOgblQ.gif
+Created presenter directory: uploads\presentations\P-o2pIwkt2
+Uploaded file: tEfcOZ.pdf to uploads\presentations\P-o2pIwkt2\tEfcOZ.pdf
+Uploaded file: tEfcOZ.pdf to uploads\presentations\P-o2pIwkt2\tEfcOZ.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.gif to uploads\presentations\P-ZZZZZZZZ\Z.gif
+Uploaded file: Z.gif to uploads\presentations\P-ZZZZZZZZ\Z.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: PEZfZfbqpFEa.pdf to uploads\presentations\P-ZZZZZZZZ\PEZfZfbqpFEa.pdf
+Uploaded file: PEZfZfbqpFEa.pdf to uploads\presentations\P-ZZZZZZZZ\PEZfZfbqpFEa.pdf
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: TJdPuSufX.jpeg to uploads\presentations\P-zzzzzzzz\TJdPuSufX.jpeg
+Uploaded file: TJdPuSufX.jpeg to uploads\presentations\P-zzzzzzzz\TJdPuSufX.jpeg
+Created presenter directory: uploads\presentations\P-5nJ9e7pe
+Uploaded file: kmwesJPx.jpeg to uploads\presentations\P-5nJ9e7pe\kmwesJPx.jpeg
+Uploaded file: kmwesJPx.jpeg to uploads\presentations\P-5nJ9e7pe\kmwesJPx.jpeg
+Created presenter directory: uploads\presentations\P-h27eomzI
+Uploaded file: ooFZaSO.pdf to uploads\presentations\P-h27eomzI\ooFZaSO.pdf
+Uploaded file: ooFZaSO.pdf to uploads\presentations\P-h27eomzI\ooFZaSO.pdf
+Created presenter directory: uploads\presentations\P-29RLBiML
+Uploaded file: WHVEtXS.jpg to uploads\presentations\P-29RLBiML\WHVEtXS.jpg
+Uploaded file: WHVEtXS.jpg to uploads\presentations\P-29RLBiML\WHVEtXS.jpg
+Created presenter directory: uploads\presentations\P-DYB8ppOf
+Uploaded file: Jz.png to uploads\presentations\P-DYB8ppOf\Jz.png
+Uploaded file: Jz.png to uploads\presentations\P-DYB8ppOf\Jz.png
+Created presenter directory: uploads\presentations\P-JBjQ9u8w
+Uploaded file: DnEuyZ.jpg to uploads\presentations\P-JBjQ9u8w\DnEuyZ.jpg
+Uploaded file: DnEuyZ.jpg to uploads\presentations\P-JBjQ9u8w\DnEuyZ.jpg
+Created presenter directory: uploads\presentations\P-UmPXuIaO
+Uploaded file: TzKoDFts.png to uploads\presentations\P-UmPXuIaO\TzKoDFts.png
+Uploaded file: TzKoDFts.png to uploads\presentations\P-UmPXuIaO\TzKoDFts.png
+Created presenter directory: uploads\presentations\P-2nhdLmOa
+Uploaded file: zvrsvpM.jpeg to uploads\presentations\P-2nhdLmOa\zvrsvpM.jpeg
+Uploaded file: zvrsvpM.jpeg to uploads\presentations\P-2nhdLmOa\zvrsvpM.jpeg
+Created presenter directory: uploads\presentations\P-iqThtWZk
+Uploaded file: ihUyIEjuk.jpg to uploads\presentations\P-iqThtWZk\ihUyIEjuk.jpg
+Uploaded file: ihUyIEjuk.jpg to uploads\presentations\P-iqThtWZk\ihUyIEjuk.jpg
+Created presenter directory: uploads\presentations\P-td4cI48Q
+Uploaded file: O.pdf to uploads\presentations\P-td4cI48Q\O.pdf
+Uploaded file: O.pdf to uploads\presentations\P-td4cI48Q\O.pdf
+Created presenter directory: uploads\presentations\P-SHCpXQYT
+Uploaded file: VkXsxtYNL.gif to uploads\presentations\P-SHCpXQYT\VkXsxtYNL.gif
+Uploaded file: VkXsxtYNL.gif to uploads\presentations\P-SHCpXQYT\VkXsxtYNL.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.pdf to uploads\presentations\P-ZZZZZZZZ\a.pdf
+Uploaded file: a.pdf to uploads\presentations\P-ZZZZZZZZ\a.pdf
+Created presenter directory: uploads\presentations\P-dUdAeqdZ
+Uploaded file: BZUPlbwGFQtzbbo.png to uploads\presentations\P-dUdAeqdZ\BZUPlbwGFQtzbbo.png
+Uploaded file: BZUPlbwGFQtzbbo.png to uploads\presentations\P-dUdAeqdZ\BZUPlbwGFQtzbbo.png
+Created presenter directory: uploads\presentations\P-kLIoTONd
+Uploaded file: YGLdSGU.pdf to uploads\presentations\P-kLIoTONd\YGLdSGU.pdf
+Uploaded file: YGLdSGU.pdf to uploads\presentations\P-kLIoTONd\YGLdSGU.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.gif to uploads\presentations\P-ZZZZZZZZ\a.gif
+Uploaded file: a.gif to uploads\presentations\P-ZZZZZZZZ\a.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.pdf to uploads\presentations\P-ZZZZZZZZ\z.pdf
+Uploaded file: z.pdf to uploads\presentations\P-ZZZZZZZZ\z.pdf
+Created presenter directory: uploads\presentations\P-z1erHxes
+Uploaded file: FhveN.gif to uploads\presentations\P-z1erHxes\FhveN.gif
+Uploaded file: FhveN.gif to uploads\presentations\P-z1erHxes\FhveN.gif
+Created presenter directory: uploads\presentations\P-MN8jVPuK
+Uploaded file: rOItlxAPwvX.png to uploads\presentations\P-MN8jVPuK\rOItlxAPwvX.png
+Uploaded file: rOItlxAPwvX.png to uploads\presentations\P-MN8jVPuK\rOItlxAPwvX.png
+Created presenter directory: uploads\presentations\P-Sr7vae6w
+Uploaded file: JnGLBSY.jpeg to uploads\presentations\P-Sr7vae6w\JnGLBSY.jpeg
+Uploaded file: JnGLBSY.jpeg to uploads\presentations\P-Sr7vae6w\JnGLBSY.jpeg
+Created presenter directory: uploads\presentations\P-3i2R5R6q
+Uploaded file: peVJkS.jpeg to uploads\presentations\P-3i2R5R6q\peVJkS.jpeg
+Uploaded file: peVJkS.jpeg to uploads\presentations\P-3i2R5R6q\peVJkS.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.gif to uploads\presentations\P-ZZZZZZZZ\z.gif
+Uploaded file: z.gif to uploads\presentations\P-ZZZZZZZZ\z.gif
+Created presenter directory: uploads\presentations\P-xm9214kk
+Uploaded file: jrZTHr.pdf to uploads\presentations\P-xm9214kk\jrZTHr.pdf
+Uploaded file: jrZTHr.pdf to uploads\presentations\P-xm9214kk\jrZTHr.pdf
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.pdf to uploads\presentations\P-aaaaaaaa\A.pdf
+Uploaded file: A.pdf to uploads\presentations\P-aaaaaaaa\A.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: rx.jpeg to uploads\presentations\P-ZZZZZZZZ\rx.jpeg
+Uploaded file: rx.jpeg to uploads\presentations\P-ZZZZZZZZ\rx.jpeg
+Created presenter directory: uploads\presentations\P-OsbBQP1M
+Uploaded file: iUVi.txt to uploads\presentations\P-OsbBQP1M\iUVi.txt
+Uploaded file: iUVi.txt to uploads\presentations\P-OsbBQP1M\iUVi.txt
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.gif to uploads\presentations\P-aaaaaaaa\A.gif
+Uploaded file: A.gif to uploads\presentations\P-aaaaaaaa\A.gif
+Created presenter directory: uploads\presentations\P-pmNYHASf
+Uploaded file: ijbQNG.gif to uploads\presentations\P-pmNYHASf\ijbQNG.gif
+Uploaded file: ijbQNG.gif to uploads\presentations\P-pmNYHASf\ijbQNG.gif
+Created presenter directory: uploads\presentations\P-FKanDLUS
+Uploaded file: AN.gif to uploads\presentations\P-FKanDLUS\AN.gif
+Uploaded file: AN.gif to uploads\presentations\P-FKanDLUS\AN.gif
+Created presenter directory: uploads\presentations\P-X7agQjHu
+Uploaded file: MXgqmTVyvWAN.jpg to uploads\presentations\P-X7agQjHu\MXgqmTVyvWAN.jpg
+Uploaded file: MXgqmTVyvWAN.jpg to uploads\presentations\P-X7agQjHu\MXgqmTVyvWAN.jpg
+timestamp = 2026-02-07T12:18:03.633756500, FileStorageServicePropertyTest:property4 sameNameFileOverwrite = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 18         | # of edge cases tried in current run
+seed = -6149127451429424287   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property10 atomicOperationOnFailure" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.668">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:04.301006600, FileStorageServicePropertyTest:property10 atomicOperationOnFailure = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 6          | # of edge cases tried in current run
+seed = 7658635305456421255    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property2 fileTypeValidation multipleDotsInFilename" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.261">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:04.562402400, FileStorageServicePropertyTest:property2 fileTypeValidation multipleDotsInFilename = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 64         | # of all combined edge cases
+edge-cases#tried = 7          | # of edge cases tried in current run
+seed = 9067893209268346419    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property2 fileTypeValidation supportedExtensions" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.475">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:05.038820200, FileStorageServicePropertyTest:property2 fileTypeValidation supportedExtensions = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 8          | # of all combined edge cases
+edge-cases#tried = 8          | # of edge cases tried in current run
+seed = -6904797926702215937   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property11 errorLogging" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="1.279">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:06.323533800, FileStorageServicePropertyTest:property11 errorLogging = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 7          | # of edge cases tried in current run
+seed = 6206266017962032722    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property7 filenameIsolationByPresenter" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="2.186">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-99999999
+Uploaded file: wE.gif to uploads\presentations\P-99999999\wE.gif
+Created presenter directory: uploads\presentations\P-Gd9LlAas
+Uploaded file: wE.gif to uploads\presentations\P-Gd9LlAas\wE.gif
+Created presenter directory: uploads\presentations\P-LUImzBfS
+Uploaded file: yzWgAiLbXaz.jpeg to uploads\presentations\P-LUImzBfS\yzWgAiLbXaz.jpeg
+Created presenter directory: uploads\presentations\P-Wh1u8NGq
+Uploaded file: yzWgAiLbXaz.jpeg to uploads\presentations\P-Wh1u8NGq\yzWgAiLbXaz.jpeg
+Created presenter directory: uploads\presentations\P-rvFwf0In
+Uploaded file: GxhcBXIJ.pdf to uploads\presentations\P-rvFwf0In\GxhcBXIJ.pdf
+Created presenter directory: uploads\presentations\P-pm7cXLrL
+Uploaded file: GxhcBXIJ.pdf to uploads\presentations\P-pm7cXLrL\GxhcBXIJ.pdf
+Created presenter directory: uploads\presentations\P-Zk7olUEM
+Uploaded file: uqD.png to uploads\presentations\P-Zk7olUEM\uqD.png
+Created presenter directory: uploads\presentations\P-OY5GLByL
+Uploaded file: uqD.png to uploads\presentations\P-OY5GLByL\uqD.png
+Created presenter directory: uploads\presentations\P-dSTLE6f6
+Uploaded file: ev.jpg to uploads\presentations\P-dSTLE6f6\ev.jpg
+Created presenter directory: uploads\presentations\P-FpAwQkqO
+Uploaded file: ev.jpg to uploads\presentations\P-FpAwQkqO\ev.jpg
+Created presenter directory: uploads\presentations\P-AX8L896t
+Uploaded file: haQXWONj.jpg to uploads\presentations\P-AX8L896t\haQXWONj.jpg
+Created presenter directory: uploads\presentations\P-imU79jqX
+Uploaded file: haQXWONj.jpg to uploads\presentations\P-imU79jqX\haQXWONj.jpg
+Created presenter directory: uploads\presentations\P-kTlF9BA7
+Uploaded file: wTr.png to uploads\presentations\P-kTlF9BA7\wTr.png
+Created presenter directory: uploads\presentations\P-gQPrN08o
+Uploaded file: wTr.png to uploads\presentations\P-gQPrN08o\wTr.png
+Created presenter directory: uploads\presentations\P-0ZCKgI55
+Uploaded file: DLnywpj.jpeg to uploads\presentations\P-0ZCKgI55\DLnywpj.jpeg
+Created presenter directory: uploads\presentations\P-A5OWYtSf
+Uploaded file: DLnywpj.jpeg to uploads\presentations\P-A5OWYtSf\DLnywpj.jpeg
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: tZkkvcficIqHdWr.png to uploads\presentations\P-zzzzzzzz\tZkkvcficIqHdWr.png
+Created presenter directory: uploads\presentations\P-HLGspud5
+Uploaded file: tZkkvcficIqHdWr.png to uploads\presentations\P-HLGspud5\tZkkvcficIqHdWr.png
+Created presenter directory: uploads\presentations\P-48nuLsYB
+Uploaded file: ciySaflgMCjl.jpg to uploads\presentations\P-48nuLsYB\ciySaflgMCjl.jpg
+Created presenter directory: uploads\presentations\P-LBEJkdsH
+Uploaded file: ciySaflgMCjl.jpg to uploads\presentations\P-LBEJkdsH\ciySaflgMCjl.jpg
+Created presenter directory: uploads\presentations\P-mhcwfHKb
+Uploaded file: jmGATI.txt to uploads\presentations\P-mhcwfHKb\jmGATI.txt
+Created presenter directory: uploads\presentations\P-SBTL8kUe
+Uploaded file: jmGATI.txt to uploads\presentations\P-SBTL8kUe\jmGATI.txt
+Created presenter directory: uploads\presentations\P-Tlz6KZiD
+Uploaded file: fKCU.jpeg to uploads\presentations\P-Tlz6KZiD\fKCU.jpeg
+Created presenter directory: uploads\presentations\P-rAZuA3d4
+Uploaded file: fKCU.jpeg to uploads\presentations\P-rAZuA3d4\fKCU.jpeg
+Created presenter directory: uploads\presentations\P-KvuKtZPM
+Uploaded file: u.png to uploads\presentations\P-KvuKtZPM\u.png
+Created presenter directory: uploads\presentations\P-78ke1YOB
+Uploaded file: u.png to uploads\presentations\P-78ke1YOB\u.png
+Created presenter directory: uploads\presentations\P-Uip0stm4
+Uploaded file: jTaaovo.pdf to uploads\presentations\P-Uip0stm4\jTaaovo.pdf
+Created presenter directory: uploads\presentations\P-9KZ1BJCS
+Uploaded file: jTaaovo.pdf to uploads\presentations\P-9KZ1BJCS\jTaaovo.pdf
+Created presenter directory: uploads\presentations\P-knsr0maW
+Uploaded file: biEyoO.gif to uploads\presentations\P-knsr0maW\biEyoO.gif
+Created presenter directory: uploads\presentations\P-2IS3HTlU
+Uploaded file: biEyoO.gif to uploads\presentations\P-2IS3HTlU\biEyoO.gif
+Created presenter directory: uploads\presentations\P-eqYZrwyq
+Uploaded file: Zm.jpeg to uploads\presentations\P-eqYZrwyq\Zm.jpeg
+Created presenter directory: uploads\presentations\P-HZJHjZ1k
+Uploaded file: Zm.jpeg to uploads\presentations\P-HZJHjZ1k\Zm.jpeg
+Created presenter directory: uploads\presentations\P-3bN5nnO3
+Uploaded file: Z.jpg to uploads\presentations\P-3bN5nnO3\Z.jpg
+Created presenter directory: uploads\presentations\P-qxoaCZ4K
+Uploaded file: Z.jpg to uploads\presentations\P-qxoaCZ4K\Z.jpg
+Created presenter directory: uploads\presentations\P-ho4Pi5a8
+Uploaded file: XHMjvB.jpeg to uploads\presentations\P-ho4Pi5a8\XHMjvB.jpeg
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: XHMjvB.jpeg to uploads\presentations\P-00000000\XHMjvB.jpeg
+Created presenter directory: uploads\presentations\P-xmfltDwh
+Uploaded file: pFINGuEOUD.pdf to uploads\presentations\P-xmfltDwh\pFINGuEOUD.pdf
+Created presenter directory: uploads\presentations\P-xNbXOewb
+Uploaded file: pFINGuEOUD.pdf to uploads\presentations\P-xNbXOewb\pFINGuEOUD.pdf
+Created presenter directory: uploads\presentations\P-S41lmHXG
+Uploaded file: hVzKBOmefqwmbAP.png to uploads\presentations\P-S41lmHXG\hVzKBOmefqwmbAP.png
+Created presenter directory: uploads\presentations\P-81lSEVek
+Uploaded file: hVzKBOmefqwmbAP.png to uploads\presentations\P-81lSEVek\hVzKBOmefqwmbAP.png
+Created presenter directory: uploads\presentations\P-RKa8xeIk
+Uploaded file: zuug.gif to uploads\presentations\P-RKa8xeIk\zuug.gif
+Created presenter directory: uploads\presentations\P-K4HvY1Nw
+Uploaded file: zuug.gif to uploads\presentations\P-K4HvY1Nw\zuug.gif
+Created presenter directory: uploads\presentations\P-e6tKULu8
+Uploaded file: lbzzprsg.pdf to uploads\presentations\P-e6tKULu8\lbzzprsg.pdf
+Created presenter directory: uploads\presentations\P-mpenjAzQ
+Uploaded file: lbzzprsg.pdf to uploads\presentations\P-mpenjAzQ\lbzzprsg.pdf
+Created presenter directory: uploads\presentations\P-NTrWSuHp
+Uploaded file: a.jpeg to uploads\presentations\P-NTrWSuHp\a.jpeg
+Created presenter directory: uploads\presentations\P-nHmIid7m
+Uploaded file: a.jpeg to uploads\presentations\P-nHmIid7m\a.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Created presenter directory: uploads\presentations\P-E6R9rkte
+Uploaded file: a.jpg to uploads\presentations\P-E6R9rkte\a.jpg
+Created presenter directory: uploads\presentations\P-AXtYzJKx
+Uploaded file: a.jpg to uploads\presentations\P-AXtYzJKx\a.jpg
+Created presenter directory: uploads\presentations\P-icAlcVj9
+Uploaded file: LEGHXpNxel.gif to uploads\presentations\P-icAlcVj9\LEGHXpNxel.gif
+Created presenter directory: uploads\presentations\P-OnzGo1LS
+Uploaded file: LEGHXpNxel.gif to uploads\presentations\P-OnzGo1LS\LEGHXpNxel.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.pdf to uploads\presentations\P-ZZZZZZZZ\a.pdf
+Created presenter directory: uploads\presentations\P-8PhfPK5Z
+Uploaded file: Xiq.jpg to uploads\presentations\P-8PhfPK5Z\Xiq.jpg
+Created presenter directory: uploads\presentations\P-uw0PJLJi
+Uploaded file: Xiq.jpg to uploads\presentations\P-uw0PJLJi\Xiq.jpg
+Created presenter directory: uploads\presentations\P-wSGxLmq9
+Uploaded file: gEBHbt.gif to uploads\presentations\P-wSGxLmq9\gEBHbt.gif
+Created presenter directory: uploads\presentations\P-yH80KnNO
+Uploaded file: gEBHbt.gif to uploads\presentations\P-yH80KnNO\gEBHbt.gif
+Created presenter directory: uploads\presentations\P-0ioVOhKz
+Uploaded file: CLcVcyuSOd.jpg to uploads\presentations\P-0ioVOhKz\CLcVcyuSOd.jpg
+Created presenter directory: uploads\presentations\P-UNwUDw9G
+Uploaded file: CLcVcyuSOd.jpg to uploads\presentations\P-UNwUDw9G\CLcVcyuSOd.jpg
+Created presenter directory: uploads\presentations\P-dpxJxX1N
+Uploaded file: XsHcQxd.jpg to uploads\presentations\P-dpxJxX1N\XsHcQxd.jpg
+Created presenter directory: uploads\presentations\P-PvJZwHVR
+Uploaded file: XsHcQxd.jpg to uploads\presentations\P-PvJZwHVR\XsHcQxd.jpg
+Created presenter directory: uploads\presentations\P-8WuYOSMY
+Uploaded file: GgDFx.txt to uploads\presentations\P-8WuYOSMY\GgDFx.txt
+Created presenter directory: uploads\presentations\P-urQPoukg
+Uploaded file: GgDFx.txt to uploads\presentations\P-urQPoukg\GgDFx.txt
+Created presenter directory: uploads\presentations\P-a5kL9FCt
+Uploaded file: gjMRlws.txt to uploads\presentations\P-a5kL9FCt\gjMRlws.txt
+Created presenter directory: uploads\presentations\P-THru3Req
+Uploaded file: gjMRlws.txt to uploads\presentations\P-THru3Req\gjMRlws.txt
+Created presenter directory: uploads\presentations\P-aDDexcVz
+Uploaded file: Z.pdf to uploads\presentations\P-aDDexcVz\Z.pdf
+Created presenter directory: uploads\presentations\P-DGpbHZPU
+Uploaded file: Z.pdf to uploads\presentations\P-DGpbHZPU\Z.pdf
+Created presenter directory: uploads\presentations\P-A26G7ZJT
+Uploaded file: JC.jpg to uploads\presentations\P-A26G7ZJT\JC.jpg
+Created presenter directory: uploads\presentations\P-EVZg8bgs
+Uploaded file: JC.jpg to uploads\presentations\P-EVZg8bgs\JC.jpg
+Created presenter directory: uploads\presentations\P-C6fAnPDZ
+Uploaded file: NF.pdf to uploads\presentations\P-C6fAnPDZ\NF.pdf
+Created presenter directory: uploads\presentations\P-xZuQG0Bz
+Uploaded file: NF.pdf to uploads\presentations\P-xZuQG0Bz\NF.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: A.pdf to uploads\presentations\P-zzzzzzzz\A.pdf
+Created presenter directory: uploads\presentations\P-6Hy5q0cM
+Uploaded file: bqDFqsQ.png to uploads\presentations\P-6Hy5q0cM\bqDFqsQ.png
+Created presenter directory: uploads\presentations\P-iN6dOK11
+Uploaded file: bqDFqsQ.png to uploads\presentations\P-iN6dOK11\bqDFqsQ.png
+Created presenter directory: uploads\presentations\P-Cva0Yt0h
+Uploaded file: A.pdf to uploads\presentations\P-Cva0Yt0h\A.pdf
+Created presenter directory: uploads\presentations\P-L3J7NqFc
+Uploaded file: A.pdf to uploads\presentations\P-L3J7NqFc\A.pdf
+Created presenter directory: uploads\presentations\P-lnw7nkVP
+Uploaded file: mvWGc.txt to uploads\presentations\P-lnw7nkVP\mvWGc.txt
+Created presenter directory: uploads\presentations\P-W7EEjXoW
+Uploaded file: mvWGc.txt to uploads\presentations\P-W7EEjXoW\mvWGc.txt
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: JOHITelLnp.pdf to uploads\presentations\P-zzzzzzzz\JOHITelLnp.pdf
+Created presenter directory: uploads\presentations\P-eHbTCuBN
+Uploaded file: JOHITelLnp.pdf to uploads\presentations\P-eHbTCuBN\JOHITelLnp.pdf
+Created presenter directory: uploads\presentations\P-KjYH04ln
+Uploaded file: Zjl.jpeg to uploads\presentations\P-KjYH04ln\Zjl.jpeg
+Created presenter directory: uploads\presentations\P-dO4s2dbS
+Uploaded file: Zjl.jpeg to uploads\presentations\P-dO4s2dbS\Zjl.jpeg
+Created presenter directory: uploads\presentations\P-tFUMrN3A
+Uploaded file: ULQFfZjxde.png to uploads\presentations\P-tFUMrN3A\ULQFfZjxde.png
+Created presenter directory: uploads\presentations\P-3BEMAzI3
+Uploaded file: ULQFfZjxde.png to uploads\presentations\P-3BEMAzI3\ULQFfZjxde.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: Z.pdf to uploads\presentations\P-zzzzzzzz\Z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: a.pdf to uploads\presentations\P-zzzzzzzz\a.pdf
+Created presenter directory: uploads\presentations\P-YgEiLbnh
+Uploaded file: dXmP.gif to uploads\presentations\P-YgEiLbnh\dXmP.gif
+Created presenter directory: uploads\presentations\P-3e0LBicP
+Uploaded file: dXmP.gif to uploads\presentations\P-3e0LBicP\dXmP.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: A.pdf to uploads\presentations\P-00000000\A.pdf
+Created presenter directory: uploads\presentations\P-u5B4CH03
+Uploaded file: UUMGXjOA.pdf to uploads\presentations\P-u5B4CH03\UUMGXjOA.pdf
+Created presenter directory: uploads\presentations\P-265Vqehc
+Uploaded file: UUMGXjOA.pdf to uploads\presentations\P-265Vqehc\UUMGXjOA.pdf
+Created presenter directory: uploads\presentations\P-qXtQeOIu
+Uploaded file: kMrxl.pdf to uploads\presentations\P-qXtQeOIu\kMrxl.pdf
+Created presenter directory: uploads\presentations\P-l1iJQYfq
+Uploaded file: kMrxl.pdf to uploads\presentations\P-l1iJQYfq\kMrxl.pdf
+Created presenter directory: uploads\presentations\P-QLI6Fvuc
+Uploaded file: sbnpPD.txt to uploads\presentations\P-QLI6Fvuc\sbnpPD.txt
+Created presenter directory: uploads\presentations\P-xXHkGjVz
+Uploaded file: sbnpPD.txt to uploads\presentations\P-xXHkGjVz\sbnpPD.txt
+Created presenter directory: uploads\presentations\P-jkmb7iap
+Uploaded file: nussXfxDaJtfEZC.png to uploads\presentations\P-jkmb7iap\nussXfxDaJtfEZC.png
+Created presenter directory: uploads\presentations\P-yenmfAFV
+Uploaded file: nussXfxDaJtfEZC.png to uploads\presentations\P-yenmfAFV\nussXfxDaJtfEZC.png
+Created presenter directory: uploads\presentations\P-wfwEny5U
+Uploaded file: noFQxBjeCNl.jpg to uploads\presentations\P-wfwEny5U\noFQxBjeCNl.jpg
+Created presenter directory: uploads\presentations\P-ziuHrYna
+Uploaded file: noFQxBjeCNl.jpg to uploads\presentations\P-ziuHrYna\noFQxBjeCNl.jpg
+Created presenter directory: uploads\presentations\P-GRlFHJJY
+Uploaded file: EmjuZElg.png to uploads\presentations\P-GRlFHJJY\EmjuZElg.png
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: EmjuZElg.png to uploads\presentations\P-zzzzzzzz\EmjuZElg.png
+Created presenter directory: uploads\presentations\P-xh4ayv5t
+Uploaded file: Z.gif to uploads\presentations\P-xh4ayv5t\Z.gif
+Created presenter directory: uploads\presentations\P-uepZvNJz
+Uploaded file: Z.gif to uploads\presentations\P-uepZvNJz\Z.gif
+Created presenter directory: uploads\presentations\P-CGnzwTDg
+Uploaded file: qWhNCEZvj.pdf to uploads\presentations\P-CGnzwTDg\qWhNCEZvj.pdf
+Created presenter directory: uploads\presentations\P-DCsvRkCb
+Uploaded file: qWhNCEZvj.pdf to uploads\presentations\P-DCsvRkCb\qWhNCEZvj.pdf
+Created presenter directory: uploads\presentations\P-org6Zn4h
+Uploaded file: e.pdf to uploads\presentations\P-org6Zn4h\e.pdf
+Created presenter directory: uploads\presentations\P-YynmJs7p
+Uploaded file: e.pdf to uploads\presentations\P-YynmJs7p\e.pdf
+Created presenter directory: uploads\presentations\P-CRJiclEA
+Uploaded file: yEKhg.gif to uploads\presentations\P-CRJiclEA\yEKhg.gif
+Created presenter directory: uploads\presentations\P-sT0FlhFo
+Uploaded file: yEKhg.gif to uploads\presentations\P-sT0FlhFo\yEKhg.gif
+Created presenter directory: uploads\presentations\P-Lw4EdTHg
+Uploaded file: bXon.txt to uploads\presentations\P-Lw4EdTHg\bXon.txt
+Created presenter directory: uploads\presentations\P-MCmKeJpq
+Uploaded file: bXon.txt to uploads\presentations\P-MCmKeJpq\bXon.txt
+Created presenter directory: uploads\presentations\P-y2UZf58c
+Uploaded file: MTRQSEKpKdbeM.txt to uploads\presentations\P-y2UZf58c\MTRQSEKpKdbeM.txt
+Created presenter directory: uploads\presentations\P-67EIPc8B
+Uploaded file: MTRQSEKpKdbeM.txt to uploads\presentations\P-67EIPc8B\MTRQSEKpKdbeM.txt
+Created presenter directory: uploads\presentations\P-9P3GiC8A
+Uploaded file: tVfUC.pdf to uploads\presentations\P-9P3GiC8A\tVfUC.pdf
+Created presenter directory: uploads\presentations\P-q6eKAdq6
+Uploaded file: tVfUC.pdf to uploads\presentations\P-q6eKAdq6\tVfUC.pdf
+Created presenter directory: uploads\presentations\P-nikpcOW2
+Uploaded file: GsuJOodgFg.jpeg to uploads\presentations\P-nikpcOW2\GsuJOodgFg.jpeg
+Created presenter directory: uploads\presentations\P-aa4u6f1i
+Uploaded file: GsuJOodgFg.jpeg to uploads\presentations\P-aa4u6f1i\GsuJOodgFg.jpeg
+Created presenter directory: uploads\presentations\P-5cD4lq9Y
+Uploaded file: wVbOYSVZJkz.txt to uploads\presentations\P-5cD4lq9Y\wVbOYSVZJkz.txt
+Created presenter directory: uploads\presentations\P-5dBQgC3B
+Uploaded file: wVbOYSVZJkz.txt to uploads\presentations\P-5dBQgC3B\wVbOYSVZJkz.txt
+Created presenter directory: uploads\presentations\P-99999999
+Uploaded file: fiTqHS.jpeg to uploads\presentations\P-99999999\fiTqHS.jpeg
+Created presenter directory: uploads\presentations\P-w4LXonoU
+Uploaded file: fiTqHS.jpeg to uploads\presentations\P-w4LXonoU\fiTqHS.jpeg
+Created presenter directory: uploads\presentations\P-a2u0VCu7
+Uploaded file: YrwIoWrZG.png to uploads\presentations\P-a2u0VCu7\YrwIoWrZG.png
+Created presenter directory: uploads\presentations\P-8lbdPZ5E
+Uploaded file: YrwIoWrZG.png to uploads\presentations\P-8lbdPZ5E\YrwIoWrZG.png
+Created presenter directory: uploads\presentations\P-SfQRJ8oD
+Uploaded file: oVapLALZi.txt to uploads\presentations\P-SfQRJ8oD\oVapLALZi.txt
+Created presenter directory: uploads\presentations\P-Roqzb5Id
+Uploaded file: oVapLALZi.txt to uploads\presentations\P-Roqzb5Id\oVapLALZi.txt
+Created presenter directory: uploads\presentations\P-Z8iICIns
+Uploaded file: BcVPPusgdV.pdf to uploads\presentations\P-Z8iICIns\BcVPPusgdV.pdf
+Created presenter directory: uploads\presentations\P-rYdKdnI5
+Uploaded file: BcVPPusgdV.pdf to uploads\presentations\P-rYdKdnI5\BcVPPusgdV.pdf
+Created presenter directory: uploads\presentations\P-ipjdreBn
+Uploaded file: OcfDy.jpg to uploads\presentations\P-ipjdreBn\OcfDy.jpg
+Created presenter directory: uploads\presentations\P-24fnlarP
+Uploaded file: OcfDy.jpg to uploads\presentations\P-24fnlarP\OcfDy.jpg
+Created presenter directory: uploads\presentations\P-IIkosqzn
+Uploaded file: VNYqWRTqTjzXPP.pdf to uploads\presentations\P-IIkosqzn\VNYqWRTqTjzXPP.pdf
+Created presenter directory: uploads\presentations\P-WiJcI9sp
+Uploaded file: VNYqWRTqTjzXPP.pdf to uploads\presentations\P-WiJcI9sp\VNYqWRTqTjzXPP.pdf
+Created presenter directory: uploads\presentations\P-OsSoBfcF
+Uploaded file: z.txt to uploads\presentations\P-OsSoBfcF\z.txt
+Created presenter directory: uploads\presentations\P-tGtNa42Q
+Uploaded file: z.txt to uploads\presentations\P-tGtNa42Q\z.txt
+Created presenter directory: uploads\presentations\P-aVjSzOVV
+Uploaded file: a.jpeg to uploads\presentations\P-aVjSzOVV\a.jpeg
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: a.jpeg to uploads\presentations\P-aaaaaaaa\a.jpeg
+Created presenter directory: uploads\presentations\P-Kjbco70P
+Uploaded file: LeiYCINK.txt to uploads\presentations\P-Kjbco70P\LeiYCINK.txt
+Created presenter directory: uploads\presentations\P-lRbaREYM
+Uploaded file: LeiYCINK.txt to uploads\presentations\P-lRbaREYM\LeiYCINK.txt
+Created presenter directory: uploads\presentations\P-WD25w2kS
+Uploaded file: SMJJJIXGwbiMAX.gif to uploads\presentations\P-WD25w2kS\SMJJJIXGwbiMAX.gif
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Uploaded file: SMJJJIXGwbiMAX.gif to uploads\presentations\P-zzzzzzzz\SMJJJIXGwbiMAX.gif
+Created presenter directory: uploads\presentations\P-rjTvsBvZ
+Uploaded file: wG.png to uploads\presentations\P-rjTvsBvZ\wG.png
+Created presenter directory: uploads\presentations\P-FnxWnPA9
+Uploaded file: wG.png to uploads\presentations\P-FnxWnPA9\wG.png
+Created presenter directory: uploads\presentations\P-8UpWiWz4
+Uploaded file: nuTRZazRRbvo.png to uploads\presentations\P-8UpWiWz4\nuTRZazRRbvo.png
+Created presenter directory: uploads\presentations\P-5Lw4GXDW
+Uploaded file: nuTRZazRRbvo.png to uploads\presentations\P-5Lw4GXDW\nuTRZazRRbvo.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: Z.pdf to uploads\presentations\P-00000000\Z.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: UmVnZQIx.txt to uploads\presentations\P-00000000\UmVnZQIx.txt
+Created presenter directory: uploads\presentations\P-cqd0RMAB
+Uploaded file: UmVnZQIx.txt to uploads\presentations\P-cqd0RMAB\UmVnZQIx.txt
+Created presenter directory: uploads\presentations\P-3k97zp2J
+Uploaded file: TdMTDAwEYskEmml.pdf to uploads\presentations\P-3k97zp2J\TdMTDAwEYskEmml.pdf
+Created presenter directory: uploads\presentations\P-jTDMn2vN
+Uploaded file: TdMTDAwEYskEmml.pdf to uploads\presentations\P-jTDMn2vN\TdMTDAwEYskEmml.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: y.png to uploads\presentations\P-AAAAAAAA\y.png
+Created presenter directory: uploads\presentations\P-sMPpnrSw
+Uploaded file: y.png to uploads\presentations\P-sMPpnrSw\y.png
+Created presenter directory: uploads\presentations\P-O79erAed
+Uploaded file: qzW.jpeg to uploads\presentations\P-O79erAed\qzW.jpeg
+Created presenter directory: uploads\presentations\P-M4KzPvT6
+Uploaded file: qzW.jpeg to uploads\presentations\P-M4KzPvT6\qzW.jpeg
+Created presenter directory: uploads\presentations\P-BZtTHhBK
+Uploaded file: sGwwcYLrmp.gif to uploads\presentations\P-BZtTHhBK\sGwwcYLrmp.gif
+Created presenter directory: uploads\presentations\P-7BqY8Npi
+Uploaded file: sGwwcYLrmp.gif to uploads\presentations\P-7BqY8Npi\sGwwcYLrmp.gif
+Created presenter directory: uploads\presentations\P-NHKljFbR
+Uploaded file: TrguXDdSTl.png to uploads\presentations\P-NHKljFbR\TrguXDdSTl.png
+Created presenter directory: uploads\presentations\P-dYFtSNt7
+Uploaded file: TrguXDdSTl.png to uploads\presentations\P-dYFtSNt7\TrguXDdSTl.png
+Created presenter directory: uploads\presentations\P-vup93QvO
+Uploaded file: JsrHGvzyEWZdsY.pdf to uploads\presentations\P-vup93QvO\JsrHGvzyEWZdsY.pdf
+Created presenter directory: uploads\presentations\P-mieDmICm
+Uploaded file: JsrHGvzyEWZdsY.pdf to uploads\presentations\P-mieDmICm\JsrHGvzyEWZdsY.pdf
+Created presenter directory: uploads\presentations\P-Ehz61TJV
+Uploaded file: bmeQyJ.png to uploads\presentations\P-Ehz61TJV\bmeQyJ.png
+Created presenter directory: uploads\presentations\P-5V1LS1Hb
+Uploaded file: bmeQyJ.png to uploads\presentations\P-5V1LS1Hb\bmeQyJ.png
+Created presenter directory: uploads\presentations\P-616HjrHF
+Uploaded file: oFpvBS.png to uploads\presentations\P-616HjrHF\oFpvBS.png
+Created presenter directory: uploads\presentations\P-fSWwBWQH
+Uploaded file: oFpvBS.png to uploads\presentations\P-fSWwBWQH\oFpvBS.png
+Created presenter directory: uploads\presentations\P-oEo5watj
+Uploaded file: WEKjdwmnkvOh.gif to uploads\presentations\P-oEo5watj\WEKjdwmnkvOh.gif
+Created presenter directory: uploads\presentations\P-xsk4VpHN
+Uploaded file: WEKjdwmnkvOh.gif to uploads\presentations\P-xsk4VpHN\WEKjdwmnkvOh.gif
+Created presenter directory: uploads\presentations\P-2bvpo5y4
+Uploaded file: DyUzi.gif to uploads\presentations\P-2bvpo5y4\DyUzi.gif
+Created presenter directory: uploads\presentations\P-i3fYkGQ9
+Uploaded file: DyUzi.gif to uploads\presentations\P-i3fYkGQ9\DyUzi.gif
+Created presenter directory: uploads\presentations\P-sa6tnwxO
+Uploaded file: A.gif to uploads\presentations\P-sa6tnwxO\A.gif
+Created presenter directory: uploads\presentations\P-jwj6TfzT
+Uploaded file: A.gif to uploads\presentations\P-jwj6TfzT\A.gif
+Created presenter directory: uploads\presentations\P-WyMwhrbC
+Uploaded file: kjDSqRr.pdf to uploads\presentations\P-WyMwhrbC\kjDSqRr.pdf
+Created presenter directory: uploads\presentations\P-386GWOv9
+Uploaded file: kjDSqRr.pdf to uploads\presentations\P-386GWOv9\kjDSqRr.pdf
+Created presenter directory: uploads\presentations\P-jBhG7EEo
+Uploaded file: jWN.pdf to uploads\presentations\P-jBhG7EEo\jWN.pdf
+Created presenter directory: uploads\presentations\P-QTyWNpQO
+Uploaded file: jWN.pdf to uploads\presentations\P-QTyWNpQO\jWN.pdf
+Created presenter directory: uploads\presentations\P-MvDpfnkC
+Uploaded file: stakSq.gif to uploads\presentations\P-MvDpfnkC\stakSq.gif
+Created presenter directory: uploads\presentations\P-iywMG7Ai
+Uploaded file: stakSq.gif to uploads\presentations\P-iywMG7Ai\stakSq.gif
+Created presenter directory: uploads\presentations\P-soX3kl8J
+Uploaded file: wA.pdf to uploads\presentations\P-soX3kl8J\wA.pdf
+Created presenter directory: uploads\presentations\P-c36YzAj5
+Uploaded file: wA.pdf to uploads\presentations\P-c36YzAj5\wA.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: a.pdf to uploads\presentations\P-00000000\a.pdf
+Created presenter directory: uploads\presentations\P-lO7u5Q5H
+Uploaded file: OjVnqmXMv.gif to uploads\presentations\P-lO7u5Q5H\OjVnqmXMv.gif
+Created presenter directory: uploads\presentations\P-KSkOXpMc
+Uploaded file: OjVnqmXMv.gif to uploads\presentations\P-KSkOXpMc\OjVnqmXMv.gif
+timestamp = 2026-02-07T12:18:08.511634600, FileStorageServicePropertyTest:property7 filenameIsolationByPresenter = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 108        | # of all combined edge cases
+edge-cases#tried = 15         | # of edge cases tried in current run
+seed = -5706465472572973702   | random seed to reproduce generated values
+
+
+]]></system-out>
+    <system-err><![CDATA[Feb 07, 2026 12:18:06 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+INFO: Edge case generation exceeds number of tries. Stopped after 108 generated cases.
+]]></system-err>
+  </testcase>
+  <testcase name="property9 nonExistentFileRejection" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.2">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:08.712030, FileStorageServicePropertyTest:property9 nonExistentFileRejection = 
+                              |-----------------------jqwik-----------------------
+tries = 50                    | # of calls to property
+checks = 50                   | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 5          | # of edge cases tried in current run
+seed = 5270370108073242016    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property2 fileTypeValidation caseInsensitive" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.401">
+    <system-out><![CDATA[timestamp = 2026-02-07T12:18:09.114286, FileStorageServicePropertyTest:property2 fileTypeValidation caseInsensitive = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 16         | # of all combined edge cases
+edge-cases#tried = 13         | # of edge cases tried in current run
+seed = -1249192773612868080   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property5 relativePathGeneration" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="1.012">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-8ssR0Wk9
+Uploaded file: KuHdNBTe.jpeg to uploads\presentations\P-8ssR0Wk9\KuHdNBTe.jpeg
+Created presenter directory: uploads\presentations\P-tTdMBgIJ
+Uploaded file: wIi.gif to uploads\presentations\P-tTdMBgIJ\wIi.gif
+Created presenter directory: uploads\presentations\P-fg8f4dJT
+Uploaded file: mtbSqUBJGL.gif to uploads\presentations\P-fg8f4dJT\mtbSqUBJGL.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Created presenter directory: uploads\presentations\P-Kk0vFlvc
+Uploaded file: as.jpg to uploads\presentations\P-Kk0vFlvc\as.jpg
+Created presenter directory: uploads\presentations\P-cT3JBBKu
+Uploaded file: IAuF.png to uploads\presentations\P-cT3JBBKu\IAuF.png
+Created presenter directory: uploads\presentations\P-OCtZYP25
+Uploaded file: LmxBdVvyVjJ.jpg to uploads\presentations\P-OCtZYP25\LmxBdVvyVjJ.jpg
+Created presenter directory: uploads\presentations\P-eIG7Yw5P
+Uploaded file: ogoyjKDMt.jpeg to uploads\presentations\P-eIG7Yw5P\ogoyjKDMt.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: fakkarrSswHx.jpg to uploads\presentations\P-AAAAAAAA\fakkarrSswHx.jpg
+Created presenter directory: uploads\presentations\P-9wB9S0y1
+Uploaded file: vgVU.jpeg to uploads\presentations\P-9wB9S0y1\vgVU.jpeg
+Created presenter directory: uploads\presentations\P-e3YAgQdN
+Uploaded file: HJlTOMZ.txt to uploads\presentations\P-e3YAgQdN\HJlTOMZ.txt
+Created presenter directory: uploads\presentations\P-ttJcWjCe
+Uploaded file: oapQ.jpeg to uploads\presentations\P-ttJcWjCe\oapQ.jpeg
+Created presenter directory: uploads\presentations\P-aJcNpP7k
+Uploaded file: bza.jpeg to uploads\presentations\P-aJcNpP7k\bza.jpeg
+Created presenter directory: uploads\presentations\P-EZcXFAvU
+Uploaded file: LjiCKDqH.gif to uploads\presentations\P-EZcXFAvU\LjiCKDqH.gif
+Created presenter directory: uploads\presentations\P-tTAOleTE
+Uploaded file: ccymBonshxqSaY.jpg to uploads\presentations\P-tTAOleTE\ccymBonshxqSaY.jpg
+Created presenter directory: uploads\presentations\P-taLupv7h
+Uploaded file: XzrwSIsgLJ.gif to uploads\presentations\P-taLupv7h\XzrwSIsgLJ.gif
+Created presenter directory: uploads\presentations\P-VtYThjBH
+Uploaded file: mmxgtlBwSNu.png to uploads\presentations\P-VtYThjBH\mmxgtlBwSNu.png
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: pEEEfYQ.jpg to uploads\presentations\P-aaaaaaaa\pEEEfYQ.jpg
+Created presenter directory: uploads\presentations\P-sdNT0mZ9
+Uploaded file: EnQ.pdf to uploads\presentations\P-sdNT0mZ9\EnQ.pdf
+Created presenter directory: uploads\presentations\P-6TqZRceq
+Uploaded file: BAwO.pdf to uploads\presentations\P-6TqZRceq\BAwO.pdf
+Created presenter directory: uploads\presentations\P-QsCWouQR
+Uploaded file: QkqLYTD.jpeg to uploads\presentations\P-QsCWouQR\QkqLYTD.jpeg
+Created presenter directory: uploads\presentations\P-q5ArfMbz
+Uploaded file: thzqvC.gif to uploads\presentations\P-q5ArfMbz\thzqvC.gif
+Created presenter directory: uploads\presentations\P-ReGcu4tB
+Uploaded file: FvhysvpSQXnPFwC.png to uploads\presentations\P-ReGcu4tB\FvhysvpSQXnPFwC.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: LIJJVgBMP.png to uploads\presentations\P-AAAAAAAA\LIJJVgBMP.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.gif to uploads\presentations\P-AAAAAAAA\a.gif
+Created presenter directory: uploads\presentations\P-bzJvNICF
+Uploaded file: ojNaMtSOQwQA.png to uploads\presentations\P-bzJvNICF\ojNaMtSOQwQA.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-GwzNy9Ki
+Uploaded file: FYbyTgOaIiU.jpg to uploads\presentations\P-GwzNy9Ki\FYbyTgOaIiU.jpg
+Created presenter directory: uploads\presentations\P-wXTmdtNY
+Uploaded file: tkX.txt to uploads\presentations\P-wXTmdtNY\tkX.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.gif to uploads\presentations\P-AAAAAAAA\z.gif
+Created presenter directory: uploads\presentations\P-PdeJHz1S
+Uploaded file: miFScjpG.txt to uploads\presentations\P-PdeJHz1S\miFScjpG.txt
+Created presenter directory: uploads\presentations\P-tyqpPgkn
+Uploaded file: a.gif to uploads\presentations\P-tyqpPgkn\a.gif
+Created presenter directory: uploads\presentations\P-ja6PePLk
+Uploaded file: QkdjyPkh.gif to uploads\presentations\P-ja6PePLk\QkdjyPkh.gif
+Created presenter directory: uploads\presentations\P-vlSB5d3Z
+Uploaded file: ZvXSENeJWhY.jpg to uploads\presentations\P-vlSB5d3Z\ZvXSENeJWhY.jpg
+Created presenter directory: uploads\presentations\P-9n8UJvUQ
+Uploaded file: ieiqon.jpeg to uploads\presentations\P-9n8UJvUQ\ieiqon.jpeg
+Created presenter directory: uploads\presentations\P-C7t9Xiff
+Uploaded file: WOR.pdf to uploads\presentations\P-C7t9Xiff\WOR.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Created presenter directory: uploads\presentations\P-XFCf7RxY
+Uploaded file: SrGPdWfH.gif to uploads\presentations\P-XFCf7RxY\SrGPdWfH.gif
+Created presenter directory: uploads\presentations\P-2UzUVock
+Uploaded file: LkNa.gif to uploads\presentations\P-2UzUVock\LkNa.gif
+Created presenter directory: uploads\presentations\P-i4e3Zg3M
+Uploaded file: Opes.jpeg to uploads\presentations\P-i4e3Zg3M\Opes.jpeg
+Created presenter directory: uploads\presentations\P-4QyitBC7
+Uploaded file: wtziXFkR.pdf to uploads\presentations\P-4QyitBC7\wtziXFkR.pdf
+Created presenter directory: uploads\presentations\P-fvAex9yD
+Uploaded file: z.pdf to uploads\presentations\P-fvAex9yD\z.pdf
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.gif to uploads\presentations\P-ZZZZZZZZ\A.gif
+Created presenter directory: uploads\presentations\P-qegELcg9
+Uploaded file: pHiy.pdf to uploads\presentations\P-qegELcg9\pHiy.pdf
+Created presenter directory: uploads\presentations\P-bFjXo5qK
+Uploaded file: Z.jpeg to uploads\presentations\P-bFjXo5qK\Z.jpeg
+Created presenter directory: uploads\presentations\P-8BT3YE7g
+Uploaded file: lfZ.png to uploads\presentations\P-8BT3YE7g\lfZ.png
+Created presenter directory: uploads\presentations\P-URVqKiJ7
+Uploaded file: zzZA.jpeg to uploads\presentations\P-URVqKiJ7\zzZA.jpeg
+Created presenter directory: uploads\presentations\P-mOR4YQ9Z
+Uploaded file: OTwkjLXusRzN.gif to uploads\presentations\P-mOR4YQ9Z\OTwkjLXusRzN.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Created presenter directory: uploads\presentations\P-aiqmLmQu
+Uploaded file: aYnSaDRFpDhZ.txt to uploads\presentations\P-aiqmLmQu\aYnSaDRFpDhZ.txt
+Created presenter directory: uploads\presentations\P-OLtLhokG
+Uploaded file: iZK.png to uploads\presentations\P-OLtLhokG\iZK.png
+Created presenter directory: uploads\presentations\P-Z33bhxr8
+Uploaded file: EkURZywHnECJ.gif to uploads\presentations\P-Z33bhxr8\EkURZywHnECJ.gif
+Created presenter directory: uploads\presentations\P-1LO6dOJi
+Uploaded file: HkM.txt to uploads\presentations\P-1LO6dOJi\HkM.txt
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.gif to uploads\presentations\P-ZZZZZZZZ\Z.gif
+Created presenter directory: uploads\presentations\P-wBdzNS8T
+Uploaded file: xOqUQlyYl.jpg to uploads\presentations\P-wBdzNS8T\xOqUQlyYl.jpg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.pdf to uploads\presentations\P-ZZZZZZZZ\a.pdf
+Created presenter directory: uploads\presentations\P-gFOb1iYx
+Uploaded file: a.pdf to uploads\presentations\P-gFOb1iYx\a.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: a.jpeg to uploads\presentations\P-00000000\a.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: a.gif to uploads\presentations\P-ZZZZZZZZ\a.gif
+Created presenter directory: uploads\presentations\P-yYQJdXYd
+Uploaded file: fbwJhFQJetV.png to uploads\presentations\P-yYQJdXYd\fbwJhFQJetV.png
+Created presenter directory: uploads\presentations\P-ehJW1TZk
+Uploaded file: Z.txt to uploads\presentations\P-ehJW1TZk\Z.txt
+Created presenter directory: uploads\presentations\P-VF2p5EJL
+Uploaded file: IydCkmjCO.jpeg to uploads\presentations\P-VF2p5EJL\IydCkmjCO.jpeg
+Created presenter directory: uploads\presentations\P-69Pz1opB
+Uploaded file: VxaCilefXojzJ.pdf to uploads\presentations\P-69Pz1opB\VxaCilefXojzJ.pdf
+Created presenter directory: uploads\presentations\P-a5firB3E
+Uploaded file: VzbDl.txt to uploads\presentations\P-a5firB3E\VzbDl.txt
+Created presenter directory: uploads\presentations\P-qcvkoTEB
+Uploaded file: ZbOhckBEQMXT.jpeg to uploads\presentations\P-qcvkoTEB\ZbOhckBEQMXT.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.pdf to uploads\presentations\P-ZZZZZZZZ\z.pdf
+Created presenter directory: uploads\presentations\P-XbwIevDL
+Uploaded file: NTbRhmNb.pdf to uploads\presentations\P-XbwIevDL\NTbRhmNb.pdf
+Created presenter directory: uploads\presentations\P-THet8gMI
+Uploaded file: TmfZeSRelrxbvXS.gif to uploads\presentations\P-THet8gMI\TmfZeSRelrxbvXS.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: z.gif to uploads\presentations\P-ZZZZZZZZ\z.gif
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.pdf to uploads\presentations\P-aaaaaaaa\A.pdf
+Created presenter directory: uploads\presentations\P-sELhm94M
+Uploaded file: MTsEBpie.pdf to uploads\presentations\P-sELhm94M\MTsEBpie.pdf
+Created presenter directory: uploads\presentations\P-Y5ATLUJT
+Uploaded file: DqSqHa.pdf to uploads\presentations\P-Y5ATLUJT\DqSqHa.pdf
+Created presenter directory: uploads\presentations\P-Me4xHu05
+Uploaded file: z.jpg to uploads\presentations\P-Me4xHu05\z.jpg
+Created presenter directory: uploads\presentations\P-u04mAlUC
+Uploaded file: RKgvd.jpeg to uploads\presentations\P-u04mAlUC\RKgvd.jpeg
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: A.gif to uploads\presentations\P-aaaaaaaa\A.gif
+Created presenter directory: uploads\presentations\P-vIHxRH2r
+Uploaded file: JFWhI.gif to uploads\presentations\P-vIHxRH2r\JFWhI.gif
+Created presenter directory: uploads\presentations\P-WMO2hi5o
+Uploaded file: BOt.png to uploads\presentations\P-WMO2hi5o\BOt.png
+Created presenter directory: uploads\presentations\P-lKeG4DUF
+Uploaded file: VuDAxqPmNhR.gif to uploads\presentations\P-lKeG4DUF\VuDAxqPmNhR.gif
+Created presenter directory: uploads\presentations\P-s1aSSudX
+Uploaded file: s.pdf to uploads\presentations\P-s1aSSudX\s.pdf
+Created presenter directory: uploads\presentations\P-lVHt8m92
+Uploaded file: EFKKlLr.jpeg to uploads\presentations\P-lVHt8m92\EFKKlLr.jpeg
+Created presenter directory: uploads\presentations\P-Ja3dutvl
+Uploaded file: W.gif to uploads\presentations\P-Ja3dutvl\W.gif
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: Hzuc.gif to uploads\presentations\P-aaaaaaaa\Hzuc.gif
+Created presenter directory: uploads\presentations\P-GohEiprY
+Uploaded file: WOlQ.pdf to uploads\presentations\P-GohEiprY\WOlQ.pdf
+Created presenter directory: uploads\presentations\P-auGDdw9s
+Uploaded file: UtdeDzP.pdf to uploads\presentations\P-auGDdw9s\UtdeDzP.pdf
+Created presenter directory: uploads\presentations\P-9AM4SDya
+Uploaded file: WuC.gif to uploads\presentations\P-9AM4SDya\WuC.gif
+Created presenter directory: uploads\presentations\P-C5jKOHj6
+Uploaded file: hUDgjchnyO.png to uploads\presentations\P-C5jKOHj6\hUDgjchnyO.png
+Created presenter directory: uploads\presentations\P-TJkYd1J1
+Uploaded file: GPcLazw.png to uploads\presentations\P-TJkYd1J1\GPcLazw.png
+Created presenter directory: uploads\presentations\P-qvjK6XjV
+Uploaded file: vLvXr.jpeg to uploads\presentations\P-qvjK6XjV\vLvXr.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: FCQLczDHKFV.txt to uploads\presentations\P-AAAAAAAA\FCQLczDHKFV.txt
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: Z.pdf to uploads\presentations\P-aaaaaaaa\Z.pdf
+Created presenter directory: uploads\presentations\P-NSlqEDyY
+Uploaded file: xBg.jpeg to uploads\presentations\P-NSlqEDyY\xBg.jpeg
+Created presenter directory: uploads\presentations\P-mRlFaLrT
+Uploaded file: nF.jpg to uploads\presentations\P-mRlFaLrT\nF.jpg
+Created presenter directory: uploads\presentations\P-EoSlhwlh
+Uploaded file: PUYJfauX.pdf to uploads\presentations\P-EoSlhwlh\PUYJfauX.pdf
+Created presenter directory: uploads\presentations\P-o7m1nDeA
+Uploaded file: cPBWNgr.jpeg to uploads\presentations\P-o7m1nDeA\cPBWNgr.jpeg
+Created presenter directory: uploads\presentations\P-5dbSurGh
+Uploaded file: URnOD.txt to uploads\presentations\P-5dbSurGh\URnOD.txt
+Created presenter directory: uploads\presentations\P-7VeHxkz0
+Uploaded file: BP.jpg to uploads\presentations\P-7VeHxkz0\BP.jpg
+timestamp = 2026-02-07T12:18:10.127321700, FileStorageServicePropertyTest:property5 relativePathGeneration = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 19         | # of edge cases tried in current run
+seed = 6858331639556158849    | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property1 directoryStructureConsistency" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="0.276">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-PKa2Q55C
+Created presenter directory: uploads\presentations\P-YIh8vg5D
+Created presenter directory: uploads\presentations\P-VAIEwvH4
+Created presenter directory: uploads\presentations\P-5i1KWgsP
+Created presenter directory: uploads\presentations\P-LVbKp30f
+Created presenter directory: uploads\presentations\P-YpjumomW
+Created presenter directory: uploads\presentations\P-TfwJSlZm
+Created presenter directory: uploads\presentations\P-fzq4lIzx
+Created presenter directory: uploads\presentations\P-g7jePkrl
+Created presenter directory: uploads\presentations\P-ueAgujcs
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Created presenter directory: uploads\presentations\P-bJrH67l8
+Created presenter directory: uploads\presentations\P-i5ZyxTUF
+Created presenter directory: uploads\presentations\P-o4b6c5Cj
+Created presenter directory: uploads\presentations\P-gpnh7JgG
+Created presenter directory: uploads\presentations\P-dWyBR7wV
+Created presenter directory: uploads\presentations\P-as9WnDPG
+Created presenter directory: uploads\presentations\P-AqtmlopX
+Created presenter directory: uploads\presentations\P-LoRLrnDS
+Created presenter directory: uploads\presentations\P-gJplrmmK
+Created presenter directory: uploads\presentations\P-NOqILHlq
+Created presenter directory: uploads\presentations\P-NOyhxNM0
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-IB1EjsNl
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Created presenter directory: uploads\presentations\P-gtjJP30U
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-BbmMje52
+Created presenter directory: uploads\presentations\P-pB8c46nE
+Created presenter directory: uploads\presentations\P-EnIBybVd
+Created presenter directory: uploads\presentations\P-7YRDCP5p
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Created presenter directory: uploads\presentations\P-XkRo5H8f
+Created presenter directory: uploads\presentations\P-FgmDC3m9
+Created presenter directory: uploads\presentations\P-fTZaf3UY
+Created presenter directory: uploads\presentations\P-1v1SeNQm
+Created presenter directory: uploads\presentations\P-CG2o7025
+Created presenter directory: uploads\presentations\P-agDdsqdd
+Created presenter directory: uploads\presentations\P-TNyBTuEv
+Created presenter directory: uploads\presentations\P-ahM479bn
+Created presenter directory: uploads\presentations\P-k95hH61d
+Created presenter directory: uploads\presentations\P-YRZYDBpW
+Created presenter directory: uploads\presentations\P-zzzzzzzz
+Created presenter directory: uploads\presentations\P-mQsV6KpB
+Created presenter directory: uploads\presentations\P-I0GvAOkW
+Created presenter directory: uploads\presentations\P-Yh7Gf0Gk
+Created presenter directory: uploads\presentations\P-CyfAGOxD
+Created presenter directory: uploads\presentations\P-z194VEF3
+Created presenter directory: uploads\presentations\P-RKsBggHN
+Created presenter directory: uploads\presentations\P-7n8jRrqW
+Created presenter directory: uploads\presentations\P-BV1Qj4pq
+Created presenter directory: uploads\presentations\P-SSVwzmAy
+Created presenter directory: uploads\presentations\P-ufeJ6ACq
+Created presenter directory: uploads\presentations\P-ngYZjTdw
+Created presenter directory: uploads\presentations\P-ZwDHlFtg
+Created presenter directory: uploads\presentations\P-0JsSPVoP
+Created presenter directory: uploads\presentations\P-0AvNXlQM
+Created presenter directory: uploads\presentations\P-ihicNat3
+Created presenter directory: uploads\presentations\P-wp67SmmE
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-wa4BpXxi
+Created presenter directory: uploads\presentations\P-eep0VI97
+Created presenter directory: uploads\presentations\P-w8ae8rW6
+Created presenter directory: uploads\presentations\P-00000000
+Created presenter directory: uploads\presentations\P-0ZW7bbYW
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-JhV8at9C
+Created presenter directory: uploads\presentations\P-bqCN3BLR
+Created presenter directory: uploads\presentations\P-Etj6O56J
+Created presenter directory: uploads\presentations\P-ipPRF8oE
+Created presenter directory: uploads\presentations\P-6WCNbwLx
+Created presenter directory: uploads\presentations\P-TMZqyCp8
+Created presenter directory: uploads\presentations\P-GODcMEuI
+Created presenter directory: uploads\presentations\P-a1t6lz9g
+Created presenter directory: uploads\presentations\P-rQxBGwGL
+Created presenter directory: uploads\presentations\P-Nc8d2xlz
+Created presenter directory: uploads\presentations\P-00000000
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Created presenter directory: uploads\presentations\P-yhKebaob
+Created presenter directory: uploads\presentations\P-qHYPIBVo
+Created presenter directory: uploads\presentations\P-Cjb3p86y
+Created presenter directory: uploads\presentations\P-eljk7E9T
+Created presenter directory: uploads\presentations\P-UdjcKjLx
+Created presenter directory: uploads\presentations\P-Z5aE2uLH
+Created presenter directory: uploads\presentations\P-bP5Wy8lb
+Created presenter directory: uploads\presentations\P-syzkkNb9
+Created presenter directory: uploads\presentations\P-1o92rXbK
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-wVepAtQL
+Created presenter directory: uploads\presentations\P-3g6RWdn7
+Created presenter directory: uploads\presentations\P-gjZ9hSop
+Created presenter directory: uploads\presentations\P-fJIVwSHL
+Created presenter directory: uploads\presentations\P-zx2ILCal
+Created presenter directory: uploads\presentations\P-99999999
+Created presenter directory: uploads\presentations\P-w1UeReD6
+Created presenter directory: uploads\presentations\P-wmA0ZYw8
+Created presenter directory: uploads\presentations\P-VRUESJYS
+Created presenter directory: uploads\presentations\P-Z2h3HUh1
+Created presenter directory: uploads\presentations\P-C3GJs9WV
+timestamp = 2026-02-07T12:18:10.403788100, FileStorageServicePropertyTest:property1 directoryStructureConsistency = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 6          | # of all combined edge cases
+edge-cases#tried = 6          | # of edge cases tried in current run
+seed = -4362184041243478961   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+  <testcase name="property3 fileCopyPreservation" classname="com.fci.seminar.service.FileStorageServicePropertyTest" time="1.451">
+    <system-out><![CDATA[Created presenter directory: uploads\presentations\P-wb9okFdV
+Uploaded file: fIhyiFGN.jpeg to uploads\presentations\P-wb9okFdV\fIhyiFGN.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.pdf to uploads\presentations\P-AAAAAAAA\A.pdf
+Created presenter directory: uploads\presentations\P-UCkFL7GT
+Uploaded file: um.gif to uploads\presentations\P-UCkFL7GT\um.gif
+Created presenter directory: uploads\presentations\P-dAdoNi9M
+Uploaded file: Z.png to uploads\presentations\P-dAdoNi9M\Z.png
+Created presenter directory: uploads\presentations\P-Il5zHj7V
+Uploaded file: JFWn.txt to uploads\presentations\P-Il5zHj7V\JFWn.txt
+Created presenter directory: uploads\presentations\P-rt9YgSMt
+Uploaded file: z.pdf to uploads\presentations\P-rt9YgSMt\z.pdf
+Created presenter directory: uploads\presentations\P-j8CN2cLb
+Uploaded file: oIsewRUAxFxacEY.gif to uploads\presentations\P-j8CN2cLb\oIsewRUAxFxacEY.gif
+Created presenter directory: uploads\presentations\P-ninRUPmO
+Uploaded file: LlsTpuFP.txt to uploads\presentations\P-ninRUPmO\LlsTpuFP.txt
+Created presenter directory: uploads\presentations\P-r6Vekikw
+Uploaded file: OEkU.png to uploads\presentations\P-r6Vekikw\OEkU.png
+Created presenter directory: uploads\presentations\P-KhT7Mvv5
+Uploaded file: D.jpeg to uploads\presentations\P-KhT7Mvv5\D.jpeg
+Created presenter directory: uploads\presentations\P-BlOIW11k
+Uploaded file: FzESGOZTfrcnD.txt to uploads\presentations\P-BlOIW11k\FzESGOZTfrcnD.txt
+Created presenter directory: uploads\presentations\P-7B3vLMdS
+Uploaded file: JjdOywLpDiJ.txt to uploads\presentations\P-7B3vLMdS\JjdOywLpDiJ.txt
+Created presenter directory: uploads\presentations\P-aaaaaaaa
+Uploaded file: yv.png to uploads\presentations\P-aaaaaaaa\yv.png
+Created presenter directory: uploads\presentations\P-hwtFgvZ0
+Uploaded file: dbeemWe.jpeg to uploads\presentations\P-hwtFgvZ0\dbeemWe.jpeg
+Created presenter directory: uploads\presentations\P-VxnGbPpx
+Uploaded file: K.gif to uploads\presentations\P-VxnGbPpx\K.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: A.gif to uploads\presentations\P-AAAAAAAA\A.gif
+Created presenter directory: uploads\presentations\P-hHAnzEhg
+Uploaded file: pUcgbXTn.gif to uploads\presentations\P-hHAnzEhg\pUcgbXTn.gif
+Created presenter directory: uploads\presentations\P-IqwZ00D2
+Uploaded file: dAvvUFEsnkC.jpg to uploads\presentations\P-IqwZ00D2\dAvvUFEsnkC.jpg
+Created presenter directory: uploads\presentations\P-O1Uoeo8r
+Uploaded file: ifANlUT.jpeg to uploads\presentations\P-O1Uoeo8r\ifANlUT.jpeg
+Created presenter directory: uploads\presentations\P-JppHzmPR
+Uploaded file: jWJwOHpVmTRsYN.txt to uploads\presentations\P-JppHzmPR\jWJwOHpVmTRsYN.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.pdf to uploads\presentations\P-AAAAAAAA\Z.pdf
+Created presenter directory: uploads\presentations\P-OQQKvPvX
+Uploaded file: Y.jpg to uploads\presentations\P-OQQKvPvX\Y.jpg
+Created presenter directory: uploads\presentations\P-c4aDZAgR
+Uploaded file: fxIOkVsQKTT.pdf to uploads\presentations\P-c4aDZAgR\fxIOkVsQKTT.pdf
+Created presenter directory: uploads\presentations\P-rhGSGHnQ
+Uploaded file: hiiZyJBGqOzIvqr.jpeg to uploads\presentations\P-rhGSGHnQ\hiiZyJBGqOzIvqr.jpeg
+Created presenter directory: uploads\presentations\P-SNzZQk4B
+Uploaded file: NdH.png to uploads\presentations\P-SNzZQk4B\NdH.png
+Created presenter directory: uploads\presentations\P-BEvWi83C
+Uploaded file: A.png to uploads\presentations\P-BEvWi83C\A.png
+Created presenter directory: uploads\presentations\P-EsgdAiqy
+Uploaded file: EKekf.pdf to uploads\presentations\P-EsgdAiqy\EKekf.pdf
+Created presenter directory: uploads\presentations\P-eKNempZR
+Uploaded file: BkZEONDiyvo.gif to uploads\presentations\P-eKNempZR\BkZEONDiyvo.gif
+Created presenter directory: uploads\presentations\P-wYyMCANn
+Uploaded file: WefhGdHuo.png to uploads\presentations\P-wYyMCANn\WefhGdHuo.png
+Created presenter directory: uploads\presentations\P-co1UucN4
+Uploaded file: LsDcVjL.pdf to uploads\presentations\P-co1UucN4\LsDcVjL.pdf
+Created presenter directory: uploads\presentations\P-4afofLft
+Uploaded file: UgpqH.pdf to uploads\presentations\P-4afofLft\UgpqH.pdf
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: Z.gif to uploads\presentations\P-AAAAAAAA\Z.gif
+Created presenter directory: uploads\presentations\P-4nYK3Xsb
+Uploaded file: z.gif to uploads\presentations\P-4nYK3Xsb\z.gif
+Created presenter directory: uploads\presentations\P-024uYxRp
+Uploaded file: P.jpeg to uploads\presentations\P-024uYxRp\P.jpeg
+Created presenter directory: uploads\presentations\P-x6zDWSnT
+Uploaded file: PjI.txt to uploads\presentations\P-x6zDWSnT\PjI.txt
+Created presenter directory: uploads\presentations\P-js4uItCj
+Uploaded file: Gn.png to uploads\presentations\P-js4uItCj\Gn.png
+Created presenter directory: uploads\presentations\P-god34OiE
+Uploaded file: h.jpeg to uploads\presentations\P-god34OiE\h.jpeg
+Created presenter directory: uploads\presentations\P-1IDgWFbw
+Uploaded file: xwvVgtPOoG.txt to uploads\presentations\P-1IDgWFbw\xwvVgtPOoG.txt
+Created presenter directory: uploads\presentations\P-67St11k5
+Uploaded file: nPVtjYc.jpeg to uploads\presentations\P-67St11k5\nPVtjYc.jpeg
+Created presenter directory: uploads\presentations\P-g7F1N4Gq
+Uploaded file: QRaamYqBRD.jpeg to uploads\presentations\P-g7F1N4Gq\QRaamYqBRD.jpeg
+Created presenter directory: uploads\presentations\P-QBPeF1KS
+Uploaded file: jEzMJhvX.png to uploads\presentations\P-QBPeF1KS\jEzMJhvX.png
+Created presenter directory: uploads\presentations\P-2N8xtknU
+Uploaded file: KxYp.gif to uploads\presentations\P-2N8xtknU\KxYp.gif
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.pdf to uploads\presentations\P-AAAAAAAA\a.pdf
+Created presenter directory: uploads\presentations\P-V89AhwIp
+Uploaded file: UFkIP.jpg to uploads\presentations\P-V89AhwIp\UFkIP.jpg
+Created presenter directory: uploads\presentations\P-gEhWkIxT
+Uploaded file: gxehGqTpJbj.jpg to uploads\presentations\P-gEhWkIxT\gxehGqTpJbj.jpg
+Created presenter directory: uploads\presentations\P-IbHX9BrE
+Uploaded file: CXnxNohQkNm.txt to uploads\presentations\P-IbHX9BrE\CXnxNohQkNm.txt
+Created presenter directory: uploads\presentations\P-ODKul3KD
+Uploaded file: IWZHr.jpg to uploads\presentations\P-ODKul3KD\IWZHr.jpg
+Created presenter directory: uploads\presentations\P-bropjnVH
+Uploaded file: msmbW.txt to uploads\presentations\P-bropjnVH\msmbW.txt
+Created presenter directory: uploads\presentations\P-QtOKGSBH
+Uploaded file: ZXAqiWoHrSM.jpg to uploads\presentations\P-QtOKGSBH\ZXAqiWoHrSM.jpg
+Created presenter directory: uploads\presentations\P-dgZmh5G6
+Uploaded file: uRqTZtjXXZcBd.txt to uploads\presentations\P-dgZmh5G6\uRqTZtjXXZcBd.txt
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: a.gif to uploads\presentations\P-AAAAAAAA\a.gif
+Created presenter directory: uploads\presentations\P-QJvIU5Tu
+Uploaded file: EQWpG.pdf to uploads\presentations\P-QJvIU5Tu\EQWpG.pdf
+Created presenter directory: uploads\presentations\P-21hlcOHz
+Uploaded file: nbBjvNviqY.txt to uploads\presentations\P-21hlcOHz\nbBjvNviqY.txt
+Created presenter directory: uploads\presentations\P-P7cAX8Cj
+Uploaded file: vTKqVD.pdf to uploads\presentations\P-P7cAX8Cj\vTKqVD.pdf
+Created presenter directory: uploads\presentations\P-CA5fSjhT
+Uploaded file: SMjmfWuLZFN.jpeg to uploads\presentations\P-CA5fSjhT\SMjmfWuLZFN.jpeg
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.pdf to uploads\presentations\P-AAAAAAAA\z.pdf
+Created presenter directory: uploads\presentations\P-j9GDW8aF
+Uploaded file: zxpvlXcryva.jpeg to uploads\presentations\P-j9GDW8aF\zxpvlXcryva.jpeg
+Created presenter directory: uploads\presentations\P-0pxpklR4
+Uploaded file: OeSlnR.txt to uploads\presentations\P-0pxpklR4\OeSlnR.txt
+Created presenter directory: uploads\presentations\P-st3CKpLc
+Uploaded file: T.gif to uploads\presentations\P-st3CKpLc\T.gif
+Created presenter directory: uploads\presentations\P-N3XZNN5G
+Uploaded file: XfhAOivWEC.gif to uploads\presentations\P-N3XZNN5G\XfhAOivWEC.gif
+Created presenter directory: uploads\presentations\P-BxQiovR5
+Uploaded file: yjuMeqdDxtr.png to uploads\presentations\P-BxQiovR5\yjuMeqdDxtr.png
+Created presenter directory: uploads\presentations\P-Na6yPC0a
+Uploaded file: AAZjweoTPvxa.png to uploads\presentations\P-Na6yPC0a\AAZjweoTPvxa.png
+Created presenter directory: uploads\presentations\P-P7O26Zsw
+Uploaded file: vHQIiVfMTLL.gif to uploads\presentations\P-P7O26Zsw\vHQIiVfMTLL.gif
+Created presenter directory: uploads\presentations\P-4XGVfDp3
+Uploaded file: fyrbBl.png to uploads\presentations\P-4XGVfDp3\fyrbBl.png
+Created presenter directory: uploads\presentations\P-AAAAAAAA
+Uploaded file: z.gif to uploads\presentations\P-AAAAAAAA\z.gif
+Created presenter directory: uploads\presentations\P-PuKq4js9
+Uploaded file: oDR.jpeg to uploads\presentations\P-PuKq4js9\oDR.jpeg
+Created presenter directory: uploads\presentations\P-6LqlZgmR
+Uploaded file: CUC.txt to uploads\presentations\P-6LqlZgmR\CUC.txt
+Created presenter directory: uploads\presentations\P-wlKWBzWe
+Uploaded file: Wh.png to uploads\presentations\P-wlKWBzWe\Wh.png
+Created presenter directory: uploads\presentations\P-lecX84Kt
+Uploaded file: IOUhPG.gif to uploads\presentations\P-lecX84Kt\IOUhPG.gif
+Created presenter directory: uploads\presentations\P-RYfrD6xo
+Uploaded file: iDRq.png to uploads\presentations\P-RYfrD6xo\iDRq.png
+Created presenter directory: uploads\presentations\P-Dqyp2sPZ
+Uploaded file: DxozZsmpDuBxE.pdf to uploads\presentations\P-Dqyp2sPZ\DxozZsmpDuBxE.pdf
+Created presenter directory: uploads\presentations\P-ViFmkLBm
+Uploaded file: oJLWEYNN.jpeg to uploads\presentations\P-ViFmkLBm\oJLWEYNN.jpeg
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.pdf to uploads\presentations\P-ZZZZZZZZ\A.pdf
+Created presenter directory: uploads\presentations\P-00000000
+Uploaded file: cQxSZXZgYrJaV.png to uploads\presentations\P-00000000\cQxSZXZgYrJaV.png
+Created presenter directory: uploads\presentations\P-f8kcvkBI
+Uploaded file: XoluqIGak.pdf to uploads\presentations\P-f8kcvkBI\XoluqIGak.pdf
+Created presenter directory: uploads\presentations\P-yt5IUE6L
+Uploaded file: mAEYFHaNBPBDBHY.png to uploads\presentations\P-yt5IUE6L\mAEYFHaNBPBDBHY.png
+Created presenter directory: uploads\presentations\P-cY1aHwJB
+Uploaded file: X.png to uploads\presentations\P-cY1aHwJB\X.png
+Created presenter directory: uploads\presentations\P-PS6jq9QV
+Uploaded file: FuuyXHbpByP.gif to uploads\presentations\P-PS6jq9QV\FuuyXHbpByP.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: A.gif to uploads\presentations\P-ZZZZZZZZ\A.gif
+Created presenter directory: uploads\presentations\P-zuyYc44c
+Uploaded file: gXFfIPquka.jpg to uploads\presentations\P-zuyYc44c\gXFfIPquka.jpg
+Created presenter directory: uploads\presentations\P-9vIPFhWR
+Uploaded file: CYftuIBUhgKTu.png to uploads\presentations\P-9vIPFhWR\CYftuIBUhgKTu.png
+Created presenter directory: uploads\presentations\P-S79gksct
+Uploaded file: G.gif to uploads\presentations\P-S79gksct\G.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.pdf to uploads\presentations\P-ZZZZZZZZ\Z.pdf
+Created presenter directory: uploads\presentations\P-N2Pcq4gY
+Uploaded file: PwbfTmOd.txt to uploads\presentations\P-N2Pcq4gY\PwbfTmOd.txt
+Created presenter directory: uploads\presentations\P-3qrKa4O4
+Uploaded file: MFyMgajxHDb.pdf to uploads\presentations\P-3qrKa4O4\MFyMgajxHDb.pdf
+Created presenter directory: uploads\presentations\P-dYirbSaT
+Uploaded file: FqHSBDRCCqryRE.png to uploads\presentations\P-dYirbSaT\FqHSBDRCCqryRE.png
+Created presenter directory: uploads\presentations\P-C5WgBWfQ
+Uploaded file: uMYGNj.jpg to uploads\presentations\P-C5WgBWfQ\uMYGNj.jpg
+Created presenter directory: uploads\presentations\P-rmZvf7Ru
+Uploaded file: qid.gif to uploads\presentations\P-rmZvf7Ru\qid.gif
+Created presenter directory: uploads\presentations\P-nWDOFhEA
+Uploaded file: uLXxzvFMIU.pdf to uploads\presentations\P-nWDOFhEA\uLXxzvFMIU.pdf
+Created presenter directory: uploads\presentations\P-XBEGycJn
+Uploaded file: SnXSq.pdf to uploads\presentations\P-XBEGycJn\SnXSq.pdf
+Created presenter directory: uploads\presentations\P-RgYZYDIT
+Uploaded file: NCUlbF.txt to uploads\presentations\P-RgYZYDIT\NCUlbF.txt
+Created presenter directory: uploads\presentations\P-adIVHCiM
+Uploaded file: UvvkXvNir.jpg to uploads\presentations\P-adIVHCiM\UvvkXvNir.jpg
+Created presenter directory: uploads\presentations\P-dRBg4ZXC
+Uploaded file: KsgIo.jpg to uploads\presentations\P-dRBg4ZXC\KsgIo.jpg
+Created presenter directory: uploads\presentations\P-Y09ioMZj
+Uploaded file: GdipFRalUlWas.gif to uploads\presentations\P-Y09ioMZj\GdipFRalUlWas.gif
+Created presenter directory: uploads\presentations\P-ZZZZZZZZ
+Uploaded file: Z.gif to uploads\presentations\P-ZZZZZZZZ\Z.gif
+Created presenter directory: uploads\presentations\P-57j8K9Rb
+Uploaded file: yDlvQybuXnT.gif to uploads\presentations\P-57j8K9Rb\yDlvQybuXnT.gif
+Created presenter directory: uploads\presentations\P-A5VX9dB7
+Uploaded file: WMqzHDfPi.txt to uploads\presentations\P-A5VX9dB7\WMqzHDfPi.txt
+Created presenter directory: uploads\presentations\P-bniu1Nsy
+Uploaded file: WhpXmB.gif to uploads\presentations\P-bniu1Nsy\WhpXmB.gif
+Created presenter directory: uploads\presentations\P-jxy3NQ9k
+Uploaded file: pUns.jpg to uploads\presentations\P-jxy3NQ9k\pUns.jpg
+Created presenter directory: uploads\presentations\P-ZkPOtkL4
+Uploaded file: BGShlcAhW.pdf to uploads\presentations\P-ZkPOtkL4\BGShlcAhW.pdf
+timestamp = 2026-02-07T12:18:11.854845200, FileStorageServicePropertyTest:property3 fileCopyPreservation = 
+                              |-----------------------jqwik-----------------------
+tries = 100                   | # of calls to property
+checks = 100                  | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 48         | # of all combined edge cases
+edge-cases#tried = 12         | # of edge cases tried in current run
+seed = -6240276999393776579   | random seed to reproduce generated values
+
+
+]]></system-out>
+  </testcase>
+</testsuite>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.fci.seminar.service.FileStorageServicePropertyTest
+-------------------------------------------------------------------------------
+Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.74 s -- in com.fci.seminar.service.FileStorageServicePropertyTest
