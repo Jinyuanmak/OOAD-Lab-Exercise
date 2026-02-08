@@ -2,246 +2,192 @@
 
 A Java Swing desktop application for managing the FCI Postgraduate Academic Research Seminar.
 
-## Requirements
+## Quick Start
 
-- **Java 17+** - [Download](https://www.oracle.com/java/technologies/downloads/)
-- **MySQL** - Via Laragon (localhost:3306)
-- **Maven 3.9.12** - Included in project
+### Requirements
+- Java 17+
+- MySQL (via Laragon)
+- Maven 3.9.12 (included)
 
-## Database Setup
+### Setup
+1. Start Laragon MySQL
+2. Run `database/schema.sql` in phpMyAdmin
+3. Double-click `run-seminar-app.bat`
 
-1. Start Laragon and ensure MySQL is running
-2. Open phpMyAdmin (http://localhost/phpmyadmin)
-3. Run `database/schema.sql` to create database and tables
+### Default Login
+- **Username:** `admin`
+- **Password:** `admin123`
+- **Role:** Coordinator
 
-## Running the Application
+---
 
-**Option 1:** Double-click `run-seminar-app.bat`
+## Features by Role
 
-**Option 2:** Command line
-```cmd
-apache-maven-3.9.12\bin\mvn.cmd exec:java -Dexec.mainClass="com.fci.seminar.ui.SeminarApp"
-```
+### 👨‍🎓 Student (Presenter)
 
-## Default Account
+**Registration**
+- Sign up with username, password, student ID
+- Enter research title, abstract, supervisor
+- Choose presentation type (ORAL/POSTER)
+- Upload materials (PDF, images, text)
 
-| Role | Username | Password |
-|------|----------|----------|
-| Coordinator | `admin` | `admin123` |
+**My Session**
+- View session details (date, venue/meeting link)
+- Join ORAL sessions via Teams link
+- View POSTER venue location
 
-**Note:** Students and Evaluators must sign up through the application.
+**Voting**
+- Vote for one presenter (People's Choice)
+- View other students' materials
+- One vote per student
 
-## User Roles & Features
+---
 
-### Student (Presenter)
-- **Sign Up & Registration:**
-  - Register with username, password, and student ID (10 alphanumeric characters)
-  - Provide research title, abstract, and supervisor name
-  - Select presentation type (ORAL or POSTER)
-  - Presenter ID is auto-generated (format: P-xxxxxxxx)
-  
-- **Upload Materials:**
-  - Upload presentation files (PDF, images, text)
-  - Materials are viewable by evaluators and other students
+### 👨‍🏫 Evaluator (Panel Member)
 
-- **My Session:**
-  - View assigned session details (date, venue/meeting link, evaluator)
-  - For ORAL sessions: Join Teams meeting via clickable link
-  - For POSTER sessions: View venue location
+**Dashboard**
+- View assigned sessions
+- See evaluation status
 
-- **People's Choice Voting:**
-  - Vote for one other presenter (cannot vote for self)
-  - View other students' presentation materials before voting
-  - Each student can only vote once
-  - Presentation viewer with zoom controls (50%-120%)
+**Evaluation**
+- View presenter materials
+- Join ORAL sessions via Teams link
+- Score using rubric (1-10 scale):
+  - Problem Clarity
+  - Methodology
+  - Results
+  - Presentation
+- Add comments
+- Submit/update evaluations
 
-### Evaluator (Panel Member)
-- **Sign Up:**
-  - Register with username and password
-  - Evaluator ID is auto-generated (format: EV-xxxxxxxx)
+---
 
-- **Dashboard:**
-  - View all assigned sessions with presenters
-  - Auto-refreshes when displayed
-  - Double-click to evaluate a presenter
+### 👨‍💼 Coordinator (Admin)
 
-- **Evaluation Form:**
-  - View session details and meeting link (for ORAL sessions)
-  - Join ORAL presentations via Teams meeting link
-  - View and download presenter's materials
-  - Presentation viewer with zoom functionality
-  - Score presentations using rubric (1-10 scale):
-    - Problem Clarity
-    - Methodology
-    - Results
-    - Presentation
-  - Total score calculated automatically (max 40 points)
-  - Add comments and feedback
-  - Update evaluations if needed
+**User Management**
+- View all users (students, evaluators)
 
-### Coordinator (Admin)
-- **User Management:**
-  - View all users (students, evaluators, coordinators)
-  - Auto-refreshes when displayed
+**Session Management**
+- Create ORAL sessions (with Teams link)
+- Create POSTER sessions (with venue)
+- Delete sessions
 
-- **Session Management:**
-  - Create sessions with date, venue, and type (ORAL/POSTER)
-  - For ORAL sessions: Set meeting link (Teams URL)
-  - For POSTER sessions: Select physical venue
-  - Auto-refreshes when displayed
+**Assignments**
+- Assign presenters to sessions
+- Assign evaluators to sessions
+- Conflict detection
 
-- **Assignment Panel:**
-  - Assign presenters to sessions (one per session)
-  - Assign evaluators to sessions (one per session)
-  - Conflict detection prevents double-booking
-  - Auto-refreshes when displayed
+**Poster Boards**
+- Assign boards (B001-B020) to POSTER presenters
+- View presenter materials
 
-- **Poster Board Management:**
-  - Assign poster boards (B001-B020) to POSTER presenters
-  - View presenter materials by double-clicking
-  - Presentation viewer with zoom controls
-  - Auto-refreshes when displayed
+**Awards**
+- View vote counts
+- Compute winners:
+  - Best Oral Presentation
+  - Best Poster Presentation
+  - People's Choice
+- Generate ceremony agenda
 
-- **Awards & Ceremony:**
-  - View vote counts for People's Choice (read-only)
-  - Compute award winners:
-    - Best Oral Presentation (highest evaluation score)
-    - Best Poster Presentation (highest evaluation score)
-    - People's Choice (most student votes)
-  - Generate ceremony agenda
-  - Auto-refreshes when displayed
+**Reports**
+- Generate system reports
+- Export to PDF
 
-- **Reports:**
-  - Generate comprehensive reports
-  - Export to PDF format
-
-## Database Tables
-
-- `users` - All user accounts with role-specific fields
-- `sessions` - Seminar sessions with meeting links
-- `session_presenters` - Presenter-to-session assignments
-- `session_evaluators` - Evaluator-to-session assignments
-- `evaluations` - Evaluation scores and comments
-- `poster_boards` - Poster board assignments (B001-B020)
-- `venues` - Available venues (11 pre-configured)
-- `awards` - Award winners
-- `votes` - Student voting records for People's Choice
+---
 
 ## Key Features
 
-### Authentication & Security
-- Role-based access control (Student, Evaluator, Coordinator)
-- Secure login with role selection
-- Auto-generated IDs for presenters and evaluators
+### Centralized File Storage
+- Files stored in `uploads/presentations/{presenter_id}/`
+- Supported: PDF, JPG, JPEG, PNG, GIF, TXT
+- Automatic file validation and cleanup
 
-### Session Management
-- ORAL sessions: Online with Teams meeting links
-- POSTER sessions: Physical venues with poster boards
-- Conflict detection for scheduling
-- Auto-refresh on all management panels
+### Session Types
+- **ORAL:** Online with Teams meeting links
+- **POSTER:** Physical venues with poster boards
 
-### Presentation Materials
-- Upload and store presentation files
-- View materials with zoom controls (50%-120%)
-- Download materials for offline viewing
-- Supports PDF, images, and text files
-- PDF rendering with high quality (supersampling)
+### Presentation Viewer
+- Zoom controls (50%-120%)
+- PDF rendering
+- Image display
 
-### Voting System
-- Student-driven People's Choice voting
-- One vote per student
-- Cannot vote for self
-- Vote counts stored in database
-- Real-time vote tracking
+### Auto-Refresh
+All panels refresh automatically when displayed.
 
-### Evaluation System
-- Rubric-based scoring (1-10 per criterion)
-- Automatic total score calculation
-- Comments and feedback
-- Update capability for evaluations
-- Meeting link integration for ORAL sessions
+---
 
-### Awards & Reporting
-- Automated winner computation
-- Ceremony agenda generation
-- PDF report export
-- Vote count display (read-only for admin)
+## Database Tables
+
+- `users` - User accounts
+- `sessions` - Seminar sessions
+- `session_presenters` - Presenter assignments
+- `session_evaluators` - Evaluator assignments
+- `evaluations` - Scores and comments
+- `poster_boards` - Board assignments
+- `venues` - Available venues
+- `awards` - Award winners
+- `votes` - Voting records
+
+---
 
 ## Project Structure
 
 ```
-├── database/
-│   ├── schema.sql      # Complete database setup
-│   └── clear_data.sql  # Reset database
-├── src/main/java/com/fci/seminar/
-│   ├── model/          # Data models (User, Session, Evaluation, etc.)
-│   ├── service/        # Business logic and database operations
-│   ├── ui/             # Swing UI panels (dashboards, forms, dialogs)
-│   └── util/           # Utilities (error handling, ID generation)
-├── pom.xml             # Maven dependencies
-└── run-seminar-app.bat # Quick start script
+├── database/           # SQL scripts
+├── logs/              # Error logs
+├── uploads/           # Presentation files
+├── src/main/java/
+│   ├── model/         # Data models
+│   ├── service/       # Business logic
+│   ├── ui/            # Swing panels
+│   └── util/          # Utilities
+└── pom.xml            # Dependencies
 ```
 
-## Dependencies
-
-- **MySQL Connector/J 8.2.0** - Database connectivity
-- **HikariCP 5.1.0** - Connection pooling
-- **JCalendar 1.4** - Date picker component
-- **Apache PDFBox 2.0.30** - PDF rendering and export
-- **JUnit 5** - Unit testing (test scope)
-- **jqwik** - Property-based testing (test scope)
-
-## Testing
-
-```cmd
-apache-maven-3.9.12\bin\mvn.cmd test
-```
-
-## Reset Database
-
-To clear all data and reload default admin account:
-1. Run `database/clear_data.sql` in phpMyAdmin
-2. Run `database/schema.sql` to recreate tables
+---
 
 ## Troubleshooting
 
-**Database connection failed:**
+**Database connection failed**
 - Ensure Laragon MySQL is running
-- Verify database `seminar_db` exists
-- Check connection settings in `DatabaseManager.java`
+- Verify `seminar_db` exists
 
-**Login fails:**
-- Select correct role from dropdown
-- Username and password are case-sensitive
-- Student ID must be exactly 10 alphanumeric characters (uppercase)
+**Login fails**
+- Check username/password (case-sensitive)
+- Student ID must be 10 alphanumeric characters
 
-**Sessions not showing for evaluator:**
-- Ensure evaluator has been assigned to sessions
-- Check that evaluator_id is correctly set
-- Restart application after assignments
+**File upload fails**
+- Check file type (PDF, JPG, PNG, GIF, TXT only)
+- Check `logs/file-storage-errors.log`
 
-**Materials not displaying:**
-- Verify file path is correct
-- Check file exists in the specified location
-- Supported formats: PDF, JPG, PNG, GIF, TXT
+**Materials not showing**
+- Verify file uploaded successfully
+- Check `uploads/presentations/{presenter_id}/`
 
-**Zoom not working:**
-- Use Ctrl + Mouse Scroll to zoom
-- Or use +/- buttons in viewer
-- Zoom range: 50% - 120%
+**Meeting link not showing**
+- Only visible for ORAL sessions
+- Hidden for POSTER sessions
 
-## Auto-Refresh Panels
+---
 
-The following panels automatically refresh when displayed:
-- Student Dashboard
-- Student Registration
-- My Session
-- Voting Panel
-- Evaluator Dashboard
-- Session Management
-- Assignment Panel
-- Poster Management
-- User Management
-- Awards & Ceremony
+## Reset Database
 
-No manual refresh buttons needed!
+```sql
+-- Run in phpMyAdmin
+1. database/clear_data.sql
+2. database/schema.sql
+```
+
+---
+
+## Technical Details
+
+- **Window Size:** 1200 x 900 pixels
+- **Dependencies:** MySQL Connector, HikariCP, JCalendar, Apache PDFBox
+- **Architecture:** See `UML_DIAGRAMS.md`
+
+---
+
+## Support
+
+Check `logs/file-storage-errors.log` for error details.
