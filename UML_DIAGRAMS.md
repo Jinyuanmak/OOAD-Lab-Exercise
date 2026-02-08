@@ -6,13 +6,13 @@ This document contains UML diagrams for the Seminar Management System using Merm
 1. [Class Diagram - Domain Model](#1-class-diagram---domain-model)
 2. [Class Diagram - Service Layer](#2-class-diagram---service-layer)
 3. [Class Diagram - UI Layer](#3-class-diagram---ui-layer)
-4. [Use Case Diagram](#4-use-case-diagram)
-5. [Sequence Diagram - Student Registration](#5-sequence-diagram---student-registration)
-6. [Sequence Diagram - Evaluation Submission](#6-sequence-diagram---evaluation-submission)
-7. [Sequence Diagram - Voting Process](#7-sequence-diagram---voting-process)
-8. [Entity Relationship Diagram](#8-entity-relationship-diagram)
-9. [Component Diagram](#9-component-diagram)
-10. [State Diagram - Session Lifecycle](#10-state-diagram---session-lifecycle)
+4. [Sequence Diagram - Student Registration](#4-sequence-diagram---student-registration)
+5. [Sequence Diagram - Evaluation Submission](#5-sequence-diagram---evaluation-submission)
+6. [Sequence Diagram - Voting Process](#6-sequence-diagram---voting-process)
+7. [Sequence Diagram - Session Management](#7-sequence-diagram---session-management)
+8. [Sequence Diagram - Presenter Assignment](#8-sequence-diagram---presenter-assignment)
+9. [Sequence Diagram - Poster Board Assignment](#9-sequence-diagram---poster-board-assignment)
+10. [Sequence Diagram - Award Computation](#10-sequence-diagram---award-computation)
 
 ---
 
@@ -534,64 +534,7 @@ classDiagram
 
 ---
 
-## 4. Use Case Diagram
-
-```mermaid
-graph TB
-    Student((Student))
-    Evaluator((Evaluator))
-    Coordinator((Coordinator))
-    
-    subgraph "Seminar Management System"
-        UC1[Sign Up]
-        UC2[Login]
-        UC3[Register for Seminar]
-        UC4[Upload Materials]
-        UC5[View My Session]
-        UC6[Vote for People's Choice]
-        UC7[View Assigned Sessions]
-        UC8[Evaluate Presentation]
-        UC9[View/Download Materials]
-        UC10[Join Online Meeting]
-        UC11[Manage Users]
-        UC12[Create Sessions]
-        UC13[Assign Presenters/Evaluators]
-        UC14[Manage Poster Boards]
-        UC15[Compute Awards]
-        UC16[Generate Reports]
-    end
-    
-    Student --> UC1
-    Student --> UC2
-    Student --> UC3
-    Student --> UC4
-    Student --> UC5
-    Student --> UC6
-    
-    Evaluator --> UC1
-    Evaluator --> UC2
-    Evaluator --> UC7
-    Evaluator --> UC8
-    Evaluator --> UC9
-    Evaluator --> UC10
-    
-    Coordinator --> UC2
-    Coordinator --> UC11
-    Coordinator --> UC12
-    Coordinator --> UC13
-    Coordinator --> UC14
-    Coordinator --> UC15
-    Coordinator --> UC16
-    
-    UC3 -.includes.-> UC4
-    UC8 -.includes.-> UC9
-    UC8 -.includes.-> UC10
-    UC6 -.includes.-> UC9
-```
-
----
-
-## 5. Sequence Diagram - Student Registration
+## 4. Sequence Diagram - Student Registration
 
 ```mermaid
 sequenceDiagram
@@ -642,7 +585,7 @@ sequenceDiagram
 
 ---
 
-## 6. Sequence Diagram - Evaluation Submission
+## 5. Sequence Diagram - Evaluation Submission
 
 ```mermaid
 sequenceDiagram
@@ -702,7 +645,7 @@ sequenceDiagram
 
 ---
 
-## 7. Sequence Diagram - Voting Process
+## 6. Sequence Diagram - Voting Process
 
 ```mermaid
 sequenceDiagram
@@ -744,287 +687,189 @@ sequenceDiagram
 
 ---
 
-## 8. Entity Relationship Diagram
+## 7. Sequence Diagram - Session Management
 
 ```mermaid
-erDiagram
-    USERS ||--o{ SESSION_PRESENTERS : "presents in"
-    USERS ||--o{ SESSION_EVALUATORS : "evaluates in"
-    USERS ||--o{ EVALUATIONS : "submits"
-    USERS ||--o{ EVALUATIONS : "receives"
-    USERS ||--o{ POSTER_BOARDS : "assigned to"
-    USERS ||--o{ VOTES : "votes"
-    USERS ||--o{ VOTES : "receives vote"
-    SESSIONS ||--o{ SESSION_PRESENTERS : "has"
-    SESSIONS ||--o{ SESSION_EVALUATORS : "has"
-    SESSIONS ||--o{ EVALUATIONS : "conducted in"
-    SESSIONS ||--o{ POSTER_BOARDS : "uses"
+sequenceDiagram
+    actor Coordinator
+    participant Panel as SessionManagementPanel
+    participant SessionSvc as SessionService
+    participant Store as DataStore
+    participant DB as DatabaseManager
     
-    USERS {
-        int id PK
-        string username UK
-        string password
-        enum role
-        string student_id UK
-        string research_title
-        text abstract_text
-        string supervisor_name
-        enum presentation_type
-        string file_path
-        string presenter_id
-        int vote_count
-        boolean has_voted
-        string evaluator_id
-        timestamp created_at
-        timestamp updated_at
-    }
+    Coordinator->>Panel: Navigate to Session Management
+    Panel->>SessionSvc: getAllSessions()
+    SessionSvc->>Store: getSessions()
+    Store-->>SessionSvc: Session list
+    SessionSvc-->>Panel: Session list
+    Panel->>Panel: Display sessions in table
     
-    SESSIONS {
-        string session_id PK
-        date session_date
-        string venue
-        string meeting_link
-        enum session_type
-        timestamp created_at
-        timestamp updated_at
-    }
+    Coordinator->>Panel: Fill session form
+    Coordinator->>Panel: Select session type (ORAL/POSTER)
     
-    SESSION_PRESENTERS {
-        int id PK
-        string session_id FK
-        string presenter_id
-        timestamp assigned_at
-    }
+    alt ORAL Session
+        Panel->>Panel: Show meeting link field
+        Panel->>Panel: Set venue to "Online (Teams)"
+    else POSTER Session
+        Panel->>Panel: Hide meeting link field
+        Panel->>Panel: Show venue dropdown
+    end
     
-    SESSION_EVALUATORS {
-        int id PK
-        string session_id FK
-        string evaluator_id
-        timestamp assigned_at
-    }
-    
-    EVALUATIONS {
-        string evaluation_id PK
-        string presenter_id FK
-        string evaluator_id FK
-        string session_id FK
-        int problem_clarity
-        int methodology
-        int results
-        int presentation
-        text comments
-        timestamp submitted_at
-    }
-    
-    POSTER_BOARDS {
-        string board_id PK
-        string presenter_id
-        string session_id FK
-        timestamp assigned_at
-    }
-    
-    VENUES {
-        int venue_id PK
-        string venue_name UK
-        int capacity
-        enum venue_type
-        timestamp created_at
-    }
-    
-    AWARDS {
-        int id PK
-        enum award_type
-        string winner_id
-        double score
-        date ceremony_date
-        timestamp created_at
-    }
-    
-    VOTES {
-        int id PK
-        string voter_student_id UK
-        string voted_for_presenter_id
-        timestamp voted_at
-    }
+    Coordinator->>Panel: Click Create Session
+    Panel->>Panel: Validate input
+    Panel->>SessionSvc: createSession(session)
+    SessionSvc->>SessionSvc: Check for conflicts
+    SessionSvc->>Store: addSession(session)
+    Store->>DB: saveSession(session)
+    DB->>DB: INSERT INTO sessions
+    DB-->>Store: Success
+    Store-->>SessionSvc: Success
+    SessionSvc-->>Panel: Success
+    Panel->>Panel: Refresh table
+    Panel->>Coordinator: Show success message
 ```
 
 ---
 
-## 9. Component Diagram
+## 8. Sequence Diagram - Presenter Assignment
 
 ```mermaid
-graph TB
-    subgraph "Presentation Layer"
-        UI[UI Components<br/>Swing Panels & Dialogs]
-    end
+sequenceDiagram
+    actor Coordinator
+    participant Panel as AssignmentPanel
+    participant SessionSvc as SessionService
+    participant UserSvc as UserService
+    participant Store as DataStore
+    participant DB as DatabaseManager
     
-    subgraph "Application Layer"
-        App[SeminarApp<br/>Main Application Controller]
-    end
+    Coordinator->>Panel: Navigate to Assignment Panel
+    Panel->>SessionSvc: getAllSessions()
+    SessionSvc-->>Panel: Session list
+    Panel->>Panel: Populate session dropdown
     
-    subgraph "Service Layer"
-        UserSvc[UserService]
-        SessionSvc[SessionService]
-        EvalSvc[EvaluationService]
-        PosterSvc[PosterBoardService]
-        AwardSvc[AwardService]
-        ReportSvc[ReportService]
-        FileSvc[FileStorageService]
-    end
+    Coordinator->>Panel: Select session
+    Panel->>SessionSvc: getSessionById(sessionId)
+    SessionSvc-->>Panel: Session details
+    Panel->>UserSvc: getAllStudents()
+    UserSvc-->>Panel: Student list
+    Panel->>Panel: Filter by presentation type
+    Panel->>Panel: Display available presenters
+    Panel->>Panel: Display assigned presenters
     
-    subgraph "Data Access Layer"
-        DataStore[DataStore<br/>In-Memory Cache]
-        DBMgr[DatabaseManager<br/>JDBC Connection]
-    end
-    
-    subgraph "Domain Layer"
-        Models[Domain Models<br/>User, Session, Evaluation, etc.]
-    end
-    
-    subgraph "External Systems"
-        MySQL[(MySQL Database<br/>seminar_db)]
-        FileSystem[File System<br/>uploads/presentations/]
-        Browser[Web Browser<br/>Teams Meetings]
-    end
-    
-    subgraph "Utilities"
-        ErrorHandler[ErrorHandler]
-        IdGenerator[IdGenerator]
-        PDFBox[Apache PDFBox<br/>PDF Rendering]
-        FileStorageEx[FileStorageException]
-    end
-    
-    UI --> App
-    App --> UserSvc
-    App --> SessionSvc
-    App --> EvalSvc
-    App --> PosterSvc
-    App --> AwardSvc
-    App --> ReportSvc
-    
-    UserSvc --> DataStore
-    SessionSvc --> DataStore
-    EvalSvc --> DataStore
-    PosterSvc --> DataStore
-    AwardSvc --> DataStore
-    ReportSvc --> DataStore
-    
-    DataStore --> DBMgr
-    DataStore --> Models
-    
-    DBMgr --> MySQL
-    
-    UI --> ErrorHandler
-    UI --> FileSvc
-    UserSvc --> IdGenerator
-    UI --> PDFBox
-    FileSvc --> FileSystem
-    FileSvc --> FileStorageEx
-    UI --> Browser
-    
-    SessionSvc --> UserSvc
-    AwardSvc --> EvalSvc
+    Coordinator->>Panel: Select presenter
+    Coordinator->>Panel: Click Assign Presenter
+    Panel->>SessionSvc: hasConflict(presenterId, date)
+    SessionSvc-->>Panel: false (no conflict)
+    Panel->>SessionSvc: assignPresenter(sessionId, presenterId)
+    SessionSvc->>Store: Update session
+    Store->>DB: INSERT INTO session_presenters
+    DB-->>Store: Success
+    Store-->>SessionSvc: Success
+    SessionSvc-->>Panel: Success
+    Panel->>Panel: Refresh lists
+    Panel->>Coordinator: Show success message
 ```
 
 ---
 
-## 10. State Diagram - Session Lifecycle
+## 9. Sequence Diagram - Poster Board Assignment
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Created: Admin creates session
+sequenceDiagram
+    actor Coordinator
+    participant Panel as PosterManagementPanel
+    participant PosterSvc as PosterBoardService
+    participant SessionSvc as SessionService
+    participant UserSvc as UserService
+    participant Store as DataStore
+    participant DB as DatabaseManager
     
-    Created --> AssigningPresenters: Assign presenter
-    AssigningPresenters --> PresenterAssigned: Presenter added
-    PresenterAssigned --> AssigningEvaluators: Assign evaluator
-    AssigningEvaluators --> EvaluatorAssigned: Evaluator added
+    Coordinator->>Panel: Navigate to Poster Board Management
+    Panel->>PosterSvc: getAllAssignments()
+    PosterSvc->>Store: getPosterBoards()
+    Store-->>PosterSvc: Poster board list
+    PosterSvc-->>Panel: Assignments
+    Panel->>Panel: Display board assignments in table
     
-    EvaluatorAssigned --> PosterBoardAssignment: If POSTER type
-    PosterBoardAssignment --> ReadyForPresentation: Board assigned
+    Panel->>SessionSvc: getAllSessions()
+    SessionSvc-->>Panel: Session list (filter POSTER)
+    Panel->>UserSvc: getAllStudents()
+    UserSvc-->>Panel: Student list (filter POSTER presenters)
+    Panel->>PosterSvc: getAvailableBoards()
+    PosterSvc-->>Panel: Available boards (B001-B020)
     
-    EvaluatorAssigned --> ReadyForPresentation: If ORAL type
+    Coordinator->>Panel: Select board ID
+    Coordinator->>Panel: Select POSTER presenter
+    Coordinator->>Panel: Select POSTER session
+    Coordinator->>Panel: Click Assign Board
     
-    ReadyForPresentation --> InProgress: Session date arrives
-    InProgress --> MaterialsUploaded: Student uploads materials
-    MaterialsUploaded --> UnderEvaluation: Evaluator starts evaluation
-    UnderEvaluation --> Evaluated: Evaluation submitted
+    Panel->>Panel: Validate selections
+    Panel->>PosterSvc: assignBoard(boardId, presenterId, sessionId)
+    PosterSvc->>PosterSvc: Check board availability
+    PosterSvc->>Store: savePosterBoard(posterBoard)
+    Store->>DB: INSERT INTO poster_boards
+    DB-->>Store: Success
+    Store-->>PosterSvc: Success
+    PosterSvc-->>Panel: Success
+    Panel->>Panel: Refresh table
+    Panel->>Coordinator: Show success message
     
-    Evaluated --> VotingOpen: Voting period starts
-    VotingOpen --> VotingClosed: Voting period ends
-    VotingClosed --> AwardsComputed: Admin computes awards
-    AwardsComputed --> Completed: Ceremony held
-    
-    Completed --> [*]
-    
-    Created --> Cancelled: Admin cancels
-    AssigningPresenters --> Cancelled: Admin cancels
-    PresenterAssigned --> Cancelled: Admin cancels
-    AssigningEvaluators --> Cancelled: Admin cancels
-    EvaluatorAssigned --> Cancelled: Admin cancels
-    Cancelled --> [*]
+    alt View Materials
+        Coordinator->>Panel: Double-click board row
+        Panel->>Panel: Get presenter from row
+        Panel->>Panel: Open PresentationViewerDialog
+    end
 ```
 
 ---
 
-## Additional Diagrams
-
-### Activity Diagram - Award Computation Process
+## 10. Sequence Diagram - Award Computation
 
 ```mermaid
-flowchart TD
-    Start([Start Award Computation]) --> LoadEvals[Load All Evaluations]
-    LoadEvals --> LoadVotes[Load All Votes]
+sequenceDiagram
+    actor Coordinator
+    participant Panel as AwardPanel
+    participant AwardSvc as AwardService
+    participant EvalSvc as EvaluationService
+    participant Store as DataStore
+    participant DB as DatabaseManager
     
-    LoadVotes --> ComputeOral{Compute Best Oral}
-    ComputeOral --> FilterOral[Filter ORAL presentations]
-    FilterOral --> CalcOralAvg[Calculate average scores]
-    CalcOralAvg --> FindMaxOral[Find highest score]
-    FindMaxOral --> SaveOral[Save Best Oral Award]
+    Coordinator->>Panel: Navigate to Awards & Ceremony
+    Panel->>Store: getUsers()
+    Store-->>Panel: All users
+    Panel->>Panel: Display vote counts table
     
-    SaveOral --> ComputePoster{Compute Best Poster}
-    ComputePoster --> FilterPoster[Filter POSTER presentations]
-    FilterPoster --> CalcPosterAvg[Calculate average scores]
-    CalcPosterAvg --> FindMaxPoster[Find highest score]
-    FindMaxPoster --> SavePoster[Save Best Poster Award]
+    Coordinator->>Panel: Click Compute Winners
     
-    SavePoster --> ComputeChoice{Compute People's Choice}
-    ComputeChoice --> CountVotes[Count votes per presenter]
-    CountVotes --> FindMaxVotes[Find highest vote count]
-    FindMaxVotes --> SaveChoice[Save People's Choice Award]
+    Panel->>AwardSvc: computeBestOral()
+    AwardSvc->>EvalSvc: getEvaluationsByPresenter(presenterId)
+    EvalSvc-->>AwardSvc: Evaluations
+    AwardSvc->>AwardSvc: Calculate average scores
+    AwardSvc->>AwardSvc: Find highest ORAL score
+    AwardSvc->>Store: saveAward(bestOralAward)
+    Store->>DB: INSERT INTO awards
+    DB-->>Store: Success
+    AwardSvc-->>Panel: Best Oral Award
     
-    SaveChoice --> GenAgenda[Generate Ceremony Agenda]
-    GenAgenda --> Display[Display Winners]
-    Display --> End([End])
-```
-
-### Deployment Diagram
-
-```mermaid
-graph TB
-    subgraph "Client Machine"
-        subgraph "JVM"
-            App[Seminar Management<br/>Application<br/>Java Swing]
-        end
-        Files[Local File System<br/>Presentation Materials]
-    end
+    Panel->>AwardSvc: computeBestPoster()
+    AwardSvc->>EvalSvc: getEvaluationsByPresenter(presenterId)
+    EvalSvc-->>AwardSvc: Evaluations
+    AwardSvc->>AwardSvc: Calculate average scores
+    AwardSvc->>AwardSvc: Find highest POSTER score
+    AwardSvc->>Store: saveAward(bestPosterAward)
+    Store->>DB: INSERT INTO awards
+    DB-->>Store: Success
+    AwardSvc-->>Panel: Best Poster Award
     
-    subgraph "Laragon Server"
-        MySQL[MySQL Database<br/>Port 3306<br/>seminar_db]
-        phpMyAdmin[phpMyAdmin<br/>Web Interface]
-    end
+    Panel->>AwardSvc: computePeoplesChoice(voteMap)
+    AwardSvc->>AwardSvc: Find highest vote count
+    AwardSvc->>Store: saveAward(peoplesChoiceAward)
+    Store->>DB: INSERT INTO awards
+    DB-->>Store: Success
+    AwardSvc-->>Panel: People's Choice Award
     
-    subgraph "External Services"
-        Teams[Microsoft Teams<br/>Online Meetings]
-    end
-    
-    App -->|JDBC Connection<br/>localhost:3306| MySQL
-    App -->|Read/Write Files| Files
-    App -->|Open Browser<br/>Meeting Links| Teams
-    phpMyAdmin -->|Manage| MySQL
-    
-    style App fill:#e1f5ff
-    style MySQL fill:#ffe1e1
-    style Teams fill:#e1ffe1
+    Panel->>Panel: Display all winners
+    Panel->>Coordinator: Show success message
 ```
 
 ---
@@ -1041,13 +886,7 @@ graph TB
 ### Diagram Descriptions
 
 - **Class Diagrams**: Show the structure of classes and their relationships
-- **Use Case Diagram**: Shows what each user role can do
-- **Sequence Diagrams**: Show the flow of operations over time
-- **ER Diagram**: Shows database table relationships
-- **Component Diagram**: Shows system architecture and dependencies
-- **State Diagram**: Shows session lifecycle states
-- **Activity Diagram**: Shows the award computation workflow
-- **Deployment Diagram**: Shows physical deployment architecture
+- **Sequence Diagrams**: Show the flow of operations over time for key workflows
 
 ---
 
@@ -1061,7 +900,7 @@ graph TB
 5. **Domain Layer**: Entity models
 
 ### Design Patterns Used
-- **Singleton**: DatabaseManager, DataStore
+- **Singleton**: DatabaseManager, DataStore, FileStorageService
 - **MVC**: Model-View-Controller separation
 - **Factory**: ID generation for users
 - **Observer**: UI refresh on data changes
