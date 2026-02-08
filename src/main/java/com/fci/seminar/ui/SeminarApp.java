@@ -113,7 +113,7 @@ public class SeminarApp extends JFrame {
      */
     private void initializeUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 900);
+        setSize(1000, 800);
         setLocationRelativeTo(null);
         
         // Set up CardLayout for panel switching

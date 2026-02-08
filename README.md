@@ -182,7 +182,7 @@ All panels refresh automatically when displayed.
 
 ## Technical Details
 
-- **Window Size:** 1200 x 900 pixels
+- **Window Size:** 1000 x 800 pixels
 - **Dependencies:** MySQL Connector, HikariCP, JCalendar, Apache PDFBox
 - **Architecture:** See `UML_DIAGRAMS.md`
 
