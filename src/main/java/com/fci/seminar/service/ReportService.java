@@ -402,63 +402,54 @@ public class ReportService {
      * Exports summary report as CSV table.
      */
     private void exportSummaryToCSV(FileWriter writer) throws IOException {
-        // Summary statistics table
-        writer.write("Metric,Value\n");
-        writer.write("\"Total Sessions\"," + dataStore.getSessions().size() + "\n");
-        writer.write("\"Total Presenters\"," + countPresenters() + "\n");
-        writer.write("\"Total Evaluators\"," + countEvaluators() + "\n");
-        writer.write("\"Total Evaluations\"," + dataStore.getEvaluations().size() + "\n");
+        // Count presenters
+        long presenterCount = dataStore.getUsers().values().stream()
+            .filter(u -> u instanceof Student)
+            .count();
         
-        // Average scores
+        // Count sessions
+        int sessionCount = dataStore.getSessions().size();
+        
+        // Count evaluations and calculate average score
         List<Evaluation> evaluations = dataStore.getEvaluations().values().stream().toList();
+        int evaluationCount = evaluations.size();
+        
+        double avgScore = 0.0;
         if (!evaluations.isEmpty()) {
-            double avgProblemClarity = evaluations.stream()
-                .mapToInt(e -> e.getScores().getProblemClarity()).average().orElse(0);
-            double avgMethodology = evaluations.stream()
-                .mapToInt(e -> e.getScores().getMethodology()).average().orElse(0);
-            double avgResults = evaluations.stream()
-                .mapToInt(e -> e.getScores().getResults()).average().orElse(0);
-            double avgPresentation = evaluations.stream()
-                .mapToInt(e -> e.getScores().getPresentation()).average().orElse(0);
-            double avgTotal = evaluations.stream()
-                .mapToDouble(e -> e.getScores().getTotalScore()).average().orElse(0);
-            
-            writer.write("\"Average Problem Clarity\"," + String.format("%.2f", avgProblemClarity) + "\n");
-            writer.write("\"Average Methodology\"," + String.format("%.2f", avgMethodology) + "\n");
-            writer.write("\"Average Results\"," + String.format("%.2f", avgResults) + "\n");
-            writer.write("\"Average Presentation\"," + String.format("%.2f", avgPresentation) + "\n");
-            writer.write("\"Average Total Score\"," + String.format("%.2f", avgTotal) + "\n");
+            double totalScore = evaluations.stream()
+                .filter(e -> e.getScores() != null)
+                .mapToDouble(e -> e.getScores().getTotalScore())
+                .sum();
+            avgScore = totalScore / evaluations.size();
         }
         
-        // Top performers table
-        writer.write("\n\nTop Performers\n");
-        writer.write("Rank,Presenter,Average Score,Evaluations Count\n");
+        // Count by presentation type
+        long oralCount = dataStore.getUsers().values().stream()
+            .filter(u -> u instanceof Student)
+            .map(u -> (Student) u)
+            .filter(s -> s.getPresentationType() == com.fci.seminar.model.PresentationType.ORAL)
+            .count();
         
-        var presenterScores = new java.util.HashMap<String, java.util.List<Double>>();
-        for (Evaluation eval : evaluations) {
-            presenterScores.computeIfAbsent(eval.getPresenterId(), k -> new java.util.ArrayList<>())
-                .add((double) eval.getScores().getTotalScore());
-        }
+        long posterCount = dataStore.getUsers().values().stream()
+            .filter(u -> u instanceof Student)
+            .map(u -> (Student) u)
+            .filter(s -> s.getPresentationType() == com.fci.seminar.model.PresentationType.POSTER)
+            .count();
         
-        var sortedPresenters = presenterScores.entrySet().stream()
-            .sorted((a, b) -> {
-                double avgA = a.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
-                double avgB = b.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
-                return Double.compare(avgB, avgA);
-            })
-            .limit(10)
-            .toList();
+        // Write statistics section
+        writer.write("STATISTICS\n");
+        writer.write("Metric,Value\n");
+        writer.write("\"Total Presenters\"," + presenterCount + "\n");
+        writer.write("\"Total Sessions\"," + sessionCount + "\n");
+        writer.write("\"Total Evaluations\"," + evaluationCount + "\n");
+        writer.write("\"Average Score\"," + String.format("%.2f", avgScore) + "\n");
         
-        int rank = 1;
-        for (var entry : sortedPresenters) {
-            String presenterName = getPresenterName(entry.getKey());
-            double avgScore = entry.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0);
-            int evalCount = entry.getValue().size();
-            
-            writer.write(rank + ",\"" + presenterName + "\"," + 
-                String.format("%.2f", avgScore) + "," + evalCount + "\n");
-            rank++;
-        }
+        // Write presentation breakdown section
+        writer.write("\n");
+        writer.write("PRESENTATION BREAKDOWN\n");
+        writer.write("Type,Count\n");
+        writer.write("\"Oral Presentations\"," + oralCount + "\n");
+        writer.write("\"Poster Presentations\"," + posterCount + "\n");
     }
     
     /**
