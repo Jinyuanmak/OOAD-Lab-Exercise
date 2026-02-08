@@ -91,7 +91,7 @@ A Java Swing desktop application for managing the FCI Postgraduate Academic Rese
 
 **Reports**
 - Generate system reports
-- Export to PDF
+- Export to TXT, PDF, CSV
 
 ---
 
